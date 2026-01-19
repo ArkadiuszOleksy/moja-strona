@@ -63,38 +63,158 @@
         <span style="color: #c0392b; font-weight: 800;">Czerwony i pogrubiony tekst</span> = Pytania ze zdjęć (PEWNIAKI)
     </div>
 
+    Oto rozszerzona i sformatowana w HTML wersja notatki (ściągi), przygotowana tak, abyś mógł ją podmienić w sekcji <div class="note-section"> w swoim kodzie.
+
+Zachowałem całą treść, o którą prosiłeś, i rozbudowałem ją o dodatkowe szczegóły techniczne (np. numery protokołów, mnemotechnikę HAGLE, stany QM_IDLE), które często pojawiają się na egzaminach.
+
+Skopiuj poniższy kod i wklej go w miejsce starej sekcji <div class="note-section">...</div>:
+
+HTML
+
     <div class="note-section">
-        <h2>📘 Ściąga Przed Egzaminem (Przeczytaj!)</h2>
+        <h2 style="border-bottom: 2px solid #2196f3; padding-bottom: 10px;">📘 KOMPENDIUM WIEDZY IPSEC (Ściąga Egzaminacyjna)</h2>
         
-        <h3>1. Protokoły (Nagłówki)</h3>
+        <h3>I. TEMATYKA: NAGŁÓWKI (AH vs ESP)</h3>
+        <p style="color: #c0392b; font-weight: bold;">⚠️ To najczęstsze źródło pytań podchwytliwych!</p>
+        
+        <div style="background: white; padding: 15px; border-radius: 5px; border-left: 4px solid #e74c3c; margin-bottom: 10px;">
+            <h4>1. AH (Authentication Header) - Protokół IP nr 51</h4>
+            <ul>
+                <li><strong>Główna cecha:</strong> Zapewnia integralność i uwierzytelnianie, ale <span style="background-color: #ffebee; color: #c0392b; padding: 2px 5px; font-weight: bold;">NIE SZYFRUJE (brak poufności)</span>.</li>
+                <li><strong>Co chroni:</strong> Chroni przed modyfikacją danych oraz przed atakami typu replay (anti-replay).</li>
+                <li><strong>Ważne:</strong> W pytaniach testowych często pada pytanie „Co zapewnia poufność?”. Jeśli zaznaczysz AH – to błąd.</li>
+                <li><strong>Problem z NAT:</strong> AH nie działa przez NAT (bo NAT zmienia nagłówek IP, co psuje sumę kontrolną integralności).</li>
+            </ul>
+        </div>
+
+        <div style="background: white; padding: 15px; border-radius: 5px; border-left: 4px solid #27ae60; margin-bottom: 10px;">
+            <h4>2. ESP (Encapsulating Security Payload) - Protokół IP nr 50</h4>
+            <ul>
+                <li><strong>Główna cecha:</strong> Zapewnia <span style="background-color: #e8f5e9; color: #2e7d32; padding: 2px 5px; font-weight: bold;">POUFNOŚĆ (szyfrowanie)</span>, a także integralność i uwierzytelnianie.</li>
+                <li><strong>Struktura:</strong> Posiada nagłówek (ESP Header), stopkę (ESP Trailer) i sumę kontrolną (ESP Auth).</li>
+                <li><strong>NAT:</strong> Działa z NAT (dzięki NAT-Traversal / UDP 4500).</li>
+            </ul>
+        </div>
+
+        <p><strong>3. Różnica w pakiecie (Ważne do pytań obrazkowych):</strong></p>
         <ul>
-            <li><strong>AH (Authentication Header):</strong> Zapewnia integralność i uwierzytelnianie źródła. <span class="highlight">NIE SZYFRUJE (brak poufności)</span>.</li>
-            <li><strong>ESP (Encapsulating Security Payload):</strong> Zapewnia <span class="highlight">POUFNOŚĆ (szyfrowanie)</span> + integralność + uwierzytelnianie.</li>
+            <li><strong>AH:</strong> Wstawiany jest <em>pomiędzy</em> nagłówek IP a dane (tryb transportowy) lub po nowym nagłówku IP (tryb tunelowy).</li>
+            <li><strong>ESP:</strong> <em>Otacza</em> dane (Dane są „w środku” między nagłówkiem a stopką ESP).</li>
         </ul>
 
-        <h3>2. Tryby Pracy</h3>
-        <ul>
-            <li><strong>Transportowy:</strong> Host-to-Host. Oryginalny nagłówek IP jest zachowany. Szyfruje tylko dane.</li>
-            <li><strong>Tunelowy:</strong> Site-to-Site (Brama-Brama). <span class="highlight">Cały pakiet wchodzi w NOWY nagłówek IP</span>.</li>
-        </ul>
+        <hr>
 
-        <h3>3. Fazy Konfiguracji (Klucz do pytań!)</h3>
+        <h3>II. TEMATYKA: TRYBY PRACY (Transportowy vs Tunelowy)</h3>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div style="background: white; padding: 10px; border: 1px solid #ddd;">
+                <h4>1. Tryb Transportowy (Transport Mode)</h4>
+                <ul>
+                    <li><strong>Zastosowanie:</strong> Połączenia <strong>End-to-End</strong> (Host-do-Hosta, PC-Serwer, RDP).</li>
+                    <li><strong>Pakiet:</strong> <span style="color: #d35400; font-weight: bold;">Zachowuje oryginalny nagłówek IP</span>. Nagłówek IPSec wchodzi do środka.</li>
+                    <li><strong>Schemat:</strong> <code>[IP Oryg] [IPSec] [Dane]</code></li>
+                    <li><strong>Co jest chronione:</strong> Tylko ładunek (payload).</li>
+                </ul>
+            </div>
+            <div style="background: white; padding: 10px; border: 1px solid #ddd;">
+                <h4>2. Tryb Tunelowy (Tunnel Mode)</h4>
+                <ul>
+                    <li><strong>Zastosowanie:</strong> Połączenia <strong>Site-to-Site</strong> (Brama-Brama, Router-Router). Domyślny dla VPN firmowych.</li>
+                    <li><strong>Pakiet:</strong> Oryginalny pakiet jest kapsułkowany. Powstaje <span style="color: #8e44ad; font-weight: bold;">NOWY nagłówek IP</span> (bram VPN).</li>
+                    <li><strong>Schemat:</strong> <code>[IP Nowy] [IPSec] [IP Oryg] [Dane]</code></li>
+                    <li><strong>Co jest chronione:</strong> Cały oryginalny pakiet IP.</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr>
+
+        <h3>III. KONFIGURACJA PARAMETRÓW W KONKRETNYCH FAZACH</h3>
+        <p style="color: #2980b9;">To jest kluczowe zdanie z maila. Musisz wiedzieć, który parametr należy do której fazy.</p>
+
+        <h4 style="background: #e3f2fd; padding: 5px;">FAZA I (ISAKMP / IKE)</h4>
+        <p><strong>Cel:</strong> Uwierzytelnienie urządzeń i ustalenie kluczy do szyfrowania kanału zarządzającego (Management Plane).</p>
         <ul>
-            <li><strong>FAZA I (ISAKMP/IKE):</strong> Negocjacja "jak będziemy gadać".
-                <br>Polecenie: <code>crypto isakmp policy</code>
-                <br>Parametry: Encryption (DES/AES), Hash (MD5/SHA), Auth (pre-share), Group (Diffie-Hellman), Lifetime.
+            <li><strong>Protokół:</strong> ISAKMP / IKE (UDP port 500).</li>
+            <li><strong>Polecenie startowe:</strong> <code>crypto isakmp policy &lt;numer&gt;</code></li>
+            <li><strong>Mnemotechnika HAGLE (Parametry):</strong>
+                <ul>
+                    <li><strong>H</strong>ash: Algorytm skrótu (MD5, SHA).</li>
+                    <li><strong>A</strong>uthentication: Metoda uwierzytelniania (<code>pre-share</code> [hasło], <code>rsa-sig</code> [certyfikaty]).</li>
+                    <li><strong>G</strong>roup: Grupa Diffie-Hellman (<code>group 1, 2, 5</code>) – im wyższa, tym silniejszy klucz.</li>
+                    <li><strong>L</strong>ifetime: Czas życia tunelu (sekundy).</li>
+                    <li><strong>E</strong>ncryption: Szyfrowanie kanału (DES, 3DES, AES).</li>
+                </ul>
             </li>
-            <li><strong>FAZA II (IPSec):</strong> Negocjacja "jak szyfrujemy dane".
-                <br>Polecenie: <code>crypto ipsec transform-set</code>
-                <br>Parametry: Algorytmy danych (esp-aes), <span class="highlight">Tryb tunelu (mode tunnel)</span>.
+            <li><strong>Klucz (hasło):</strong> Definiowane osobno: <code>crypto isakmp key ... address ...</code></li>
+        </ul>
+
+        <h4 style="background: #e3f2fd; padding: 5px;">FAZA II (IPSec)</h4>
+        <p><strong>Cel:</strong> Szyfrowanie właściwych danych użytkownika (Data Plane).</p>
+        <ul>
+            <li><strong>Obiekt konfiguracyjny:</strong> Transform-set (zestaw transformacji).</li>
+            <li><strong>Polecenie startowe:</strong> <code>crypto ipsec transform-set &lt;nazwa&gt; &lt;parametry&gt;</code></li>
+            <li><strong>Parametry definiowane W TEJ FAZIE:</strong>
+                <ul>
+                    <li>Algorytm szyfrowania danych: np. <code>esp-aes</code> lub <code>esp-des</code>.</li>
+                    <li>Algorytm integralności danych: np. <code>esp-sha-hmac</code> lub <code>esp-md5-hmac</code>.</li>
+                    <li><span style="color: red; font-weight: bold;">TRYB TUNELU:</span> To jest pułapka! Tryb (tunnel/transport) ustawia się w Fazie II wewnątrz transform-set poleceniem <code>mode tunnel</code>.</li>
+                </ul>
             </li>
         </ul>
 
-        <h3>4. Konfiguracja Crypto Map (Sklejanie całości)</h3>
-        <ul>
-            <li>Polecenie: <code>crypto map NAZWA</code>.</li>
-            <li>Łączy: <code>match address</code> (ACL - jaki ruch?), <code>set peer</code> (do kogo?), <code>set transform-set</code> (jak szyfrować?).</li>
-        </ul>
+        <hr>
+
+        <h3>IV. POLECENIA CISCO (Mapowanie teorii na praktykę)</h3>
+        
+        <ol>
+            <li><strong>Tworzenie „interesującego ruchu” (Crypto ACL):</strong>
+                <br><code>access-list 101 permit ip 192.168.1.0 0.0.0.255 10.0.0.0 0.0.0.255</code>
+                <br>Definiuje, co ma być szyfrowane. <em>Uwaga: używamy masek odwrotnych (wildcard)!</em>
+            </li>
+            
+            <li><strong>Składanie wszystkiego w całość (Crypto Map):</strong>
+                <br>To polecenie łączy Fazę I, Fazę II i ACL.
+                <br><code>crypto map &lt;nazwa&gt; &lt;nr&gt; ipsec-isakmp</code>
+                <ul>
+                    <li><code>match address &lt;nr_acl&gt;</code> (jaki ruch?)</li>
+                    <li><code>set peer &lt;ip_zdalne&gt;</code> (do kogo?)</li>
+                    <li><code>set transform-set &lt;nazwa_faza_2&gt;</code> (jak szyfrować?)</li>
+                </ul>
+            </li>
+
+            <li><strong>Uruchomienie:</strong>
+                <br>Należy wejść na interfejs wyjściowy (np. WAN) i wpisać: <code>crypto map &lt;nazwa&gt;</code>.
+            </li>
+
+            <li><strong>Weryfikacja (Diagnostyka):</strong>
+                <ul>
+                    <li><code>show crypto isakmp policy</code> – sprawdza ustawienia Fazy I.</li>
+                    <li><code>show crypto isakmp sa</code> – stan tunelu Fazy I (szukaj statusu <strong>QM_IDLE</strong> - to oznacza sukces!).</li>
+                    <li><code>show crypto ipsec sa</code> – <span style="font-weight: bold; color: green;">NAJWAŻNIEJSZE!</span> Pokazuje aktywne tunele, liczbę zaszyfrowanych (encaps)/odszyfrowanych (decaps) pakietów.</li>
+                    <li><code>show crypto map</code> – pokazuje konfigurację mapy.</li>
+                </ul>
+            </li>
+        </ol>
+
+        <hr>
+
+        <h3>V. ALGORYTMY I POJĘCIA</h3>
+        
+        <div style="background: #f9f9f9; padding: 10px; border-radius: 5px;">
+            <p><strong>Kategorie algorytmów:</strong></p>
+            <ul>
+                <li><strong>Symetryczne (Poufność/Szyfrowanie):</strong> DES, 3DES, AES (najlepszy), RC4. <em>Cechy: Jeden klucz do szyfrowania i deszyfrowania, szybkie.</em></li>
+                <li><strong>Asymetryczne (Wymiana kluczy/Podpis):</strong> RSA (podpisy), Diffie-Hellman (wymiana kluczy). <em>Cechy: Para kluczy (prywatny/publiczny), wolne.</em></li>
+                <li><strong>Funkcje skrótu (Integralność/Hash):</strong> MD5, SHA-1, SHA-256. <em>Cechy: Jednokierunkowe, sprawdzają czy dane nie zostały zmienione.</em></li>
+            </ul>
+            <p><strong>Kluczowe definicje:</strong></p>
+            <ul>
+                <li><strong>SA (Security Association):</strong> Relacja zabezpieczeń. Jest <span style="text-decoration: underline;">jednokierunkowa</span>. Definiowana przez: SPI, Adres docelowy, Protokół (AH/ESP).</li>
+                <li><strong>SPI (Security Parameter Index):</strong> Numer identyfikacyjny tunelu w nagłówku IPSec.</li>
+                <li><strong>PFS (Perfect Forward Secrecy):</strong> Wymusza generowanie nowych kluczy dla każdej sesji (nie bazuje na poprzednich).</li>
+            </ul>
+        </div>
     </div>
 
     <form id="quiz-form">
