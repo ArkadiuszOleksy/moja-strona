@@ -74,330 +74,329 @@
 <script>
     // --- BAZA DANYCH PYTAŃ (DOKŁADNY TEKST) ---
     const rawQuestions = [
-        {
-            id: 1, type: "multi",
-            text: "Persony (jako fikcyjni użytkownicy) powinni obejmować informacje na temat ich cech, takich jak: Wybierz wszystkie poprawne:",
-            options: [
-                { t: "a. scenariusze użycia", c: true },
-                { t: "b. cele", c: true },
-                { t: "c. demografia", c: true },
-                { t: "d. motywacje", c: true },
-                { t: "e. koncepcje", c: false },
-                { t: "f. testy wyboru", c: false },
-                { t: "g. ryzyka", c: false }
-            ]
-        },
-        {
-            id: 2, type: "open",
-            text: "Określ, jakie to kryterium użyteczności interfejsu użytkownika, które określa łatwość z jaką powracający użytkownicy mogą ponownie nauczyć się korzystania z aplikacji po dłuższej przerwie. (Pytanie otwarte)",
-            correctAnswer: "Zapamiętywalność (Memorability)"
-        },
-        {
-            id: 3, type: "single",
-            text: "Co to jest projektowanie responsywne?",
-            options: [
-                { t: "a. Projektowanie widgetów interfejsu graficznego", c: false },
-                { t: "b. Projektowanie interfejsów tylko dla komputerów stacjonarnych", c: false },
-                { t: "c. Projektowanie obiektowe, wykorzystujące model relacyjny", c: false },
-                { t: "d. Projektowanie interfejsu graficznego użytkownika", c: false },
-                { t: "e. Projektowanie stron internetowych, które dostosowują się do różnych urządzeń", c: true },
-                { t: "f. Tworzenie statycznych stron internetowych", c: false }
-            ]
-        },
-        {
-            id: 4, type: "open",
-            text: "Określ, jakie to kryterium użyteczności interfejsu użytkownika, które określa jak szybko nowi użytkownicy mogą osiągnąć biegłość w korzystaniu z aplikacji. (Pytanie otwarte)",
-            correctAnswer: "Łatwość nauki (Learnability)"
-        },
-        {
-            id: 5, type: "single",
-            text: "Jakie są korzyści z testów A/B?",
-            options: [
-                { t: "a. Zmniejszenie czasu ładowania strony", c: false },
-                { t: "b. Ocena i porównanie różnych wersji interfejsu", c: true },
-                { t: "c. Zwiększenie estetyki interfejsu", c: false },
-                { t: "d. Tworzenie dokumentacji technicznej", c: false }
-            ]
-        },
-        {
-            id: 6, type: "drag_cat",
-            text: "Przeciągnij odpowiednie elementy do kategorii:",
-            categories: ["Testy użyteczności", "Analiza heurystyczna"],
+    {
+        id: 1, type: "multi",
+        text: "Persony (jako fikcyjni użytkownicy) powinni obejmować informacje na temat ich cech, takich jak: Wybierz wszystkie poprawne:",
+        options: [
+            { t: "a. scenariusze użycia", c: true },
+            { t: "b. cele", c: true },
+            { t: "c. demografia", c: true },
+            { t: "d. motywacje", c: true },
+            { t: "e. koncepcje", c: false },
+            { t: "f. testy wyboru", c: false },
+            { t: "g. ryzyka", c: false }
+        ]
+    },
+    {
+        id: 2, type: "open",
+        text: "Określ, jakie to kryterium użyteczności interfejsu użytkownika, które określa łatwość z jaką powracający użytkownicy mogą ponownie nauczyć się korzystania z aplikacji po dłuższej przerwie. (Pytanie otwarte)",
+        correctAnswer: "Zapamiętywalność"
+    },
+    {
+        id: 3, type: "single",
+        text: "Co to jest projektowanie responsywne?",
+        options: [
+            { t: "a. Projektowanie widgetów interfejsu graficznego", c: false },
+            { t: "b. Projektowanie interfejsów tylko dla komputerów stacjonarnych", c: false },
+            { t: "c. Projektowanie obiektowe, wykorzystujące model relacyjny", c: false },
+            { t: "d. Projektowanie interfejsu graficznego użytkownika", c: false },
+            { t: "e. Projektowanie stron internetowych, które dostosowują się do różnych urządzeń", c: true },
+            { t: "f. Tworzenie statycznych stron internetowych", c: false }
+        ]
+    },
+    {
+        id: 4, type: "open",
+        text: "Określ, jakie to kryterium użyteczności interfejsu użytkownika, które określa jak szybko nowi użytkownicy mogą osiągnąć biegłość w korzystaniu z aplikacji. (Pytanie otwarte)",
+        correctAnswer: "Łatwość nauki"
+    },
+    {
+        id: 5, type: "multi",
+        text: "Jakie są korzyści z testów A/B?",
+        options: [
+            { t: "a. Zmniejszenie czasu ładowania strony", c: false },
+            { t: "b. Ocena i porównanie różnych wersji interfejsu", c: true },
+            { t: "c. Zwiększenie estetyki interfejsu", c: false },
+            { t: "d. Tworzenie dokumentacji technicznej", c: false }
+        ]
+    },
+    {
+        id: 6, type: "drag_cat",
+        text: "Przeciągnij odpowiednie elementy do kategorii:",
+        categories: ["Testy użyteczności", "Analiza heurystyczna"],
+        items: [
+            { t: "A. Testy z udziałem rzeczywistych użytkowników", cat: 0 },
+            { t: "B. Ocena przez ekspertów", cat: 1 },
+            { t: "C. Testy oprogramowania front office", cat: 0 },
+            { t: "D. Ocena przez użytkowników", cat: 0 }
+        ]
+    },
+    {
+        id: 7, type: "multi",
+        text: "Dlaczego ważne są testy użyteczności?",
+        options: [
+            { t: "a. Aby ocenić łatwość obsługi i zrozumiałość interfejsu", c: true },
+            { t: "b. Aby poprawić wydajność serwera", c: false },
+            { t: "c. Aby zredukować liczbę linii kodu", c: false },
+            { t: "d. Aby zwiększyć koszty produkcji", c: false }
+        ]
+    },
+    {
+        id: 8, type: "single",
+        text: "Co to jest heatmap w kontekście testowania użyteczności?",
+        options: [
+            { t: "a. Narzędzie do tworzenia grafiki", c: false },
+            { t: "b. Protokół sieciowy", c: false },
+            { t: "c. Wizualne przedstawienie danych użytkowników", c: true },
+            { t: "d. Technika kompresji obrazu", c: false }
+        ]
+    },
+    {
+        id: 9, type: "open",
+        text: "Aby zapewnić czytelność i dostępność treści dla wszystkich użytkowników, w tym osób z wadami wzroku należy utrzymać na stronach internetowych wysoki (Pytanie otwarte)",
+        correctAnswer: "kontrast"
+    },
+    {
+        id: 10, type: "sort",
+        text: "Metodą przeciągnij i upuść ułóż w odpowiedniej kolejności przebieg scenariusza oceny jakości działania użytkownika na podstawie poniższych etapów tego procesu, które losowo zostały umieszczone w \"kratkach\":",
+        correctOrder: [
+            "E. Zdefiniowanie celów biznesowych",
+            "A. Identyfikacja użytkowników docelowych",
+            "B. Projektowanie testów",
+            "C. Przeprowadzenie testów",
+            "F. Analiza wyników",
+            "G. Wdrożenie poprawek",
+            "D. Monitorowanie i ciągłe doskonalenie"
+        ]
+    },
+    {
+        id: 11, type: "multi",
+        text: "Jakie są główne cele testów użyteczności?",
+        options: [
+            { t: "a. Zmniejszenie czasu projektowania interfejsu użytkownika", c: false },
+            { t: "b. Zwiększenie zadowolenia użytkowników", c: true },
+            { t: "c. Zaznacz wszystkie wybory", c: false },
+            { t: "d. Ocena wydajności systemu", c: false },
+            { t: "e. Zwiększenie wydajności zbudowanego interfejsu użytkownika", c: true },
+            { t: "f. Ocena łatwości obsługi interfejsu", c: true }
+        ]
+    },
+    {
+        id: 12, type: "multi",
+        text: "Jakie są korzyści z tworzenia person?",
+        options: [
+            { t: "a. Lepsze dopasowanie projektu do potrzeb użytkowników", c: true },
+            { t: "b. Wszystkie wymienione odpowiedzi", c: false },
+            { t: "c. Lepsze zrozumienie użytkowników", c: true },
+            { t: "d. Zwiększenie kosztów produkcji", c: false },
+            { t: "e. Lepsza komunikacja w zespole projektowym", c: true }
+        ]
+    },
+    {
+        id: 13, type: "single",
+        text: "Co to jest wireframe?",
+        options: [
+            { t: "a. Analiza danych użytkowników", c: false },
+            { t: "b. Szczegółowy projekt graficzny", c: false },
+            { t: "c. Narzędzie do testowania użyteczności", c: false },
+            { t: "d. Uproszczony schematyczny model projektu strony", c: true }
+        ]
+    },
+    {
+        id: 14, type: "open",
+        text: "Wpisz jaki to rodzaj modelowania, jeśli polega on badaniu zachowania użytkowników w interakcji z systemem (Pytanie otwarte)",
+        correctAnswer: "Modelowanie behawioralne"
+    },
+    {
+        id: 15, type: "drag_cat",
+        text: "Przeciągnij odpowiednie elementy do kategorii:",
+        categories: ["Przykład UI", "Przykład UX"],
+        items: [
+            { t: "Przycisk", cat: 0 },
+            { t: "Łatwość obsługi", cat: 1 },
+            { t: "Ikona", cat: 0 },
+            { t: "Zadowolenie użytkownika", cat: 1 }
+        ]
+    },
+    {
+        id: 16, type: "drag_cat",
+        text: "Dopasuj do narzędzia jego zastosowanie:",
+        categories: ["Projektowanie graficzne", "Testowanie prototypów"],
+        items: [
+            { t: "Sketch", cat: 0 },
+            { t: "Heatmap", cat: 1 },
+            { t: "Adobe XD", cat: 0 },
+            { t: "UsabilityHub", cat: 1 }
+        ]
+    },
+    {
+        id: 17, type: "drag_cat",
+        text: "Dopasuj definicje do pojęć:",
+        categories: ["UI (User Interface)", "UX (User Experience)", "Użyteczność (Usability)", "Architektura informacji"],
+        items: [
+            { t: "D. Zbiór elementów interfejsu użytkownika, takich jak przyciski, pola tekstowe czy menu, które umożliwiają interakcję z systemem", cat: 0 },
+            { t: "B. Całokształt doświadczeń użytkownika związanych z korzystaniem z systemu, obejmujący aspekty funkcjonalne, emocjonalne i estetyczne", cat: 1 },
+            { t: "A. Stopień, w jakim system lub produkt pozwala użytkownikom na efektywne, skuteczne i satysfakcjonujące osiąganie zamierzonych celów", cat: 2 },
+            { t: "C. Sposób organizacji treści i nawigacji w systemie w celu ułatwienia użytkownikom odnajdywania potrzebnych informacji", cat: 3 }
+        ]
+    },
+    {
+        id: 18, type: "multi",
+        text: "Wskaż, które z wymienionych to metody badania użyteczności interfejsu?",
+        options: [
+            { t: "a. Ocena konstrukcji person", c: false },
+            { t: "b. Analiza heurystyczna", c: true },
+            { t: "c. Testy użytkowników", c: true },
+            { t: "d. Ankiety i wywiady", c: true },
+            { t: "e. Analiza wdrożenia", c: false }
+        ]
+    },
+    {
+        id: 19, type: "sort",
+        text: "Metodą przeciągnij i upuść, ułóż w odpowiedniej kolejności kluczowe etapy procesu projektowania interfejsu użytkownika, które losowo zostały umieszczone w \"kratkach\":",
+        correctOrder: [
+            "E. Badanie użytkowników",
+            "A. Tworzenie person",
+            "F. Projektowanie wstępne",
+            "C. Prototypowanie",
+            "D. Testowanie użyteczności",
+            "B. Wdrażanie"
+        ]
+    },
+    {
+        id: 20, type: "single",
+        text: "Jakie są główne cele prototypowania?",
+        options: [
+            { t: "a. Tworzenie końcowej wersji produktu", c: false },
+            { t: "b. Opracowanie modelu architektury informacji", c: false },
+            { t: "c. Testowanie i poprawianie wstępnych wersji produktu", c: true },
+            { t: "d. Analiza kodu źródłowego", c: false }
+        ]
+    },
+    {
+        id: 21, type: "multi",
+        text: "Jakie są korzyści z utrzymania wysokiego kontrastu kolorów?",
+        options: [
+            { t: "a. Zmniejszenie czytelności treści dla osób z wadami wzroku", c: false },
+            { t: "b. Lepsza dostępność", c: true },
+            { t: "c. Poprawa czytelności", c: true },
+            { t: "d. Łatwiejsze kodowanie", c: false },
+            { t: "e. Estetyczny wygląd", c: false }
+        ]
+    },
+    {
+        id: 22, type: "single",
+        text: "Co to jest UX (User Experience) w procesach projektowania interfejsu użytkownika?",
+        options: [
+            { t: "a. Projektowanie architektury informacji", c: false },
+            { t: "b. Kodowanie backendu", c: false },
+            { t: "c. Ogólne doświadczenie użytkownika z aplikacją (produktem)", c: true },
+            { t: "d. Estetyka interfejsu", c: false },
+            { t: "e. Projektowanie logotypów", c: false }
+        ]
+    },
+    {
+        id: 23, type: "single",
+        text: "Co to jest analiza heurystyczna interfejsu użytkownika?",
+        options: [
+            { t: "a. Analiza dynamiczna danych użytkowników", c: false },
+            { t: "b. Tworzenie prototypów", c: false },
+            { t: "c. Ocena interfejsu przez ekspertów na podstawie ustalonych zasad", c: true },
+            { t: "d. Analiza statystyczna danych użytkowników", c: false },
+            { t: "e. Testowanie użyteczności przez rzeczywistych użytkowników", c: false }
+        ]
+    },
+    {
+        id: 24, type: "drag_cat_complex",
+        text: "Dopasuj typy testów do ich opisów oraz osób, które je prowadzą:",
+        sub1: {
+            cats: ["Testy A/B", "Testy użyteczności", "Testy jednostkowe", "Testy akceptacyjne"],
             items: [
-                { t: "A. Testy z udziałem rzeczywistych użytkowników", cat: 0 },
-                { t: "B. Ocena przez ekspertów", cat: 1 },
-                { t: "C. Testy oprogramowania front office", cat: 0 }, // Czasami traktowane jako błąd w pytaniu, ale w kontekście ESI zwykle testy uzytecznosci
-                { t: "D. Ocena przez użytkowników", cat: 0 }
+                { t: "Porównanie dwóch wersji interfejsu", cat: 0 },
+                { t: "Ocena łatwości obsługi interfejsu przez użytkowników", cat: 1 },
+                { t: "Sprawdzenie poprawności kodu i jego pokrycia testami", cat: 2 },
+                { t: "Sprawdzenie zgodności dostarczonej funkcjonalności systemu z jego specyfikacją wymagań", cat: 3 }
             ]
         },
-        {
-            id: 7, type: "single",
-            text: "Dlaczego ważne są testy użyteczności?",
-            options: [
-                { t: "a. Aby ocenić łatwość obsługi i zrozumiałość interfejsu", c: true },
-                { t: "b. Aby poprawić wydajność serwera", c: false },
-                { t: "c. Aby zredukować liczbę linii kodu", c: false },
-                { t: "d. Aby zwiększyć koszty produkcji", c: false }
-            ]
-        },
-        {
-            id: 8, type: "single",
-            text: "Co to jest heatmap w kontekście testowania użyteczności?",
-            options: [
-                { t: "a. Narzędzie do tworzenia grafiki", c: false },
-                { t: "b. Protokół sieciowy", c: false },
-                { t: "c. Wizualne przedstawienie danych użytkowników", c: true },
-                { t: "d. Technika kompresji obrazu", c: false }
-            ]
-        },
-        {
-            id: 9, type: "open",
-            text: "Aby zapewnić czytelność i dostępność treści dla wszystkich użytkowników, w tym osób z wadami wzroku należy utrzymać na stronach internetowych wysoki (Pytanie otwarte)",
-            correctAnswer: "Kontrast"
-        },
-        {
-            id: 10, type: "sort",
-            text: "Metodą przeciągnij i upuść ułóż w odpowiedniej kolejności przebieg scenariusza oceny jakości działania użytkownika...",
-            correctOrder: [
-                "E. Zdefiniowanie celów biznesowych",
-                "A. Identyfikacja użytkowników docelowych",
-                "B. Projektowanie testów",
-                "C. Przeprowadzenie testów",
-                "F. Analiza wyników",
-                "G. Wdrożenie poprawek",
-                "D. Monitorowanie i ciągłe doskonalenie"
-            ]
-        },
-        {
-            id: 11, type: "single",
-            text: "Jakie są główne cele testów użyteczności?",
-            options: [
-                { t: "a. Zmniejszenie czasu projektowania interfejsu użytkownika", c: false },
-                { t: "b. Zwiększenie zadowolenia użytkowników", c: false },
-                { t: "c. Zaznacz wszystkie wybory", c: false },
-                { t: "d. Ocena wydajności systemu", c: false },
-                { t: "e. Zwiększenie wydajności zbudowanego interfejsu użytkownika", c: false },
-                { t: "f. Ocena łatwości obsługi interfejsu", c: true }
-            ]
-        },
-        {
-            id: 12, type: "single",
-            text: "Jakie są korzyści z tworzenia person?",
-            options: [
-                { t: "a. Lepsze dopasowanie projektu do potrzeb użytkowników", c: false },
-                { t: "b. Wszystkie wymienione odpowiedzi", c: true },
-                { t: "c. Lepsze zrozumienie użytkowników", c: false },
-                { t: "d. Zwiększenie kosztów produkcji", c: false },
-                { t: "e. Lepsza komunikacja w zespole projektowym", c: false }
-            ]
-        },
-        {
-            id: 13, type: "single",
-            text: "Co to jest wireframe?",
-            options: [
-                { t: "a. Analiza danych użytkowników", c: false },
-                { t: "b. Szczegółowy projekt graficzny", c: false },
-                { t: "c. Narzędzie do testowania użyteczności", c: false },
-                { t: "d. Uproszczony schematyczny model projektu strony", c: true }
-            ]
-        },
-        {
-            id: 14, type: "open",
-            text: "Wpisz jaki to rodzaj modelowania, jeśli polega on badaniu zachowania użytkowników w interakcji z systemem (Pytanie otwarte)",
-            correctAnswer: "Modelowanie behawioralne"
-        },
-        {
-            id: 15, type: "drag_cat",
-            text: "Przeciągnij odpowiednie elementy do kategorii:",
-            categories: ["Przykład UI", "Przykład UX"],
+        sub2: {
+            cats: ["Testy użyteczności", "Testy jednostkowe", "Testy akceptacyjne"],
             items: [
-                { t: "Przycisk", cat: 0 },
-                { t: "Łatwość obsługi", cat: 1 },
-                { t: "Ikona", cat: 0 },
-                { t: "Zadowolenie użytkownika", cat: 1 }
+                { t: "Developer UX/UI", cat: 0 },
+                { t: "Developer", cat: 1 },
+                { t: "Tester", cat: 2 }
             ]
-        },
-        {
-            id: 16, type: "drag_cat",
-            text: "Dopasuj do narzędzia jego zastosowanie:",
-            categories: ["Projektowanie graficzne", "Testowanie prototypów"],
-            items: [
-                { t: "Sketch", cat: 0 },
-                { t: "Heatmap", cat: 1 },
-                { t: "Adobe XD", cat: 0 },
-                { t: "UsabilityHub", cat: 1 }
-            ]
-        },
-        {
-            id: 17, type: "drag_cat",
-            text: "Dopasuj definicje do pojęć:",
-            categories: ["UI (User Interface)", "UX (User Experience)", "Użyteczność (Usability)", "Architektura informacji"],
-            items: [
-                { t: "D. Zbiór elementów interfejsu użytkownika, takich jak przyciski...", cat: 0 },
-                { t: "B. Całokształt doświadczeń użytkownika związanych z korzystaniem...", cat: 1 },
-                { t: "A. Stopień, w jakim system lub produkt pozwala użytkownikom na efektywne...", cat: 2 },
-                { t: "C. Sposób organizacji treści i nawigacji...", cat: 3 }
-            ]
-        },
-        {
-            id: 18, type: "multi",
-            text: "Wskaż, które z wymienionych to metody badania użyteczności interfejsu?",
-            options: [
-                { t: "a. Ocena konstrukcji person", c: false },
-                { t: "b. Analiza heurystyczna", c: true },
-                { t: "c. Testy użytkowników", c: true },
-                { t: "d. Ankiety i wywiady", c: true },
-                { t: "e. Analiza wdrożenia", c: false }
-            ]
-        },
-        {
-            id: 19, type: "sort",
-            text: "Metodą przeciągnij i upuść, ułóż w odpowiedniej kolejności kluczowe etapy procesu projektowania interfejsu użytkownika...",
-            correctOrder: [
-                "E. Badanie użytkowników",
-                "A. Tworzenie person",
-                "F. Projektowanie wstępne",
-                "C. Prototypowanie",
-                "D. Testowanie użyteczności",
-                "B. Wdrażanie"
-            ]
-        },
-        {
-            id: 20, type: "single",
-            text: "Jakie są główne cele prototypowania?",
-            options: [
-                { t: "a. Tworzenie końcowej wersji produktu", c: false },
-                { t: "b. Opracowanie modelu architektury informacji", c: false },
-                { t: "c. Testowanie i poprawianie wstępnych wersji produktu", c: true },
-                { t: "d. Analiza kodu źródłowego", c: false }
-            ]
-        },
-        {
-            id: 21, type: "single",
-            text: "Jakie są korzyści z utrzymania wysokiego kontrastu kolorów?",
-            options: [
-                { t: "a. Zmniejszenie czytelności treści dla osób z wadami wzroku", c: false },
-                { t: "b. Lepsza dostępność", c: false }, // Choć prawda, wg klucza 'Poprawa czytelności' jest główna w teście
-                { t: "c. Poprawa czytelności", c: true },
-                { t: "d. Łatwiejsze kodowanie", c: false },
-                { t: "e. Estetyczny wygląd", c: false }
-            ]
-        },
-        {
-            id: 22, type: "single",
-            text: "Co to jest UX (User Experience) w procesach projektowania interfejsu użytkownika?",
-            options: [
-                { t: "a. Projektowanie architektury informacji", c: false },
-                { t: "b. Kodowanie backendu", c: false },
-                { t: "c. Ogólne doświadczenie użytkownika z aplikacją (produktem)", c: true },
-                { t: "d. Estetyka interfejsu", c: false },
-                { t: "e. Projektowanie logotypów", c: false }
-            ]
-        },
-        {
-            id: 23, type: "single",
-            text: "Co to jest analiza heurystyczna interfejsu użytkownika?",
-            options: [
-                { t: "a. Analiza dynamiczna danych użytkowników", c: false },
-                { t: "b. Tworzenie prototypów", c: false },
-                { t: "c. Ocena interfejsu przez ekspertów na podstawie ustalonych zasad", c: true },
-                { t: "d. Analiza statystyczna danych użytkowników", c: false },
-                { t: "e. Testowanie użyteczności przez rzeczywistych użytkowników", c: false }
-            ]
-        },
-        {
-            id: 24, type: "drag_cat_complex",
-            text: "Dopasuj typy testów do ich opisów oraz osób, które je prowadzą:",
-            sub1: {
-                cats: ["Testy A/B", "Testy użyteczności", "Testy jednostkowe", "Testy akceptacyjne"],
-                items: [
-                    { t: "Porównanie dwóch wersji interfejsu", cat: 0 },
-                    { t: "Ocena łatwości obsługi interfejsu przez użytkowników", cat: 1 },
-                    { t: "Sprawdzenie poprawności kodu i jego pokrycia testami", cat: 2 },
-                    { t: "Sprawdzenie zgodności dostarczonej funkcjonalności...", cat: 3 }
-                ]
-            },
-            sub2: {
-                cats: ["Testy użyteczności", "Testy jednostkowe", "Testy akceptacyjne"],
-                items: [
-                    { t: "Developer UX/UI", cat: 0 },
-                    { t: "Developer", cat: 1 },
-                    { t: "Tester", cat: 2 }, // Albo analityk, zalezy od interpretacji
-                    { t: "Analityk", cat: 2 }
-                ]
-            }
-        },
-        {
-            id: 25, type: "single",
-            text: "Co powinno być celem tworzenia person w projektowaniu interakcji?",
-            options: [
-                { t: "a. Zrozumienie różnorodnych potrzeb użytkowników", c: true },
-                { t: "b. Tworzenie estetycznego interfejsu", c: false },
-                { t: "c. Optymalizacja kodu źródłowego", c: false },
-                { t: "d. Redukcja kosztów produkcji", c: false }
-            ]
-        },
-        {
-            id: 26, type: "gap",
-            text: "Uzupełnij luki w zdaniu: Celem [GAP] jest zapewnienie [GAP] obsługi dla użytkowników oraz [GAP] potencjalnych problemów z użytecznością systemu.",
-            corrects: ["projektowania interakcji", "intuicyjnej, zrozumiałej, efektywnej", "identyfikacja"],
-            variants: ["projektowania interakcji", "intuicyjnej, zrozumiałej, efektywnej", "identyfikacja/poprawa/ocena", "definiowania", "wymagań", "klas", "optymalnego modelu dynamiki"]
-        },
-        {
-            id: 27, type: "gap",
-            text: "Uzupełnij luki: W projektowaniu interfejsu użytkownika jego [GAP] to stopień, w jakim interfejs użytkownika jest [GAP] w użyciu, co pozwala użytkownikom na [GAP] osiąganie ich celów.",
-            corrects: ["użyteczność", "łatwy i efektywny", "skuteczne i satysfakcjonujące"],
-            variants: ["użyteczność", "łatwy i efektywny", "skuteczne i satysfakcjonujące", "szkicowanie", "modelowanie", "komponowalność", "ryzykowny", "niebezpieczne"]
-        },
-        {
-            id: 28, type: "single",
-            text: "Wskaż poprawną zasadę w projektowaniu interfejsów użytkownika?",
-            options: [
-                { t: "a. „mobile-first”", c: false },
-                { t: "b. twórz rozbudowane interfejsy graficzne i tekstowe", c: false },
-                { t: "c. maksymalizacji obciążenia poznawczego interfejsów dotykowych", c: false },
-                { t: "d. buduj interfejsy reaktywne, lub responsywne", c: true }
-            ]
-        },
-        {
-            id: 29, type: "open",
-            text: "Wpisz jaki to rodzaj modelowania, jeśli polega on na projektowaniu fizycznych aspektów interfejsu, takich jak układ przycisków czy ekranu dotykowego: (Pytanie otwarte)",
-            correctAnswer: "Modelowanie fizyczne"
-        },
-        {
-            id: 30, type: "single",
-            text: "Co to jest makieta (mockup) w kontekście projektowania interfejsu?",
-            options: [
-                { t: "a. Uproszczony schematyczny model w postaci diagramu", c: false },
-                { t: "b. Działający kod rozwiązania dostarczający pełną funkcjonalność...", c: false },
-                { t: "c. Dokumentacja techniczna", c: false },
-                { t: "d. Narzędzie do testowania kodu", c: false },
-                { t: "e. Szczegółowy projekt wizualny (określający interfejs użytkownika)", c: true }
-            ]
-        },
-        {
-            id: 31, type: "open",
-            text: "Wpisz jakie narzędzie badawcze używane jest w ankietach do mierzenia postaw, lub opinii, w ramach których proszeni są respondenci o ocenę stwierdzeń wyrażając stopień ich zgody lub niezgody. (Pytanie otwarte)",
-            correctAnswer: "Skala Likerta"
-        },
-        {
-            id: 32, type: "gap",
-            text: "Uzupełnij luki: [GAP] jest procesem tworzenia [GAP] produktu w celu ich [GAP] przed finalnym wdrożeniem.",
-            corrects: ["prototypowanie", "wstępnych wersji", "testowania"],
-            variants: ["prototypowanie", "wstępnych wersji", "testowania", "modelowanie", "kodowanie", "obrazów"]
-        },
-        {
-            id: 33, type: "gap",
-            text: "Uzupełnij luki: W projektowaniu interfejsu użytkownika analiza [GAP] polega na jego ocenie przez [GAP] na podstawie [GAP].",
-            corrects: ["heurystyczna", "ekspertów", "ustalonych zasad"],
-            variants: ["heurystyczna", "ekspertów", "ustalonych zasad", "użytkowników", "statyczna", "obiektowa", "programistów", "dynamiczna", "klas", "tweirdzeń"]
-        },
-        {
-            id: 34, type: "open",
-            text: "Wpisz jaki to rodzaj modelowania, jeśli polega on na badaniu sposobu, w jaki użytkownicy myślą o interfejsie i zadaniach, jakie wykonują: (Pytanie otwarte)",
-            correctAnswer: "Modelowanie mentalne"
         }
-    ];
+    },
+    {
+        id: 25, type: "single",
+        text: "Co powinno być celem tworzenia person w projektowaniu interakcji?",
+        options: [
+            { t: "a. Zrozumienie różnorodnych potrzeb użytkowników", c: true },
+            { t: "b. Tworzenie estetycznego interfejsu", c: false },
+            { t: "c. Optymalizacja kodu źródłowego", c: false },
+            { t: "d. Redukcja kosztów produkcji", c: false }
+        ]
+    },
+    {
+        id: 26, type: "gap",
+        text: "Uzupełnij luki w zdaniu (wybierz z listy rozwijanej): \"Celem [GAP] jest zapewnienie [GAP] obsługi dla użytkowników oraz [GAP] potencjalnych problemów z użytecznością systemu.\"",
+        corrects: ["projektowania interakcji", "intuicyjnej, zrozumiałej, efektywnej", "identyfikacja"],
+        variants: ["projektowania interakcji", "intuicyjnej/zrozumiałej/efektywnej", "identyfikacja/poprawa/ocena", "definiowania", "wymagań", "klas", "optymalnego modelu dynamiki", "intuicyjnej, zrozumiałej, efektywnej", "identyfikacja"]
+    },
+    {
+        id: 27, type: "gap",
+        text: "Wybierz brakujące słowa (uzupełnij luki w zdaniu): \"W projektowaniu interfejsu użytkownika jego [GAP] to stopień, w jakim interfejs użytkownika jest [GAP] w użyciu, co pozwala użytkownikom na [GAP] osiąganie ich celów.\"",
+        corrects: ["użyteczność", "łatwy i efektywny", "skuteczne i satysfakcjonujące"],
+        variants: ["użyteczność", "łatwy i efektywny", "skuteczne i satysfakcjonujące", "szkicowanie", "modelowanie", "komponowalność", "ryzykowny", "niebezpieczne"]
+    },
+    {
+        id: 28, type: "single",
+        text: "Wskaż poprawną zasadę w projektowaniu interfejsów użytkownika?",
+        options: [
+            { t: "a. „mobile-first”", c: false },
+            { t: "b. twórz rozbudowane interfejsy graficzne i tekstowe", c: false },
+            { t: "c. maksymalizacji obciążenia poznawczego interfejsów dotykowych", c: false },
+            { t: "d. buduj interfejsy reaktywne, lub responsywne", c: true }
+        ]
+    },
+    {
+        id: 29, type: "open",
+        text: "Wpisz jaki to rodzaj modelowania, jeśli polega on na projektowaniu fizycznych aspektów interfejsu, takich jak układ przycisków czy ekranu dotykowego: (Pytanie otwarte)",
+        correctAnswer: "Modelowanie fizyczne"
+    },
+    {
+        id: 30, type: "single",
+        text: "Co to jest makieta (mockup) w kontekście projektowania interfejsu?",
+        options: [
+            { t: "a. Uproszczony schematyczny model w postaci diagramu", c: false },
+            { t: "b. Działający kod rozwiązania dostarczający pełną funkcjonalność UI w zakresie określonym przez makietę", c: false },
+            { t: "c. Dokumentacja techniczna", c: false },
+            { t: "d. Narzędzie do testowania kodu", c: false },
+            { t: "e. Szczegółowy projekt wizualny (określający interfejs użytkownika)", c: true }
+        ]
+    },
+    {
+        id: 31, type: "open",
+        text: "Wpisz jakie narzędzie badawcze używane jest w ankietach do mierzenia postaw, lub opinii, w ramach których proszeni są respondenci o ocenę stwierdzeń wyrażając stopień ich zgody lub niezgody. (Pytanie otwarte)",
+        correctAnswer: "Skala Likerta"
+    },
+    {
+        id: 32, type: "gap",
+        text: "Uzupełnij luki w zdaniu (wybierz z listy rozwijanej): \"[GAP] jest procesem tworzenia [GAP] produktu w celu ich [GAP] przed finalnym wdrożeniem.\"",
+        corrects: ["prototypowanie", "wstępnych wersji", "testowania"],
+        variants: ["prototypowanie", "wstępnych wersji", "testowania", "modelowanie", "kodowanie", "obrazów"]
+    },
+    {
+        id: 33, type: "gap",
+        text: "Uzupełnij luki w zdaniu (wybierz z listy rozwijanej): \"W projektowaniu interfejsu użytkownika analiza [GAP] polega na jego ocenie przez [GAP] na podstawie [GAP].\"",
+        corrects: ["heurystyczna", "ekspertów", "ustalonych zasad"],
+        variants: ["heurystyczna", "ekspertów", "ustalonych zasad", "użytkowników", "statyczna", "obiektowa", "programistów", "dynamiczna", "klas", "tweirdzeń"]
+    },
+    {
+        id: 34, type: "open",
+        text: "Wpisz jaki to rodzaj modelowania, jeśli polega on na badaniu sposobu, w jaki użytkownicy myślą o interfejsie i zadaniach, jakie wykonują: (Pytanie otwarte)",
+        correctAnswer: "Modelowanie mentalne"
+    }
+];
 
     // Funkcja mieszająca (Fisher-Yates)
     function shuffle(array) {
