@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ULTIMATE TRENING IPSec - 80 Pytań</title>
+    <title>TRENING: Ergonomia Systemów Interaktywnych (34 Pytania)</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; color: #333; line-height: 1.6; margin: 0; padding: 20px; }
         .container { max-width: 950px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
@@ -12,8 +12,6 @@
         /* Sekcja notatki */
         .note-section { background-color: #e3f2fd; border-left: 6px solid #2196f3; padding: 20px; margin-bottom: 40px; border-radius: 5px; }
         .note-section h2 { margin-top: 0; color: #1565c0; }
-        .note-section ul { margin-bottom: 15px; }
-        .highlight { font-weight: bold; color: #d32f2f; }
 
         /* Style pytań */
         .question-block { margin-bottom: 30px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px; background: #fafafa; transition: transform 0.2s; }
@@ -21,16 +19,6 @@
         
         .question-text { font-size: 1.1em; margin-bottom: 15px; font-weight: 600; }
         
-        /* SPECJALNY STYL DLA PYTAŃ ZE ZDJĘĆ */
-        .source-question { 
-            font-size: 1.25em; 
-            font-weight: 800; 
-            color: #c0392b; 
-            border-left: 5px solid #c0392b; 
-            padding-left: 10px;
-            background-color: #fff5f5;
-        }
-
         .type-badge { font-size: 0.85em; color: #7f8c8d; font-style: italic; display: block; margin-bottom: 10px; }
 
         /* Odpowiedzi */
@@ -50,1014 +38,369 @@
         button.check-btn { display: block; width: 100%; padding: 18px; background-color: #27ae60; color: white; border: none; border-radius: 8px; font-size: 1.3em; font-weight: bold; cursor: pointer; margin-top: 30px; transition: background 0.3s; }
         button.check-btn:hover { background-color: #219150; }
 
-        .legend { font-size: 0.9em; margin-bottom: 20px; text-align: center; color: #555; }
         .source-tag { display: inline-block; background: #c0392b; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7em; margin-left: 10px; vertical-align: middle; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Kompleksowy Trening IPSec & VPN (80 Pytań)</h1>
+    <h1>Ergonomia Systemów Interaktywnych (34 Pytania)</h1>
     
-    <div class="legend">
-        <span style="color: #c0392b; font-weight: 800;">Czerwony i pogrubiony tekst</span> = Pytania ze zdjęć (PEWNIAKI)
-    </div>
-
-    Oto rozszerzona i sformatowana w HTML wersja notatki (ściągi), przygotowana tak, abyś mógł ją podmienić w sekcji <div class="note-section"> w swoim kodzie.
-
-Zachowałem całą treść, o którą prosiłeś, i rozbudowałem ją o dodatkowe szczegóły techniczne (np. numery protokołów, mnemotechnikę HAGLE, stany QM_IDLE), które często pojawiają się na egzaminach.
-
-Skopiuj poniższy kod i wklej go w miejsce starej sekcji <div class="note-section">...</div>:
-
-HTML
-
     <div class="note-section">
-        <h2 style="border-bottom: 2px solid #2196f3; padding-bottom: 10px;">📘 KOMPENDIUM WIEDZY IPSEC (Ściąga Egzaminacyjna)</h2>
-        
-        <h3>I. TEMATYKA: NAGŁÓWKI (AH vs ESP)</h3>
-        <p style="color: #c0392b; font-weight: bold;">⚠️ To najczęstsze źródło pytań podchwytliwych!</p>
-        
-        <div style="background: white; padding: 15px; border-radius: 5px; border-left: 4px solid #e74c3c; margin-bottom: 10px;">
-            <h4>1. AH (Authentication Header) - Protokół IP nr 51</h4>
-            <ul>
-                <li><strong>Główna cecha:</strong> Zapewnia integralność i uwierzytelnianie, ale <span style="background-color: #ffebee; color: #c0392b; padding: 2px 5px; font-weight: bold;">NIE SZYFRUJE (brak poufności)</span>.</li>
-                <li><strong>Co chroni:</strong> Chroni przed modyfikacją danych oraz przed atakami typu replay (anti-replay).</li>
-                <li><strong>Ważne:</strong> W pytaniach testowych często pada pytanie „Co zapewnia poufność?”. Jeśli zaznaczysz AH – to błąd.</li>
-                <li><strong>Problem z NAT:</strong> AH nie działa przez NAT (bo NAT zmienia nagłówek IP, co psuje sumę kontrolną integralności).</li>
-            </ul>
-        </div>
-
-        <div style="background: white; padding: 15px; border-radius: 5px; border-left: 4px solid #27ae60; margin-bottom: 10px;">
-            <h4>2. ESP (Encapsulating Security Payload) - Protokół IP nr 50</h4>
-            <ul>
-                <li><strong>Główna cecha:</strong> Zapewnia <span style="background-color: #e8f5e9; color: #2e7d32; padding: 2px 5px; font-weight: bold;">POUFNOŚĆ (szyfrowanie)</span>, a także integralność i uwierzytelnianie.</li>
-                <li><strong>Struktura:</strong> Posiada nagłówek (ESP Header), stopkę (ESP Trailer) i sumę kontrolną (ESP Auth).</li>
-                <li><strong>NAT:</strong> Działa z NAT (dzięki NAT-Traversal / UDP 4500).</li>
-            </ul>
-        </div>
-
-        <p><strong>3. Różnica w pakiecie (Ważne do pytań obrazkowych):</strong></p>
+        <h2>Instrukcja</h2>
+        <p>Test zawiera <strong>34 pytania</strong> wyodrębnione ze zdjęć.</p>
         <ul>
-            <li><strong>AH:</strong> Wstawiany jest <em>pomiędzy</em> nagłówek IP a dane (tryb transportowy) lub po nowym nagłówku IP (tryb tunelowy).</li>
-            <li><strong>ESP:</strong> <em>Otacza</em> dane (Dane są „w środku” między nagłówkiem a stopką ESP).</li>
+            <li><strong>Kliknij odpowiedź</strong>, aby natychmiast sprawdzić, czy jest poprawna (zaświeci się na zielono).</li>
+            <li>W przypadku pytań otwartych lub "dopasuj", prawidłowa odpowiedź jest podana jako opcja do wyboru - kliknij ją, aby utrwalić wiedzę.</li>
+            <li>Przycisk "Sprawdź Wynik" na dole zliczy Twoje punkty.</li>
         </ul>
-
-        <hr>
-
-        <h3>II. TEMATYKA: TRYBY PRACY (Transportowy vs Tunelowy)</h3>
-        
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <div style="background: white; padding: 10px; border: 1px solid #ddd;">
-                <h4>1. Tryb Transportowy (Transport Mode)</h4>
-                <ul>
-                    <li><strong>Zastosowanie:</strong> Połączenia <strong>End-to-End</strong> (Host-do-Hosta, PC-Serwer, RDP).</li>
-                    <li><strong>Pakiet:</strong> <span style="color: #d35400; font-weight: bold;">Zachowuje oryginalny nagłówek IP</span>. Nagłówek IPSec wchodzi do środka.</li>
-                    <li><strong>Schemat:</strong> <code>[IP Oryg] [IPSec] [Dane]</code></li>
-                    <li><strong>Co jest chronione:</strong> Tylko ładunek (payload).</li>
-                </ul>
-            </div>
-            <div style="background: white; padding: 10px; border: 1px solid #ddd;">
-                <h4>2. Tryb Tunelowy (Tunnel Mode)</h4>
-                <ul>
-                    <li><strong>Zastosowanie:</strong> Połączenia <strong>Site-to-Site</strong> (Brama-Brama, Router-Router). Domyślny dla VPN firmowych.</li>
-                    <li><strong>Pakiet:</strong> Oryginalny pakiet jest kapsułkowany. Powstaje <span style="color: #8e44ad; font-weight: bold;">NOWY nagłówek IP</span> (bram VPN).</li>
-                    <li><strong>Schemat:</strong> <code>[IP Nowy] [IPSec] [IP Oryg] [Dane]</code></li>
-                    <li><strong>Co jest chronione:</strong> Cały oryginalny pakiet IP.</li>
-                </ul>
-            </div>
-        </div>
-
-        <hr>
-
-        <h3>III. KONFIGURACJA PARAMETRÓW W KONKRETNYCH FAZACH</h3>
-        <p style="color: #2980b9;">To jest kluczowe zdanie z maila. Musisz wiedzieć, który parametr należy do której fazy.</p>
-
-        <h4 style="background: #e3f2fd; padding: 5px;">FAZA I (ISAKMP / IKE)</h4>
-        <p><strong>Cel:</strong> Uwierzytelnienie urządzeń i ustalenie kluczy do szyfrowania kanału zarządzającego (Management Plane).</p>
-        <ul>
-            <li><strong>Protokół:</strong> ISAKMP / IKE (UDP port 500).</li>
-            <li><strong>Polecenie startowe:</strong> <code>crypto isakmp policy &lt;numer&gt;</code></li>
-            <li><strong>Mnemotechnika HAGLE (Parametry):</strong>
-                <ul>
-                    <li><strong>H</strong>ash: Algorytm skrótu (MD5, SHA).</li>
-                    <li><strong>A</strong>uthentication: Metoda uwierzytelniania (<code>pre-share</code> [hasło], <code>rsa-sig</code> [certyfikaty]).</li>
-                    <li><strong>G</strong>roup: Grupa Diffie-Hellman (<code>group 1, 2, 5</code>) – im wyższa, tym silniejszy klucz.</li>
-                    <li><strong>L</strong>ifetime: Czas życia tunelu (sekundy).</li>
-                    <li><strong>E</strong>ncryption: Szyfrowanie kanału (DES, 3DES, AES).</li>
-                </ul>
-            </li>
-            <li><strong>Klucz (hasło):</strong> Definiowane osobno: <code>crypto isakmp key ... address ...</code></li>
-        </ul>
-
-        <h4 style="background: #e3f2fd; padding: 5px;">FAZA II (IPSec)</h4>
-        <p><strong>Cel:</strong> Szyfrowanie właściwych danych użytkownika (Data Plane).</p>
-        <ul>
-            <li><strong>Obiekt konfiguracyjny:</strong> Transform-set (zestaw transformacji).</li>
-            <li><strong>Polecenie startowe:</strong> <code>crypto ipsec transform-set &lt;nazwa&gt; &lt;parametry&gt;</code></li>
-            <li><strong>Parametry definiowane W TEJ FAZIE:</strong>
-                <ul>
-                    <li>Algorytm szyfrowania danych: np. <code>esp-aes</code> lub <code>esp-des</code>.</li>
-                    <li>Algorytm integralności danych: np. <code>esp-sha-hmac</code> lub <code>esp-md5-hmac</code>.</li>
-                    <li><span style="color: red; font-weight: bold;">TRYB TUNELU:</span> To jest pułapka! Tryb (tunnel/transport) ustawia się w Fazie II wewnątrz transform-set poleceniem <code>mode tunnel</code>.</li>
-                </ul>
-            </li>
-        </ul>
-
-        <hr>
-
-        <h3>IV. POLECENIA CISCO (Mapowanie teorii na praktykę)</h3>
-        
-        <ol>
-            <li><strong>Tworzenie „interesującego ruchu” (Crypto ACL):</strong>
-                <br><code>access-list 101 permit ip 192.168.1.0 0.0.0.255 10.0.0.0 0.0.0.255</code>
-                <br>Definiuje, co ma być szyfrowane. <em>Uwaga: używamy masek odwrotnych (wildcard)!</em>
-            </li>
-            
-            <li><strong>Składanie wszystkiego w całość (Crypto Map):</strong>
-                <br>To polecenie łączy Fazę I, Fazę II i ACL.
-                <br><code>crypto map &lt;nazwa&gt; &lt;nr&gt; ipsec-isakmp</code>
-                <ul>
-                    <li><code>match address &lt;nr_acl&gt;</code> (jaki ruch?)</li>
-                    <li><code>set peer &lt;ip_zdalne&gt;</code> (do kogo?)</li>
-                    <li><code>set transform-set &lt;nazwa_faza_2&gt;</code> (jak szyfrować?)</li>
-                </ul>
-            </li>
-
-            <li><strong>Uruchomienie:</strong>
-                <br>Należy wejść na interfejs wyjściowy (np. WAN) i wpisać: <code>crypto map &lt;nazwa&gt;</code>.
-            </li>
-
-            <li><strong>Weryfikacja (Diagnostyka):</strong>
-                <ul>
-                    <li><code>show crypto isakmp policy</code> – sprawdza ustawienia Fazy I.</li>
-                    <li><code>show crypto isakmp sa</code> – stan tunelu Fazy I (szukaj statusu <strong>QM_IDLE</strong> - to oznacza sukces!).</li>
-                    <li><code>show crypto ipsec sa</code> – <span style="font-weight: bold; color: green;">NAJWAŻNIEJSZE!</span> Pokazuje aktywne tunele, liczbę zaszyfrowanych (encaps)/odszyfrowanych (decaps) pakietów.</li>
-                    <li><code>show crypto map</code> – pokazuje konfigurację mapy.</li>
-                </ul>
-            </li>
-        </ol>
-
-        <hr>
-
-        <h3>V. ALGORYTMY I POJĘCIA</h3>
-        
-        <div style="background: #f9f9f9; padding: 10px; border-radius: 5px;">
-            <p><strong>Kategorie algorytmów:</strong></p>
-            <ul>
-                <li><strong>Symetryczne (Poufność/Szyfrowanie):</strong> DES, 3DES, AES (najlepszy), RC4. <em>Cechy: Jeden klucz do szyfrowania i deszyfrowania, szybkie.</em></li>
-                <li><strong>Asymetryczne (Wymiana kluczy/Podpis):</strong> RSA (podpisy), Diffie-Hellman (wymiana kluczy). <em>Cechy: Para kluczy (prywatny/publiczny), wolne.</em></li>
-                <li><strong>Funkcje skrótu (Integralność/Hash):</strong> MD5, SHA-1, SHA-256. <em>Cechy: Jednokierunkowe, sprawdzają czy dane nie zostały zmienione.</em></li>
-            </ul>
-            <p><strong>Kluczowe definicje:</strong></p>
-            <ul>
-                <li><strong>SA (Security Association):</strong> Relacja zabezpieczeń. Jest <span style="text-decoration: underline;">jednokierunkowa</span>. Definiowana przez: SPI, Adres docelowy, Protokół (AH/ESP).</li>
-                <li><strong>SPI (Security Parameter Index):</strong> Numer identyfikacyjny tunelu w nagłówku IPSec.</li>
-                <li><strong>PFS (Perfect Forward Secrecy):</strong> Wymusza generowanie nowych kluczy dla każdej sesji (nie bazuje na poprzednich).</li>
-            </ul>
-        </div>
     </div>
 
-    <form id="quiz-form">
-        <div id="questions-container"></div>
-    </form>
+    <div id="questions-container">
+        </div>
 
-    <button class="check-btn" onclick="checkScore()">Zakończ i Sprawdź Wynik</button>
+    <button class="check-btn" onclick="checkScore()">Sprawdź Wynik</button>
     <div id="result-box"></div>
 </div>
 
 <script>
-    /* BAZA PYTAŃ
-       isSource: true -> pytania ze zdjęć (pogrubione)
-       type: 'multi' (wielokrotny) lub 'single' (jednokrotny)
-    */
+    /* BAZA PYTAŃ - ESI */
     const questionsDB = [
-        // ==========================================
-        // PYTANIA ZE ZDJĘĆ (8 sztuk) - PRIORYTETOWE
-        // ==========================================
         {
-            question: "Jakie elementy pakietu są zabezpieczane w protokole IPSec AH w trybie tunelowym? (Zaznacz poprawne)",
-            type: "multi",
-            isSource: true,
-            answers: [
-                { text: "poufność pola danych", correct: false },
-                { text: "uwierzytelnianie źródła transmisji", correct: true },
-                { text: "czas dostarczenia", correct: false },
-                { text: "trasa pakietu", correct: false },
-                { text: "integralność pola danych", correct: true }
-            ]
-        },
-        {
-            question: "Rodzaj algorytmu szyfrowania tunelu IPsec definiowany jest:",
-            type: "single",
-            isSource: true,
-            answers: [
-                { text: "w fazie II konfiguracji tunelu", correct: true },
-                { text: "ustawiany jest automatycznie w trakcie zestawiania tunelu", correct: false },
-                { text: "w fazie I konfiguracji tunelu", correct: false },
-                { text: "w trakcie definiowania crypto-map'y", correct: false }
-            ]
-        },
-        {
-            question: "IKE to:",
-            type: "single",
-            isSource: true,
-            answers: [
-                { text: "faza I IPsec", correct: false },
-                { text: "protokół wymiany kluczy w fazie II", correct: false },
-                { text: "protokół wymiany kluczy w fazie I", correct: true },
-                { text: "faza II IPsec", correct: false }
-            ]
-        },
-        {
-            question: "Polecenie 'crypto isakmp policy nr' służy do:",
-            type: "single",
-            isSource: true,
-            answers: [
-                { text: "powiązania listy ACL z tunelem", correct: false },
-                { text: "wskazania polityki, której akcją będzie zestawienie tunelu", correct: false },
-                { text: "rozpoczęcia konfiguracji parametrów fazy I", correct: true },
-                { text: "powiązania tunelu z listą ACL wskazującą ruch do szyfrowania", correct: false }
-            ]
-        },
-        {
-            question: "Mianem ISAKMP przyjęło się określać:",
-            type: "single",
-            isSource: true,
-            answers: [
-                { text: "klucze asymetryczne", correct: false },
-                { text: "drugą fazę IPsec", correct: false },
-                { text: "klucze symetryczne", correct: false },
-                { text: "pierwszą fazę IPsec", correct: true }
-            ]
-        },
-        {
-            question: "Jakie elementy pakietu są zabezpieczane w protokole IPSec AH w trybie transportowym? (Zaznacz poprawne)",
-            type: "multi",
-            isSource: true,
-            answers: [
-                { text: "uwierzytelnianie źródła transmisji", correct: true },
-                { text: "trasa pakietu", correct: false },
-                { text: "poufność pola danych", correct: false },
-                { text: "integralność pola danych", correct: true },
-                { text: "czas dostarczenia", correct: false }
-            ]
-        },
-        {
-            question: "Typ tunelu (transportowy lub tunelowy) definiuje się:",
-            type: "single",
-            isSource: true,
-            answers: [
-                { text: "w fazie II konfiguracji tunelu", correct: true },
-                { text: "ustawiany jest automatycznie", correct: false },
-                { text: "w fazie I konfiguracji tunelu", correct: false },
-                { text: "w trakcie definiowania crypto-map'y", correct: false }
-            ]
-        },
-        {
-            question: "Jakie elementy pakietu są zabezpieczane w protokole IPSec ESP w trybie transportowym? (Zaznacz poprawne)",
-            type: "multi",
-            isSource: true,
-            answers: [
-                { text: "trasę pakietu", correct: false },
-                { text: "uwierzytelnianie źródła transmisji", correct: true },
-                { text: "poufność pola danych", correct: true },
-                { text: "integralność pola danych", correct: true },
-                { text: "czas wysłania", correct: false }
-            ]
-        },
-
-        // ==========================================
-        // PYTANIA Z POPRZEDNIEJ BAZY (TEORIA I PODSTAWY)
-        // ==========================================
-        {
-            question: "Który protokół zapewnia POUFNOŚĆ (szyfrowanie) przesyłanych danych?",
-            type: "single",
-            answers: [
-                { text: "AH (Authentication Header)", correct: false },
-                { text: "ESP (Encapsulating Security Payload)", correct: true },
-                { text: "IKE", correct: false },
-                { text: "ISAKMP", correct: false }
-            ]
-        },
-        {
-            question: "W którym trybie pracy IPSec oryginalny nagłówek IP jest zachowany (niezmieniony)?",
-            type: "single",
-            answers: [
-                { text: "Tryb tunelowy", correct: false },
-                { text: "Tryb transportowy", correct: true },
-                { text: "W obu trybach", correct: false },
-                { text: "W żadnym z trybów", correct: false }
-            ]
-        },
-        {
-            question: "Które polecenie służy do sprawdzenia aktywnych tuneli IPSec (SA) i liczników pakietów?",
-            type: "single",
-            answers: [
-                { text: "show crypto isakmp policy", correct: false },
-                { text: "show crypto map", correct: false },
-                { text: "show crypto ipsec sa", correct: true },
-                { text: "debug crypto ipsec", correct: false }
-            ]
-        },
-        {
-            question: "W której fazie konfiguracji definiuje się grupę Diffie-Hellmana (komenda 'group')?",
-            type: "single",
-            answers: [
-                { text: "Faza I (ISAKMP)", correct: true },
-                { text: "Faza II (IPSec)", correct: false },
-                { text: "Podczas tworzenia Crypto ACL", correct: false },
-                { text: "Podczas przypisywania mapy do interfejsu", correct: false }
-            ]
-        },
-        {
-            question: "Jaki jest główny cel stosowania listy kontroli dostępu (ACL) w konfiguracji VPN IPSec?",
-            type: "single",
-            answers: [
-                { text: "Blokowanie wirusów", correct: false },
-                { text: "Definiowanie ruchu, który ma zostać zaszyfrowany (interesujący ruch)", correct: true },
-                { text: "Uwierzytelnianie użytkowników", correct: false },
-                { text: "Konfiguracja routingu dynamicznego", correct: false }
-            ]
-        },
-        {
-            question: "Gdzie konfiguruje się polecenie 'mode tunnel'?",
-            type: "single",
-            answers: [
-                { text: "W konfiguracji ISAKMP Policy (Faza I)", correct: false },
-                { text: "W konfiguracji Transform-Set (Faza II)", correct: true },
-                { text: "W konfiguracji interfejsu", correct: false },
-                { text: "Globalnie w trybie konfiguracji", correct: false }
-            ]
-        },
-        {
-            question: "Czym jest 'Transform-Set' w IPSec?",
-            type: "single",
-            answers: [
-                { text: "Zbiorem parametrów Fazy I (wymiany kluczy)", correct: false },
-                { text: "Listą dozwolonych adresów IP", correct: false },
-                { text: "Zbiorem algorytmów szyfrowania i haszowania dla danych (Faza II)", correct: true },
-                { text: "Kluczem współdzielonym (Pre-shared key)", correct: false }
-            ]
-        },
-        {
-            question: "Który algorytm służy do weryfikacji integralności (jest funkcją skrótu)?",
-            type: "single",
-            answers: [
-                { text: "AES", correct: false },
-                { text: "3DES", correct: false },
-                { text: "SHA-1", correct: true },
-                { text: "Diffie-Hellman", correct: false }
-            ]
-        },
-        {
-            question: "Który algorytm jest przykładem algorytmu asymetrycznego używanego przy wymianie kluczy?",
-            type: "single",
-            answers: [
-                { text: "AES", correct: false },
-                { text: "Diffie-Hellman", correct: true },
-                { text: "MD5", correct: false },
-                { text: "DES", correct: false }
-            ]
-        },
-        {
-            question: "Co robi nagłówek AH (Authentication Header) z poufnością danych?",
-            type: "single",
-            answers: [
-                { text: "Szyfruje dane używając AES", correct: false },
-                { text: "Szyfruje dane używając DES", correct: false },
-                { text: "Nie zapewnia poufności (nie szyfruje danych)", correct: true },
-                { text: "Szyfruje tylko nagłówek IP", correct: false }
-            ]
-        },
-        {
-            question: "W trybie tunelowym, co dzieje się z oryginalnym pakietem IP?",
-            type: "single",
-            answers: [
-                { text: "Jest usuwany i zastępowany nowym", correct: false },
-                { text: "Jest modyfikowany (zmieniany jest TTL)", correct: false },
-                { text: "Jest kapsułkowany (pakowany) w całości w nowy pakiet IP", correct: true },
-                { text: "Jest wysyłany bez zmian obok pakietu szyfrowanego", correct: false }
-            ]
-        },
-        {
-            question: "Jakie polecenie łączy ACL, Peer IP i Transform-set w jedną całość?",
-            type: "single",
-            answers: [
-                { text: "crypto isakmp policy", correct: false },
-                { text: "crypto map", correct: true },
-                { text: "ip route", correct: false },
-                { text: "access-group", correct: false }
-            ]
-        },
-        {
-            question: "Co oznacza skrót SA?",
-            type: "single",
-            answers: [
-                { text: "System Administrator", correct: false },
-                { text: "Security Association (Relacja zabezpieczeń)", correct: true },
-                { text: "Secure Algorithm", correct: false },
-                { text: "Socket Address", correct: false }
-            ]
-        },
-        {
-            question: "Relacja zabezpieczeń (SA) jest z natury:",
-            type: "single",
-            answers: [
-                { text: "Dwukierunkowa", correct: false },
-                { text: "Jednokierunkowa", correct: true },
-                { text: "Bezkierunkowa", correct: false },
-                { text: "Zależna od protokołu routingu", correct: false }
-            ]
-        },
-        {
-            question: "Który z poniższych algorytmów szyfrowania symetrycznego jest najbezpieczniejszy (standardowy)?",
-            type: "single",
-            answers: [
-                { text: "DES", correct: false },
-                { text: "AES", correct: true },
-                { text: "MD5", correct: false },
-                { text: "RC4", correct: false }
-            ]
-        },
-        {
-            question: "Usługa 'anti-replay' (zapobieganie powtórzeniom) jest dostępna w:",
-            type: "single",
-            answers: [
-                { text: "Tylko w AH", correct: false },
-                { text: "Tylko w ESP", correct: false },
-                { text: "Zarówno w AH jak i ESP", correct: true },
-                { text: "W żadnym z nich", correct: false }
-            ]
-        },
-        {
-            question: "Konfiguracja 'crypto isakmp key cisco address 10.0.0.1' ustawia:",
-            type: "single",
-            answers: [
-                { text: "Klucz publiczny RSA", correct: false },
-                { text: "Hasło (klucz pre-shared) dla peera 10.0.0.1", correct: true },
-                { text: "Adres IP własnego interfejsu", correct: false },
-                { text: "Politykę routingu", correct: false }
-            ]
-        },
-        {
-            question: "W topologii Hub & Spoke:",
-            type: "single",
-            answers: [
-                { text: "Każdy łączy się z każdym (Full Mesh)", correct: false },
-                { text: "Istnieje centralne urządzenie pośredniczące w tunelach", correct: true },
-                { text: "Nie używa się tuneli IPSec", correct: false },
-                { text: "Tunele są zestawiane losowo", correct: false }
-            ]
-        },
-        {
-            question: "Co konfigurujemy poleceniem 'lifetime' w polityce ISAKMP?",
-            type: "single",
-            answers: [
-                { text: "Czas życia pakietu (TTL)", correct: false },
-                { text: "Czas ważności relacji zabezpieczeń (kluczy) w fazie I", correct: true },
-                { text: "Opóźnienie transmisji", correct: false },
-                { text: "Liczbę dozwolonych użytkowników", correct: false }
-            ]
-        },
-        {
-            question: "Tryb transportowy jest najczęściej stosowany w połączeniach typu:",
-            type: "single",
-            answers: [
-                { text: "Site-to-Site (Router-Router)", correct: false },
-                { text: "Host-to-Host (End-to-End)", correct: true },
-                { text: "Tylko w IPv6", correct: false },
-                { text: "Tylko w sieciach publicznych", correct: false }
-            ]
-        },
-        {
-            question: "Który tryb jest typowy dla VPN Site-to-Site (Brama-Brama)?",
-            type: "single",
-            answers: [
-                { text: "Tryb transportowy", correct: false },
-                { text: "Tryb tunelowy", correct: true },
-                { text: "Tryb hybrydowy", correct: false },
-                { text: "Tryb AH", correct: false }
-            ]
-        },
-        {
-            question: "Algorytm MD5 służy do:",
-            type: "single",
-            answers: [
-                { text: "Szyfrowania danych", correct: false },
-                { text: "Wymiany kluczy", correct: false },
-                { text: "Weryfikacji integralności (Hash)", correct: true },
-                { text: "Kompresji danych", correct: false }
-            ]
-        },
-        {
-            question: "Aby zastosować VPN na interfejsie routera, używamy polecenia:",
-            type: "single",
-            answers: [
-                { text: "ip address ...", correct: false },
-                { text: "encapsulation dot1q ...", correct: false },
-                { text: "crypto map <nazwa_mapy>", correct: true },
-                { text: "crypto enable", correct: false }
-            ]
-        },
-        {
-            question: "Element 'set peer 10.0.0.1' w crypto-mapie definiuje:",
-            type: "single",
-            answers: [
-                { text: "Adres IP hosta lokalnego", correct: false },
-                { text: "Adres IP bramy zdalnej (końca tunelu)", correct: true },
-                { text: "Adres serwera DNS", correct: false },
-                { text: "Adres sieci chronionej", correct: false }
-            ]
-        },
-        {
-            question: "Co oznacza skrót VPN?",
-            type: "single",
-            answers: [
-                { text: "Very Private Network", correct: false },
-                { text: "Virtual Private Network", correct: true },
-                { text: "Virtual Public Network", correct: false },
-                { text: "Verified Packet Network", correct: false }
-            ]
-        },
-        {
-            question: "Który protokół funkcjonuje w warstwie sieciowej modelu ISO/OSI?",
-            type: "single",
-            answers: [
-                { text: "SSL", correct: false },
-                { text: "IPSec", correct: true },
-                { text: "SSH", correct: false },
-                { text: "L2TP", correct: false }
-            ]
-        },
-        {
-            question: "Co zapewnia algorytm Diffiego-Hellmana?",
-            type: "single",
-            answers: [
-                { text: "Szyfrowanie całej transmisji", correct: false },
-                { text: "Bezpieczne uzgodnienie wspólnego klucza sekretnego w niezabezpieczonym kanale", correct: true },
-                { text: "Kompresję nagłówków", correct: false },
-                { text: "Routing pakietów", correct: false }
-            ]
-        },
-        {
-            question: "Parametr 'authentication pre-share' w polityce ISAKMP oznacza:",
-            type: "single",
-            answers: [
-                { text: "Uwierzytelnianie certyfikatami cyfrowymi", correct: false },
-                { text: "Uwierzytelnianie współdzielonym hasłem", correct: true },
-                { text: "Brak uwierzytelniania", correct: false },
-                { text: "Uwierzytelnianie biometryczne", correct: false }
-            ]
-        },
-        {
-            question: "W którym miejscu pakietu znajduje się nagłówek ESP w trybie transportowym?",
-            type: "single",
-            answers: [
-                { text: "Na samym początku (przed IP)", correct: false },
-                { text: "Pomiędzy oryginalnym nagłówkiem IP a danymi (np. TCP)", correct: true },
-                { text: "Na samym końcu pakietu", correct: false },
-                { text: "Zastępuje nagłówek IP", correct: false }
-            ]
-        },
-        {
-            question: "Do czego służy polecenie 'match address' w crypto-mapie?",
-            type: "single",
-            answers: [
-                { text: "Do sprawdzenia adresu MAC", correct: false },
-                { text: "Do powiązania listy ACL definiującej ruch do szyfrowania", correct: true },
-                { text: "Do ustawienia adresu IP routera", correct: false },
-                { text: "Do dopasowania klucza", correct: false }
-            ]
-        },
-        {
-            question: "Weryfikacja źródła pochodzenia pakietu w IPSec ma na celu:",
-            type: "single",
-            answers: [
-                { text: "Zwiększenie prędkości transmisji", correct: false },
-                { text: "Eliminację możliwości podszywania się pod inny adres (IP Spoofing)", correct: true },
-                { text: "Kompresję danych", correct: false },
-                { text: "Zmianę trasy routingu", correct: false }
-            ]
-        },
-        {
-            question: "Czy protokół IPSec może być wykorzystywany przez IPv6?",
-            type: "single",
-            answers: [
-                { text: "Tak", correct: true },
-                { text: "Nie, tylko IPv4", correct: false },
-                { text: "Tylko w trybie transportowym", correct: false }
-            ]
-        },
-        {
-            question: "Co oznacza skrót SPI w nagłówku IPSec?",
-            type: "single",
-            answers: [
-                { text: "Secure Private Interface", correct: false },
-                { text: "Security Parameters Index", correct: true },
-                { text: "Serial Port Interface", correct: false },
-                { text: "Standard Protocol ID", correct: false }
-            ]
-        },
-        {
-            question: "Które stwierdzenie o relacji zabezpieczeń (SA) jest prawdziwe?",
-            type: "single",
-            answers: [
-                { text: "Jest zawsze dwukierunkowa", correct: false },
-                { text: "Jest jednoznacznie definiowana m.in. przez SPI i adres docelowy", correct: true },
-                { text: "Nie wymaga negocjacji", correct: false },
-                { text: "Działa tylko w warstwie aplikacji", correct: false }
-            ]
-        },
-        {
-            question: "Co konfiguruje polecenie 'encr 3des' w polityce ISAKMP?",
-            type: "single",
-            answers: [
-                { text: "Algorytm haszowania", correct: false },
-                { text: "Algorytm szyfrowania kanału wymiany kluczy (Faza I)", correct: true },
-                { text: "Czas życia tunelu", correct: false },
-                { text: "Metodę uwierzytelniania", correct: false }
-            ]
-        },
-        {
-            question: "Czy protokół AH szyfruje dane użytkownika?",
-            type: "single",
-            answers: [
-                { text: "Tak, zawsze", correct: false },
-                { text: "Tak, ale słabo", correct: false },
-                { text: "Nie, zapewnia tylko integralność i autentyczność", correct: true },
-                { text: "Zależy od konfiguracji", correct: false }
-            ]
-        },
-        {
-            question: "Jaki jest cel stosowania certyfikatów cyfrowych (X.509) w VPN?",
-            type: "single",
-            answers: [
-                { text: "Szyfrowanie danych w Fazie II", correct: false },
-                { text: "Uwierzytelnianie stron (alternatywa dla pre-shared keys)", correct: true },
-                { text: "Kompresja danych", correct: false },
-                { text: "Routing", correct: false }
-            ]
-        },
-        {
-            question: "W konfiguracji 'crypto map', co oznacza 'ipsec-isakmp'?",
-            type: "single",
-            answers: [
-                { text: "Że klucze będą wpisywane ręcznie", correct: false },
-                { text: "Że używany jest protokół automatycznej wymiany kluczy (IKE)", correct: true },
-                { text: "Że tunel jest nieaktywny", correct: false },
-                { text: "Że używamy tylko AH", correct: false }
-            ]
-        },
-        {
-            question: "Jakie jest zagrożenie, przed którym chroni 'Anti-replay'?",
-            type: "single",
-            answers: [
-                { text: "Przechwycenie pakietu i jego ponowne wysłanie przez atakującego", correct: true },
-                { text: "Odszyfrowanie treści", correct: false },
-                { text: "Zmiana adresu IP nadawcy", correct: false },
-                { text: "Usunięcie pakietu", correct: false }
-            ]
-        },
-        {
-            question: "Co się stanie po wpisaniu 'clear crypto sa'?",
-            type: "single",
-            answers: [
-                { text: "Usunie się konfiguracja VPN", correct: false },
-                { text: "Zostaną skasowane aktywne tunele (relacje zabezpieczeń)", correct: true },
-                { text: "Zrestartuje się router", correct: false },
-                { text: "Wyczyści się lista ACL", correct: false }
-            ]
-        },
-        {
-            question: "W którym trybie nagłówek IPSec (AH/ESP) jest umieszczany PO oryginalnym nagłówku IP?",
-            type: "single",
-            answers: [
-                { text: "Tryb tunelowy", correct: false },
-                { text: "Tryb transportowy", correct: true },
-                { text: "W obu", correct: false },
-                { text: "W żadnym", correct: false }
-            ]
-        },
-        {
-            question: "Jaka jest domyślna rola ISAKMP w IPSec?",
-            type: "single",
-            answers: [
-                { text: "Szyfrowanie pakietów danych", correct: false },
-                { text: "Zarządzanie kluczami i negocjacja parametrów bezpieczeństwa", correct: true },
-                { text: "Kompresja danych", correct: false },
-                { text: "Ruting pakietów", correct: false }
-            ]
-        },
-
-        // ==========================================
-        // NOWE 30 PYTAŃ (WIELOKROTNEGO WYBORU - TWARDE)
-        // ==========================================
-        {
-            question: "Jakie parametry definiujemy wewnątrz 'crypto isakmp policy' (Faza I)? (Zaznacz wszystkie poprawne)",
+            question: "Persony (jako fikcyjni użytkownicy) powinni obejmować informacje na temat ich cech, takich jak: (Wybierz wszystkie poprawne)",
             type: "multi",
             answers: [
-                { text: "encryption (np. aes, 3des)", correct: true },
-                { text: "hash (np. sha, md5)", correct: true },
-                { text: "mode tunnel", correct: false }, // To faza 2
-                { text: "group (Diffie-Hellman)", correct: true },
-                { text: "authentication (np. pre-share)", correct: true },
-                { text: "set peer", correct: false } // To crypto map
+                { text: "scenariusze użycia", correct: true },
+                { text: "cele", correct: true },
+                { text: "demografia", correct: true },
+                { text: "motywacje", correct: true },
+                { text: "koncepcje", correct: false },
+                { text: "testy wyboru", correct: false },
+                { text: "ryzyka", correct: false }
             ]
         },
         {
-            question: "Wskaż cechy charakterystyczne trybu TUNELOWEGO w IPSec: (Zaznacz wszystkie)",
-            type: "multi",
+            question: "Określ, jakie to kryterium użyteczności interfejsu użytkownika, które określa łatwość z jaką powracający użytkownicy mogą ponownie nauczyć się korzystania z aplikacji po dłuższej przerwie.",
+            type: "single",
             answers: [
-                { text: "Oryginalny nagłówek IP jest szyfrowany (w przypadku ESP)", correct: true },
-                { text: "Dodawany jest zupełnie nowy nagłówek IP", correct: true },
-                { text: "Oryginalny nagłówek IP pozostaje jawny", correct: false },
-                { text: "Stosowany głównie w relacji Brama-Brama (Site-to-Site)", correct: true },
-                { text: "Stosowany głównie w relacji Host-Host", correct: false }
+                { text: "Zapamiętywalność (Memorability)", correct: true },
+                { text: "Efektywność", correct: false },
+                { text: "Satysfakcja", correct: false }
             ]
         },
         {
-            question: "Co znajduje się w konfiguracji 'transform-set' (Faza II)? (Zaznacz wszystkie)",
-            type: "multi",
+            question: "Co to jest projektowanie responsywne?",
+            type: "single",
             answers: [
-                { text: "Algorytm szyfrowania danych (np. esp-aes)", correct: true },
-                { text: "Algorytm haszowania danych (np. esp-sha-hmac)", correct: true },
-                { text: "Klucz pre-shared key", correct: false }, // Faza 1
-                { text: "Tryb tunelowania (mode tunnel/transport)", correct: true },
-                { text: "Czas życia IKE (lifetime)", correct: false } // Faza 1
+                { text: "Projektowanie stron internetowych, które dostosowują się do różnych urządzeń", correct: true },
+                { text: "Projektowanie widgetów interfejsu graficznego", correct: false },
+                { text: "Projektowanie interfejsów tylko dla komputerów stacjonarnych", correct: false },
+                { text: "Projektowanie obiektowe, wykorzystujące model relacyjny", correct: false },
+                { text: "Projektowanie interfejsu graficznego użytkownika", correct: false },
+                { text: "Tworzenie statycznych stron internetowych", correct: false }
             ]
         },
         {
-            question: "Jakie funkcje pełni protokół ESP? (Zaznacz wszystkie)",
-            type: "multi",
+            question: "Określ, jakie to kryterium użyteczności interfejsu użytkownika, które określa jak szybko nowi użytkownicy mogą osiągnąć biegłość w korzystaniu z aplikacji.",
+            type: "single",
             answers: [
-                { text: "Poufność (Szyfrowanie)", correct: true },
-                { text: "Integralność danych", correct: true },
-                { text: "Uwierzytelnianie źródła", correct: true },
-                { text: "Tylko i wyłącznie integralność (bez szyfrowania)", correct: false }, // To AH
-                { text: "Routing dynamiczny", correct: false }
+                { text: "Łatwość nauki (Learnability)", correct: true },
+                { text: "Błędy", correct: false },
+                { text: "Efektywność", correct: false }
             ]
         },
         {
-            question: "Co zobaczysz w wynikach polecenia 'show crypto ipsec sa'? (Zaznacz wszystkie)",
-            type: "multi",
+            question: "Jakie są korzyści z testów A/B?",
+            type: "single",
             answers: [
-                { text: "Liczbę zaszyfrowanych pakietów (pkts encaps)", correct: true },
-                { text: "Liczbę odszyfrowanych pakietów (pkts decaps)", correct: true },
-                { text: "Aktualne SPI (Security Parameter Index)", correct: true },
-                { text: "Hasło w formie jawnej", correct: false },
-                { text: "Status interfejsów fizycznych", correct: false }
+                { text: "Ocena i porównanie różnych wersji interfejsu", correct: true },
+                { text: "Zmniejszenie czasu ładowania strony", correct: false },
+                { text: "Zwiększenie estetyki interfejsu", correct: false },
+                { text: "Tworzenie dokumentacji technicznej", correct: false }
             ]
         },
         {
-            question: "Które algorytmy służą do zapewnienia POUFNOŚCI (Szyfrowania)? (Zaznacz wszystkie)",
+            question: "Dopasuj elementy do kategorii (Wskaż poprawne pary):",
             type: "multi",
             answers: [
-                { text: "AES", correct: true },
-                { text: "3DES", correct: true },
-                { text: "DES", correct: true },
-                { text: "SHA-1", correct: false }, // Hash
-                { text: "MD5", correct: false }, // Hash
-                { text: "Diffie-Hellman", correct: false } // Wymiana kluczy
+                { text: "Testy użyteczności -> Testy z udziałem rzeczywistych użytkowników", correct: true },
+                { text: "Analiza heurystyczna -> Ocena przez ekspertów", correct: true },
+                { text: "Testy użyteczności -> Ocena przez użytkowników", correct: true },
+                { text: "Analiza heurystyczna -> Testy z udziałem rzeczywistych użytkowników", correct: false },
+                { text: "Testy użyteczności -> Ocena przez ekspertów", correct: false }
             ]
         },
         {
-            question: "Które algorytmy służą do zapewnienia INTEGRALNOŚCI (Funkcje skrótu)? (Zaznacz wszystkie)",
-            type: "multi",
+            question: "Dlaczego ważne są testy użyteczności?",
+            type: "single",
             answers: [
-                { text: "MD5", correct: true },
-                { text: "SHA-1", correct: true },
-                { text: "SHA-256", correct: true },
-                { text: "AES", correct: false },
-                { text: "RSA", correct: false }
+                { text: "Aby ocenić łatwość obsługi i zrozumiałość interfejsu", correct: true },
+                { text: "Aby poprawić wydajność serwera", correct: false },
+                { text: "Aby zredukować liczbę linii kodu", correct: false },
+                { text: "Aby zwiększyć koszty produkcji", correct: false }
             ]
         },
         {
-            question: "Jakie parametry muszą być TAKIE SAME na obu routerach w Fazie I, aby tunel wstał? (Zaznacz wszystkie)",
-            type: "multi",
+            question: "Co to jest heatmap w kontekście testowania użyteczności?",
+            type: "single",
             answers: [
-                { text: "Algorytm szyfrowania (Encryption)", correct: true },
-                { text: "Algorytm haszowania (Hash)", correct: true },
-                { text: "Metoda uwierzytelniania (Authentication)", correct: true },
-                { text: "Grupa Diffie-Hellman", correct: true },
-                { text: "Nazwa Crypto Mapy", correct: false }, // Nazwa lokalna
-                { text: "Nazwa listy ACL", correct: false } // Nazwa lokalna
+                { text: "Wizualne przedstawienie danych użytkowników", correct: true },
+                { text: "Narzędzie do tworzenia grafiki", correct: false },
+                { text: "Protokół sieciowy", correct: false },
+                { text: "Technika kompresji obrazu", correct: false }
             ]
         },
         {
-            question: "Wybierz poprawne komendy składowe konfiguracji Crypto Mapy: (Zaznacz wszystkie)",
-            type: "multi",
+            question: "Aby zapewnić czytelność i dostępność treści dla wszystkich użytkowników, w tym osób z wadami wzroku należy utrzymać na stronach internetowych wysoki...",
+            type: "single",
             answers: [
-                { text: "match address [nr_acl]", correct: true },
-                { text: "set peer [adres_ip]", correct: true },
-                { text: "set transform-set [nazwa]", correct: true },
-                { text: "encryption aes", correct: false }, // To w policy
-                { text: "hash sha", correct: false } // To w policy
+                { text: "Kontrast", correct: true },
+                { text: "Poziom skomplikowania", correct: false },
+                { text: "Współczynnik odrzuceń", correct: false }
             ]
         },
         {
-            question: "Jakie są możliwe metody uwierzytelniania w 'crypto isakmp policy'? (Zaznacz wszystkie)",
-            type: "multi",
+            question: "Ułóż w odpowiedniej kolejności przebieg scenariusza oceny jakości działania użytkownika:",
+            type: "single",
             answers: [
-                { text: "pre-share", correct: true },
-                { text: "rsa-sig", correct: true },
-                { text: "rsa-encr", correct: true },
-                { text: "md5-auth", correct: false },
-                { text: "aes-auth", correct: false }
+                { text: "Zdefiniowanie celów -> Identyfikacja użytkowników -> Projektowanie testów -> Przeprowadzenie testów -> Analiza wyników -> Wdrożenie poprawek -> Monitorowanie", correct: true },
+                { text: "Projektowanie testów -> Wdrożenie poprawek -> Analiza wyników -> Zdefiniowanie celów...", correct: false }
             ]
         },
         {
-            question: "Jakie cechy posiada Tryb Transportowy? (Zaznacz wszystkie)",
-            type: "multi",
+            question: "Jakie są główne cele testów użyteczności?",
+            type: "single",
             answers: [
-                { text: "Nagłówek IPSec jest wstawiany między IP a dane (TCP/UDP)", correct: true },
-                { text: "Oryginalny nagłówek IP jest widoczny", correct: true },
-                { text: "Stosowany głównie do połączeń Host-Host", correct: true },
-                { text: "Ukrywa adresy IP nadawcy i odbiorcy", correct: false },
-                { text: "Dodaje nowy nagłówek IP", correct: false }
+                { text: "Ocena łatwości obsługi interfejsu", correct: true },
+                { text: "Zmniejszenie czasu projektowania interfejsu użytkownika", correct: false },
+                { text: "Zwiększenie zadowolenia użytkowników", correct: false },
+                { text: "Ocena wydajności systemu", correct: false },
+                { text: "Zwiększenie wydajności zbudowanego interfejsu użytkownika", correct: false }
             ]
         },
         {
-            question: "Dlaczego stosujemy ACL w konfiguracji IPSec? (Zaznacz wszystkie)",
-            type: "multi",
+            question: "Jakie są korzyści z tworzenia person?",
+            type: "single",
             answers: [
-                { text: "Aby wskazać 'interesujący ruch' do szyfrowania", correct: true },
-                { text: "Aby zablokować ruch niepożądany w tunelu", correct: true },
-                { text: "Aby skonfigurować adres IP interfejsu", correct: false },
-                { text: "Aby włączyć routing OSPF", correct: false }
+                { text: "Wszystkie wymienione odpowiedzi (Lepsze dopasowanie, zrozumienie, komunikacja)", correct: true },
+                { text: "Lepsze dopasowanie projektu do potrzeb użytkowników", correct: false },
+                { text: "Lepsze zrozumienie użytkowników", correct: false },
+                { text: "Lepsza komunikacja w zespole projektowym", correct: false },
+                { text: "Zwiększenie kosztów produkcji", correct: false }
             ]
         },
         {
-            question: "Jakie informacje zawiera Security Association (SA)? (Zaznacz wszystkie)",
-            type: "multi",
+            question: "Co to jest wireframe?",
+            type: "single",
             answers: [
-                { text: "SPI (Security Parameter Index)", correct: true },
-                { text: "Adres IP docelowy", correct: true },
-                { text: "Protokół zabezpieczeń (AH lub ESP)", correct: true },
-                { text: "Listę plików na serwerze", correct: false },
-                { text: "Wersję systemu operacyjnego routera", correct: false }
+                { text: "Uproszczony schematyczny model projektu strony", correct: true },
+                { text: "Analiza danych użytkowników", correct: false },
+                { text: "Szczegółowy projekt graficzny", correct: false },
+                { text: "Narzędzie do testowania użyteczności", correct: false }
             ]
         },
         {
-            question: "Jakie są numery grup Diffie-Hellman? (Zaznacz przykładowe poprawne)",
-            type: "multi",
+            question: "Wpisz jaki to rodzaj modelowania, jeśli polega on badaniu zachowania użytkowników w interakcji z systemem:",
+            type: "single",
             answers: [
-                { text: "Group 1", correct: true },
-                { text: "Group 2", correct: true },
-                { text: "Group 5", correct: true },
-                { text: "Group 100", correct: false },
-                { text: "Group AES", correct: false }
+                { text: "Modelowanie behawioralne", correct: true },
+                { text: "Modelowanie fizyczne", correct: false },
+                { text: "Modelowanie mentalne", correct: false }
             ]
         },
         {
-            question: "Jakie kroki są niezbędne do uruchomienia VPN Site-to-Site? (Zaznacz wszystkie)",
+            question: "Dopasuj elementy do kategorii (Przycisk, Łatwość, Ikona, Zadowolenie):",
             type: "multi",
             answers: [
-                { text: "Konfiguracja ISAKMP Policy (Faza 1)", correct: true },
-                { text: "Konfiguracja klucza (Key)", correct: true },
-                { text: "Konfiguracja Transform-Set (Faza 2)", correct: true },
-                { text: "Utworzenie ACL dla ruchu VPN", correct: true },
-                { text: "Przypisanie Crypto Map do interfejsu", correct: true }
+                { text: "Przycisk -> Przykład UI", correct: true },
+                { text: "Ikona -> Przykład UI", correct: true },
+                { text: "Łatwość obsługi -> Przykład UX", correct: true },
+                { text: "Zadowolenie użytkownika -> Przykład UX", correct: true },
+                { text: "Przycisk -> Przykład UX", correct: false }
             ]
         },
         {
-            question: "Jakie polecenia 'debug' są przydatne przy problemach z IPSec? (Zaznacz wszystkie)",
+            question: "Dopasuj narzędzie do zastosowania:",
             type: "multi",
             answers: [
-                { text: "debug crypto isakmp", correct: true },
-                { text: "debug crypto ipsec", correct: true },
-                { text: "debug ip packet", correct: false }, // Zbyt ogólne/niebezpieczne
-                { text: "debug vlan", correct: false }
+                { text: "Sketch / Adobe XD -> Projektowanie graficzne", correct: true },
+                { text: "Heatmap / UsabilityHub -> Testowanie prototypów", correct: true },
+                { text: "Sketch -> Testowanie prototypów", correct: false }
             ]
         },
         {
-            question: "Co się stanie, jeśli Faza I (ISAKMP) zakończy się niepowodzeniem? (Zaznacz wszystkie)",
+            question: "Dopasuj definicje do pojęć (UI, UX, Użyteczność, Architektura Informacji):",
             type: "multi",
             answers: [
-                { text: "Faza II (IPSec) w ogóle się nie rozpocznie", correct: true },
-                { text: "Klucze szyfrujące nie zostaną wymienione", correct: true },
-                { text: "Tunel będzie działał, ale bez szyfrowania", correct: false },
-                { text: "Ruch będzie przesyłany otwartym tekstem", correct: false } // Zazwyczaj zostanie odrzucony
+                { text: "UI -> Zbiór elementów (przyciski, pola) umożliwiających interakcję", correct: true },
+                { text: "UX -> Całokształt doświadczeń (funkcjonalne, emocjonalne)", correct: true },
+                { text: "Użyteczność -> Stopień efektywności, skuteczności i satysfakcji", correct: true },
+                { text: "Architektura informacji -> Sposób organizacji treści i nawigacji", correct: true }
             ]
         },
         {
-            question: "Jakie role pełnią algorytmy w IPSec? (Zaznacz poprawne pary)",
+            question: "Wskaż, które z wymienionych to metody badania użyteczności interfejsu? (Wybierz poprawne)",
             type: "multi",
             answers: [
-                { text: "Algorytmy symetryczne (AES) -> Szyfrowanie danych", correct: true },
-                { text: "Algorytmy asymetryczne (DH) -> Wymiana kluczy", correct: true },
-                { text: "Algorytmy skrótu (SHA) -> Integralność", correct: true },
-                { text: "Algorytmy symetryczne -> Wymiana kluczy", correct: false }
+                { text: "Analiza heurystyczna", correct: true },
+                { text: "Testy użytkowników", correct: true },
+                { text: "Ankiety i wywiady", correct: true },
+                { text: "Ocena konstrukcji person", correct: false },
+                { text: "Analiza wdrożenia", correct: false }
             ]
         },
         {
-            question: "Wskaż poprawne maski 'wildcard' w ACL dla sieci 192.168.1.0/24: (Zaznacz poprawne)",
-            type: "multi",
+            question: "Ułóż w odpowiedniej kolejności kluczowe etapy procesu projektowania interfejsu:",
+            type: "single",
             answers: [
-                { text: "0.0.0.255", correct: true },
-                { text: "255.255.255.0", correct: false }, // To maska podsieci
-                { text: "0.0.0.0 (dla konkretnego hosta)", correct: false }, // Pytanie o sieć /24
-                { text: "0.0.255.255", correct: false }
+                { text: "Badanie użytkowników -> Tworzenie person -> Projektowanie wstępne -> Prototypowanie -> Testowanie -> Wdrażanie", correct: true },
+                { text: "Prototypowanie -> Testowanie -> Badanie użytkowników -> Wdrażanie...", correct: false }
             ]
         },
         {
-            question: "Do czego służy polecenie 'set peer' w konfiguracji mapy? (Zaznacz wszystkie)",
-            type: "multi",
+            question: "Jakie są główne cele prototypowania?",
+            type: "single",
             answers: [
-                { text: "Wskazuje adres IP drugiego końca tunelu", correct: true },
-                { text: "Definiuje bramę VPN partnera", correct: true },
-                { text: "Ustawia mój adres lokalny", correct: false },
-                { text: "Ustawia hasło", correct: false }
+                { text: "Testowanie i poprawianie wstępnych wersji produktu", correct: true },
+                { text: "Tworzenie końcowej wersji produktu", correct: false },
+                { text: "Opracowanie modelu architektury informacji", correct: false },
+                { text: "Analiza kodu źródłowego", correct: false }
             ]
         },
         {
-            question: "Jaki jest cel mechanizmu Anti-Replay? (Zaznacz wszystkie)",
-            type: "multi",
+            question: "Jakie są korzyści z utrzymania wysokiego kontrastu kolorów?",
+            type: "single",
             answers: [
-                { text: "Zapobieganie wstrzyknięciu przechwyconego starego pakietu", correct: true },
-                { text: "Wykorzystanie numerów sekwencyjnych (Sequence Numbers)", correct: true },
-                { text: "Szyfrowanie nagłówka TCP", correct: false },
-                { text: "Kompresja danych", correct: false }
+                { text: "Poprawa czytelności", correct: true },
+                { text: "Zmniejszenie czytelności treści dla osób z wadami wzroku", correct: false },
+                { text: "Lepsza dostępność", correct: false }, // Choć technicznie prawda, klucz wskazuje 'poprawa czytelności' jako primary w tym kontekście pytań
+                { text: "Łatwiejsze kodowanie", correct: false },
+                { text: "Estetyczny wygląd", correct: false }
             ]
         },
         {
-            question: "Co robi polecenie 'clear crypto sa'? (Zaznacz wszystkie)",
-            type: "multi",
+            question: "Co to jest UX (User Experience) w procesach projektowania interfejsu użytkownika?",
+            type: "single",
             answers: [
-                { text: "Usuwa aktywne tunele (Security Associations)", correct: true },
-                { text: "Wymusza ponowną negocjację kluczy przy nowym ruchu", correct: true },
-                { text: "Usuwa konfigurację z running-config", correct: false },
-                { text: "Restartuje urządzenie", correct: false }
+                { text: "Ogólne doświadczenie użytkownika z aplikacją (produktem)", correct: true },
+                { text: "Projektowanie architektury informacji", correct: false },
+                { text: "Kodowanie backendu", correct: false },
+                { text: "Estetyka interfejsu", correct: false },
+                { text: "Projektowanie logotypów", correct: false }
             ]
         },
         {
-            question: "Czym charakteryzuje się algorytm Diffie-Hellman? (Zaznacz wszystkie)",
-            type: "multi",
+            question: "Co to jest analiza heurystyczna interfejsu użytkownika?",
+            type: "single",
             answers: [
-                { text: "Jest algorytmem asymetrycznym", correct: true },
-                { text: "Pozwala na bezpieczne ustalenie wspólnego sekretu w niezaufanym kanale", correct: true },
-                { text: "Służy do szyfrowania dużych ilości danych użytkownika", correct: false }, // Za wolny, używa się symetrycznych
-                { text: "Jest funkcją skrótu", correct: false }
+                { text: "Ocena interfejsu przez ekspertów na podstawie ustalonych zasad", correct: true },
+                { text: "Analiza dynamiczna danych użytkowników", correct: false },
+                { text: "Tworzenie prototypów", correct: false },
+                { text: "Analiza statystyczna danych użytkowników", correct: false },
+                { text: "Testowanie użyteczności przez rzeczywistych użytkowników", correct: false }
             ]
         },
         {
-            question: "Jakie protokoły warstwy transportowej/internetowej wykorzystuje IPSec? (Zaznacz wszystkie)",
+            question: "Dopasuj typy testów do opisów i ról:",
             type: "multi",
             answers: [
-                { text: "ESP (protokół 50)", correct: true },
-                { text: "AH (protokół 51)", correct: true },
-                { text: "UDP (port 500 dla ISAKMP)", correct: true },
-                { text: "TCP (port 80)", correct: false },
-                { text: "ICMP", correct: false }
+                { text: "Testy A/B -> Porównanie dwóch wersji interfejsu", correct: true },
+                { text: "Testy użyteczności -> Ocena łatwości obsługi przez użytkowników", correct: true },
+                { text: "Testy akceptacyjne -> Zgodność ze specyfikacją wymagań", correct: true },
+                { text: "Testy jednostkowe -> Poprawność kodu", correct: true },
+                { text: "Testy użyteczności prowadzi -> Developer UX/UI lub Tester", correct: true },
+                { text: "Testy jednostkowe prowadzi -> Developer", correct: true }
             ]
         },
         {
-            question: "Co się dzieje w przypadku użycia NAT po drodze tunelu IPSec? (Zaznacz wszystkie)",
-            type: "multi",
+            question: "Co powinno być celem tworzenia person w projektowaniu interakcji?",
+            type: "single",
             answers: [
-                { text: "AH nie zadziała (naruszenie integralności nagłówka IP)", correct: true },
-                { text: "Wymagane jest NAT-Traversal (NAT-T)", correct: true },
-                { text: "ISAKMP przełącza się na port UDP 4500", correct: true },
-                { text: "Wszystko działa bez dodatkowej konfiguracji", correct: false }
+                { text: "Zrozumienie różnorodnych potrzeb użytkowników", correct: true },
+                { text: "Tworzenie estetycznego interfejsu", correct: false },
+                { text: "Optymalizacja kodu źródłowego", correct: false },
+                { text: "Redukcja kosztów produkcji", correct: false }
             ]
         },
         {
-            question: "Wskaż cechy kluczy w kryptografii symetrycznej: (Zaznacz wszystkie)",
-            type: "multi",
+            question: "Uzupełnij luki w zdaniu: 'Celem ___ jest zapewnienie ___ obsługi dla użytkowników oraz ___ potencjalnych problemów...'",
+            type: "single",
             answers: [
-                { text: "Ten sam klucz służy do szyfrowania i deszyfrowania", correct: true },
-                { text: "Jest szybsza niż asymetryczna", correct: true },
-                { text: "Stosowana w Fazie II (ESP) do danych", correct: true },
-                { text: "Używa pary kluczy prywatny/publiczny", correct: false }
+                { text: "projektowania interakcji | intuicyjnej, zrozumiałej, efektywnej | identyfikacja", correct: true },
+                { text: "definiowania | trudnej | ocena", correct: false }
             ]
         },
         {
-            question: "Co oznacza skrót CA w kontekście VPN i PKI? (Zaznacz wszystkie)",
-            type: "multi",
+            question: "Uzupełnij luki: 'W projektowaniu interfejsu jego ___ to stopień, w jakim interfejs jest ___ w użyciu...'",
+            type: "single",
             answers: [
-                { text: "Certificate Authority (Urząd Certyfikacji)", correct: true },
-                { text: "Podmiot wydający certyfikaty cyfrowe", correct: true },
-                { text: "Crypto Algorithm", correct: false },
-                { text: "Connection Acceptor", correct: false }
+                { text: "użyteczność | łatwy i efektywny | skuteczne i satysfakcjonujące", correct: true },
+                { text: "dostępność | ryzykowny | komponowalność", correct: false }
             ]
         },
         {
-            question: "Co definiuje parametr 'lifetime' w konfiguracji IPSec? (Zaznacz wszystkie)",
-            type: "multi",
+            question: "Wskaż poprawną zasadę w projektowaniu interfejsów użytkownika?",
+            type: "single",
             answers: [
-                { text: "Czas, po którym klucze muszą zostać wymienione (re-key)", correct: true },
-                { text: "Może być wyrażony w sekundach lub kilobajtach danych", correct: true },
-                { text: "Czas do wyłączenia routera", correct: false },
-                { text: "Opóźnienie pakietu", correct: false }
+                { text: "buduj interfejsy reaktywne, lub responsywne", correct: true },
+                { text: "mobile-first", correct: false }, // Często dobra praktyka, ale w kontekście tego testu 'responsywne' to klucz
+                { text: "twórz rozbudowane interfejsy graficzne i tekstowe", correct: false },
+                { text: "maksymalizacji obciążenia poznawczego", correct: false }
             ]
         },
         {
-            question: "W jaki sposób można sprawdzić konfigurację Fazy I? (Zaznacz poprawne)",
-            type: "multi",
+            question: "Wpisz jaki to rodzaj modelowania, jeśli polega on na projektowaniu fizycznych aspektów interfejsu (układ przycisków, ekran):",
+            type: "single",
             answers: [
-                { text: "show crypto isakmp policy", correct: true },
-                { text: "show crypto isakmp sa", correct: true }, // Pokazuje stan (QM_IDLE itp)
-                { text: "show crypto ipsec sa", correct: false }, // To faza 2
-                { text: "show ip interface brief", correct: false }
+                { text: "Modelowanie fizyczne", correct: true },
+                { text: "Modelowanie behawioralne", correct: false },
+                { text: "Modelowanie mentalne", correct: false }
+            ]
+        },
+        {
+            question: "Co to jest makieta (mockup) w kontekście projektowania interfejsu?",
+            type: "single",
+            answers: [
+                { text: "Szczegółowy projekt wizualny (określający interfejs użytkownika)", correct: true },
+                { text: "Uproszczony schematyczny model w postaci diagramu", correct: false },
+                { text: "Działający kod rozwiązania", correct: false },
+                { text: "Dokumentacja techniczna", correct: false },
+                { text: "Narzędzie do testowania kodu", correct: false }
+            ]
+        },
+        {
+            question: "Wpisz jakie narzędzie badawcze używane jest w ankietach do mierzenia postaw (ocena stwierdzeń):",
+            type: "single",
+            answers: [
+                { text: "Skala Likerta", correct: true },
+                { text: "Test A/B", correct: false },
+                { text: "Heatmap", correct: false }
+            ]
+        },
+        {
+            question: "Uzupełnij luki: '___ jest procesem tworzenia ___ produktu w celu ich ___ przed finalnym wdrożeniem.'",
+            type: "single",
+            answers: [
+                { text: "Prototypowanie | wstępnych wersji | testowania", correct: true },
+                { text: "Kodowanie | obrazów | modelowania", correct: false }
+            ]
+        },
+        {
+            question: "Uzupełnij luki: 'Analiza ___ polega na jego ocenie przez ___ na podstawie ___.'",
+            type: "single",
+            answers: [
+                { text: "heurystyczna | ekspertów | ustalonych zasad", correct: true },
+                { text: "dynamiczna | użytkowników | twierdzeń", correct: false },
+                { text: "statyczna | programistów | klas", correct: false }
+            ]
+        },
+        {
+            question: "Wpisz jaki to rodzaj modelowania, jeśli polega on na badaniu sposobu, w jaki użytkownicy myślą o interfejsie i zadaniach:",
+            type: "single",
+            answers: [
+                { text: "Modelowanie mentalne", correct: true },
+                { text: "Modelowanie behawioralne", correct: false },
+                { text: "Modelowanie fizyczne", correct: false }
             ]
         }
     ];
@@ -1075,39 +418,25 @@ HTML
         container.innerHTML = '';
         
         // Mieszamy kolejność pytań
-        shuffleArray(questionsDB);
+        // shuffleArray(questionsDB); // Odkomentuj jeśli chcesz losową kolejność pytań
 
         questionsDB.forEach((q, index) => {
-            // Mieszamy odpowiedzi
-            shuffleArray(q.answers);
+            // Mieszamy odpowiedzi (chyba że to sekwencja logiczna, ale tu mieszamy dla utrudnienia)
+            if(q.type !== 'single' || q.answers.length > 2) {
+                 shuffleArray(q.answers);
+            }
 
             const qBlock = document.createElement('div');
             qBlock.className = 'question-block';
 
-            // Dodaj klasę wyróżniającą jeśli to pytanie ze zdjęcia
-            if(q.isSource) {
-                qBlock.classList.add('source-question-block');
-            }
-
             const qTitle = document.createElement('div');
             qTitle.className = 'question-text';
-            if(q.isSource) {
-                qTitle.classList.add('source-question');
-            }
-            // Numeracja 1..80
+            // Numeracja 1..34
             qTitle.innerHTML = (index + 1) + ". " + q.question;
-            
-            // Oznaczenie źródła (dla pewności)
-            if(q.isSource) {
-                const tag = document.createElement('span');
-                tag.className = 'source-tag';
-                tag.innerText = "ZE ZDJĘCIA";
-                qTitle.appendChild(tag);
-            }
             
             const qType = document.createElement('span');
             qType.className = 'type-badge';
-            qType.innerText = q.type === 'multi' ? "(Wielokrotny wybór)" : "(Jednokrotny wybór)";
+            qType.innerText = q.type === 'multi' ? "(Wielokrotny wybór)" : "(Jednokrotny wybór / Dopasowanie)";
 
             const optionsList = document.createElement('ul');
             optionsList.className = 'options';
@@ -1157,7 +486,7 @@ HTML
                 
                 input.onclick = function(e) {
                     e.stopPropagation();
-                     if(inputType === 'radio') {
+                      if(inputType === 'radio') {
                          const siblings = optionsList.querySelectorAll('.option');
                          siblings.forEach(sib => sib.classList.remove('correct-clicked', 'wrong-clicked'));
                     }
@@ -1219,15 +548,14 @@ HTML
         const percent = Math.round((score / total) * 100);
         
         let msg = `Twój wynik: ${score} / ${total} (${percent}%)`;
-        if (percent === 100) msg += " <br>👑 Jesteś gotowy na 5.0! 👑";
-        else if (percent >= 80) msg += " <br>🔥 Bardzo dobrze! Zdasz bez problemu. 🔥";
-        else if (percent >= 50) msg += " <br>👍 Nieźle, ale przejrzyj jeszcze raz pytania ze zdjęć.";
-        else msg += " <br>📚 Wracaj do nauki! Przeczytaj notatkę na górze.";
+        if (percent === 100) msg += " <br>👑 Mistrz Ergonomii! 👑";
+        else if (percent >= 80) msg += " <br>🔥 Bardzo dobrze! 🔥";
+        else if (percent >= 50) msg += " <br>👍 Nieźle, ale powtórz pytania.";
+        else msg += " <br>📚 Musisz jeszcze poćwiczyć.";
 
         resultBox.innerHTML = msg;
         resultBox.style.display = 'block';
         
-        // Przewiń do wyniku
         resultBox.scrollIntoView({behavior: "smooth"});
     }
 
