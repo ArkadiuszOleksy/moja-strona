@@ -3,564 +3,450 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TRENING: Ergonomia Systemów Interaktywnych (34 Pytania)</title>
+    <title>Symulator Egzaminu ESI - Wersja Realistyczna</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; color: #333; line-height: 1.6; margin: 0; padding: 20px; }
-        .container { max-width: 950px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h1 { color: #2c3e50; text-align: center; border-bottom: 2px solid #eee; padding-bottom: 20px; }
+        :root { --primary: #0056b3; --bg: #f4f7f6; --tile-bg: #ffffff; --border: #dfe6e9; --correct: #27ae60; --wrong: #c0392b; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: #2d3436; margin: 0; padding: 20px; line-height: 1.5; }
+        .container { max-width: 900px; margin: 0 auto; padding-bottom: 50px; }
+        h1 { text-align: center; color: var(--primary); margin-bottom: 30px; }
         
-        /* Sekcja notatki */
-        .note-section { background-color: #e3f2fd; border-left: 6px solid #2196f3; padding: 20px; margin-bottom: 40px; border-radius: 5px; }
-        .note-section h2 { margin-top: 0; color: #1565c0; }
+        /* Kontener Pytania */
+        .q-card { background: white; border-radius: 8px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-left: 5px solid var(--primary); }
+        .q-header { font-weight: 700; font-size: 1.1em; margin-bottom: 15px; display: flex; justify-content: space-between; }
+        .q-type { font-size: 0.8em; color: #636e72; font-weight: normal; background: #eee; padding: 2px 8px; border-radius: 4px; }
 
-        /* Style pytań */
-        .question-block { margin-bottom: 30px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px; background: #fafafa; transition: transform 0.2s; }
-        .question-block:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        
-        .question-text { font-size: 1.1em; margin-bottom: 15px; font-weight: 600; }
-        
-        .type-badge { font-size: 0.85em; color: #7f8c8d; font-style: italic; display: block; margin-bottom: 10px; }
+        /* Kafelki wyboru (Radio/Checkbox) */
+        .options-grid { display: grid; gap: 10px; }
+        .tile-option { border: 2px solid var(--border); border-radius: 6px; padding: 12px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; }
+        .tile-option:hover { background: #f9f9f9; border-color: #b2bec3; }
+        .tile-option input { margin-right: 12px; transform: scale(1.2); }
+        .tile-option.checked { border-color: var(--primary); background: #e3f2fd; }
+        .tile-option.correct { border-color: var(--correct); background: #d4edda; color: #155724; }
+        .tile-option.wrong { border-color: var(--wrong); background: #f8d7da; color: #721c24; }
 
-        /* Odpowiedzi */
-        .options { list-style-type: none; padding: 0; }
-        .option { margin: 8px 0; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 6px; cursor: pointer; transition: all 0.2s; background: white; display: flex; align-items: center; }
-        .option:hover { border-color: #bdc3c7; background-color: #f9f9f9; }
-        
-        /* Inputy */
-        input[type="radio"], input[type="checkbox"] { margin-right: 15px; transform: scale(1.2); cursor: pointer; }
+        /* Pytania z lukami (Dropdown) */
+        .gap-text { font-size: 1.1em; line-height: 2; }
+        select.gap-select { padding: 5px; border: 2px solid var(--primary); border-radius: 4px; background: white; font-weight: bold; cursor: pointer; }
+        select.gap-select.valid { border-color: var(--correct); background-color: #d4edda; }
+        select.gap-select.invalid { border-color: var(--wrong); background-color: #f8d7da; }
 
-        /* Kolory weryfikacji */
-        .correct-clicked { background-color: #d4edda !important; border-color: #28a745 !important; color: #155724; }
-        .wrong-clicked { background-color: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; }
+        /* Drag & Drop - Kontenery */
+        .dd-area { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px; }
+        .dd-source { flex: 1; min-width: 200px; background: #f1f2f6; padding: 10px; border-radius: 6px; border: 2px dashed #b2bec3; }
+        .dd-targets { flex: 2; display: flex; flex-direction: column; gap: 10px; }
+        .dd-zone { background: #eef2f3; border: 2px solid #ced6e0; border-radius: 6px; padding: 15px; min-height: 60px; }
+        .dd-zone h4 { margin: 0 0 10px 0; font-size: 0.9em; color: var(--primary); text-transform: uppercase; }
 
-        /* Wynik */
-        #result-box { margin-top: 30px; padding: 25px; background: #34495e; color: #fff; font-size: 1.3em; text-align: center; border-radius: 8px; display: none; }
-        button.check-btn { display: block; width: 100%; padding: 18px; background-color: #27ae60; color: white; border: none; border-radius: 8px; font-size: 1.3em; font-weight: bold; cursor: pointer; margin-top: 30px; transition: background 0.3s; }
-        button.check-btn:hover { background-color: #219150; }
+        /* Kafelki do przeciągania */
+        .draggable { background: white; border: 1px solid #bdc3c7; padding: 8px 12px; margin-bottom: 8px; border-radius: 4px; cursor: grab; box-shadow: 0 2px 4px rgba(0,0,0,0.05); user-select: none; }
+        .draggable:active { cursor: grabbing; }
+        .draggable.placed-correct { border-left: 5px solid var(--correct); }
+        .draggable.placed-wrong { border-left: 5px solid var(--wrong); }
 
-        .source-tag { display: inline-block; background: #c0392b; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7em; margin-left: 10px; vertical-align: middle; }
+        /* Sortowanie (Ordering) */
+        .sort-list { list-style: none; padding: 0; }
+        .sort-item { background: white; border: 1px solid #dfe6e9; padding: 12px; margin-bottom: 5px; border-radius: 4px; display: flex; align-items: center; cursor: grab; }
+        .sort-item::before { content: '☰'; margin-right: 10px; color: #b2bec3; }
+        .sort-item.correct-order { border-color: var(--correct); background: #f0fff4; }
+
+        /* Pytania otwarte */
+        textarea.open-input { width: 100%; height: 80px; padding: 10px; border: 1px solid #bdc3c7; border-radius: 4px; margin-top: 10px; font-family: inherit; }
+        .model-answer { display: none; margin-top: 10px; padding: 10px; background: #fff3cd; border: 1px solid #ffeeba; border-radius: 4px; color: #856404; }
+
+        /* Przyciski */
+        .btn-check { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 1em; margin-top: 15px; }
+        .btn-check:hover { background: #004494; }
+
+        .feedback { margin-top: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Ergonomia Systemów Interaktywnych (34 Pytania)</h1>
-    
-    <div class="note-section">
-        <h2>Instrukcja</h2>
-        <p>Test zawiera <strong>34 pytania</strong> wyodrębnione ze zdjęć.</p>
-        <ul>
-            <li><strong>Kliknij odpowiedź</strong>, aby natychmiast sprawdzić, czy jest poprawna (zaświeci się na zielono).</li>
-            <li>W przypadku pytań otwartych lub "dopasuj", prawidłowa odpowiedź jest podana jako opcja do wyboru - kliknij ją, aby utrwalić wiedzę.</li>
-            <li>Przycisk "Sprawdź Wynik" na dole zliczy Twoje punkty.</li>
-        </ul>
-    </div>
-
-    <div id="questions-container">
-        </div>
-
-    <button class="check-btn" onclick="checkScore()">Sprawdź Wynik</button>
-    <div id="result-box"></div>
+    <h1>Symulator Egzaminu ESI</h1>
+    <div id="quiz-root"></div>
 </div>
 
 <script>
-    /* BAZA PYTAŃ - ESI */
-    const questionsDB = [
-        {
-            question: "Persony (jako fikcyjni użytkownicy) powinni obejmować informacje na temat ich cech, takich jak: (Wybierz wszystkie poprawne)",
-            type: "multi",
-            answers: [
-                { text: "scenariusze użycia", correct: true },
-                { text: "cele", correct: true },
-                { text: "demografia", correct: true },
-                { text: "motywacje", correct: true },
-                { text: "koncepcje", correct: false },
-                { text: "testy wyboru", correct: false },
-                { text: "ryzyka", correct: false }
-            ]
+    // Baza danych pytań (Zaktualizowana o typy interakcji)
+    const questions = [
+        // 1. Wybór wielokrotny
+        { id: 1, type: 'multi', text: "Persony (jako fikcyjni użytkownicy) powinni obejmować informacje na temat ich cech, takich jak:", options: [
+            { t: "scenariusze użycia", c: true }, { t: "cele", c: true }, { t: "demografia", c: true }, { t: "motywacje", c: true }, 
+            { t: "koncepcje", c: false }, { t: "testy wyboru", c: false }, { t: "ryzyka", c: false }
+        ]},
+        // 2. Otwarte
+        { id: 2, type: 'open', text: "Określ, jakie to kryterium użyteczności interfejsu użytkownika, które określa łatwość z jaką powracający użytkownicy mogą ponownie nauczyć się korzystania z aplikacji po dłuższej przerwie.", answer: "Zapamiętywalność (Memorability)" },
+        // 3. Wybór jednokrotny
+        { id: 3, type: 'single', text: "Co to jest projektowanie responsywne?", options: [
+            { t: "Projektowanie stron internetowych, które dostosowują się do różnych urządzeń", c: true },
+            { t: "Projektowanie widgetów interfejsu graficznego", c: false },
+            { t: "Projektowanie interfejsów tylko dla komputerów stacjonarnych", c: false },
+            { t: "Tworzenie statycznych stron internetowych", c: false }
+        ]},
+        // 4. Otwarte
+        { id: 4, type: 'open', text: "Określ, jakie to kryterium użyteczności interfejsu użytkownika, które określa jak szybko nowi użytkownicy mogą osiągnąć biegłość w korzystaniu z aplikacji.", answer: "Łatwość nauki (Learnability)" },
+        // 5. Wybór jednokrotny
+        { id: 5, type: 'single', text: "Jakie są korzyści z testów A/B?", options: [
+            { t: "Ocena i porównanie różnych wersji interfejsu", c: true },
+            { t: "Zmniejszenie czasu ładowania strony", c: false },
+            { t: "Zwiększenie estetyki interfejsu", c: false },
+            { t: "Tworzenie dokumentacji technicznej", c: false }
+        ]},
+        // 6. Kategoryzacja (Drag & Drop)
+        { id: 6, type: 'category', text: "Przeciągnij odpowiednie elementy do kategorii:", categories: ["Testy użyteczności", "Analiza heurystyczna"], items: [
+            { t: "Testy z udziałem rzeczywistych użytkowników", cat: 0 },
+            { t: "Ocena przez ekspertów", cat: 1 },
+            { t: "Ocena przez użytkowników", cat: 0 }
+        ]},
+        // 7. Wybór jednokrotny
+        { id: 7, type: 'single', text: "Dlaczego ważne są testy użyteczności?", options: [
+            { t: "Aby ocenić łatwość obsługi i zrozumiałość interfejsu", c: true },
+            { t: "Aby poprawić wydajność serwera", c: false },
+            { t: "Aby zredukować liczbę linii kodu", c: false }
+        ]},
+        // 8. Wybór jednokrotny
+        { id: 8, type: 'single', text: "Co to jest heatmap w kontekście testowania użyteczności?", options: [
+            { t: "Wizualne przedstawienie danych użytkowników", c: true },
+            { t: "Narzędzie do tworzenia grafiki", c: false },
+            { t: "Protokół sieciowy", c: false }
+        ]},
+        // 9. Otwarte
+        { id: 9, type: 'open', text: "Aby zapewnić czytelność i dostępność treści dla wszystkich użytkowników, w tym osób z wadami wzroku należy utrzymać na stronach internetowych wysoki...", answer: "Kontrast" },
+        // 10. Kolejność (Sortable)
+        { id: 10, type: 'order', text: "Ułóż w odpowiedniej kolejności przebieg scenariusza oceny jakości:", items: [
+            "Zdefiniowanie celów biznesowych",
+            "Identyfikacja użytkowników docelowych",
+            "Projektowanie testów",
+            "Przeprowadzenie testów",
+            "Analiza wyników",
+            "Wdrożenie poprawek",
+            "Monitorowanie i ciągłe doskonalenie"
+        ]},
+        // 11. Wybór jednokrotny
+        { id: 11, type: 'single', text: "Jakie są główne cele testów użyteczności?", options: [
+            { t: "Ocena łatwości obsługi interfejsu", c: true },
+            { t: "Zmniejszenie czasu projektowania interfejsu użytkownika", c: false },
+            { t: "Ocena wydajności systemu", c: false }
+        ]},
+        // 12. Wybór jednokrotny
+        { id: 12, type: 'single', text: "Jakie są korzyści z tworzenia person?", options: [
+            { t: "Wszystkie wymienione odpowiedzi", c: true },
+            { t: "Lepsze dopasowanie projektu do potrzeb użytkowników", c: false },
+            { t: "Lepsze zrozumienie użytkowników", c: false }
+        ]},
+        // 13. Wybór jednokrotny
+        { id: 13, type: 'single', text: "Co to jest wireframe?", options: [
+            { t: "Uproszczony schematyczny model projektu strony", c: true },
+            { t: "Analiza danych użytkowników", c: false },
+            { t: "Szczegółowy projekt graficzny", c: false }
+        ]},
+        // 14. Otwarte
+        { id: 14, type: 'open', text: "Wpisz jaki to rodzaj modelowania, jeśli polega on badaniu zachowania użytkowników w interakcji z systemem", answer: "Modelowanie behawioralne" },
+        // 15. Kategoryzacja
+        { id: 15, type: 'category', text: "Przeciągnij odpowiednie elementy do kategorii:", categories: ["Przykład UI", "Przykład UX"], items: [
+            { t: "Przycisk", cat: 0 },
+            { t: "Ikona", cat: 0 },
+            { t: "Łatwość obsługi", cat: 1 },
+            { t: "Zadowolenie użytkownika", cat: 1 }
+        ]},
+        // 16. Kategoryzacja/Dopasowanie
+        { id: 16, type: 'category', text: "Dopasuj do narzędzia jego zastosowanie:", categories: ["Projektowanie graficzne", "Testowanie prototypów"], items: [
+            { t: "Sketch", cat: 0 },
+            { t: "Adobe XD", cat: 0 },
+            { t: "Heatmap", cat: 1 },
+            { t: "UsabilityHub", cat: 1 }
+        ]},
+        // 17. Kategoryzacja/Dopasowanie (Definicje)
+        { id: 17, type: 'category', text: "Dopasuj definicje do pojęć:", 
+            categories: ["UI", "UX", "Użyteczność", "Architektura Info"], items: [
+            { t: "Zbiór elementów interfejsu (przyciski, pola)", cat: 0 },
+            { t: "Całokształt doświadczeń (funkcjonalne, emocjonalne)", cat: 1 },
+            { t: "Stopień efektywności, skuteczności i satysfakcji", cat: 2 },
+            { t: "Sposób organizacji treści i nawigacji", cat: 3 }
+        ]},
+        // 18. Wybór wielokrotny
+        { id: 18, type: 'multi', text: "Wskaż metody badania użyteczności interfejsu:", options: [
+            { t: "Analiza heurystyczna", c: true }, { t: "Testy użytkowników", c: true }, { t: "Ankiety i wywiady", c: true },
+            { t: "Ocena konstrukcji person", c: false }, { t: "Analiza wdrożenia", c: false }
+        ]},
+        // 19. Kolejność
+        { id: 19, type: 'order', text: "Ułóż w odpowiedniej kolejności kluczowe etapy procesu projektowania interfejsu:", items: [
+            "Badanie użytkowników", "Tworzenie person", "Projektowanie wstępne", "Prototypowanie", "Testowanie użyteczności", "Wdrażanie"
+        ]},
+        // 20. Single
+        { id: 20, type: 'single', text: "Jakie są główne cele prototypowania?", options: [
+            { t: "Testowanie i poprawianie wstępnych wersji produktu", c: true }, { t: "Tworzenie końcowej wersji produktu", c: false }, { t: "Analiza kodu źródłowego", c: false }
+        ]},
+        // 21. Single
+        { id: 21, type: 'single', text: "Korzyści z wysokiego kontrastu kolorów?", options: [
+            { t: "Poprawa czytelności", c: true }, { t: "Estetyczny wygląd", c: false }, { t: "Zmniejszenie czytelności", c: false }
+        ]},
+        // 22. Single
+        { id: 22, type: 'single', text: "Co to jest UX?", options: [
+            { t: "Ogólne doświadczenie użytkownika z aplikacją", c: true }, { t: "Kodowanie backendu", c: false }, { t: "Estetyka interfejsu", c: false }
+        ]},
+        // 23. Single
+        { id: 23, type: 'single', text: "Co to jest analiza heurystyczna?", options: [
+            { t: "Ocena interfejsu przez ekspertów na podstawie zasad", c: true }, { t: "Testowanie przez użytkowników", c: false }, { t: "Tworzenie prototypów", c: false }
+        ]},
+        // 24. Kategoryzacja (Złożona - uproszczona do logicznych par)
+        { id: 24, type: 'category', text: "Dopasuj typy testów do opisów:", categories: ["Testy A/B", "Testy użyteczności", "Testy jednostkowe", "Testy akceptacyjne"], items: [
+            { t: "Porównanie dwóch wersji interfejsu", cat: 0 },
+            { t: "Ocena łatwości obsługi przez użytkowników", cat: 1 },
+            { t: "Sprawdzenie poprawności kodu", cat: 2 },
+            { t: "Zgodność ze specyfikacją wymagań", cat: 3 }
+        ]},
+        // 25. Single
+        { id: 25, type: 'single', text: "Cel tworzenia person?", options: [
+            { t: "Zrozumienie różnorodnych potrzeb użytkowników", c: true }, { t: "Optymalizacja kodu", c: false }
+        ]},
+        // 26. Dropdown (Luki)
+        { id: 26, type: 'gap', text: "Celem [gap] jest zapewnienie [gap] obsługi dla użytkowników oraz [gap] potencjalnych problemów.", 
+            parts: ["Celem ", " jest zapewnienie ", " obsługi dla użytkowników oraz ", " potencjalnych problemów."],
+            answers: ["projektowania interakcji", "intuicyjnej, zrozumiałej, efektywnej", "identyfikacja"],
+            options: ["projektowania interakcji", "klas", "intuicyjnej, zrozumiałej, efektywnej", "trudnej", "identyfikacja", "ocena", "wymagań"]
         },
-        {
-            question: "Określ, jakie to kryterium użyteczności interfejsu użytkownika, które określa łatwość z jaką powracający użytkownicy mogą ponownie nauczyć się korzystania z aplikacji po dłuższej przerwie.",
-            type: "single",
-            answers: [
-                { text: "Zapamiętywalność (Memorability)", correct: true },
-                { text: "Efektywność", correct: false },
-                { text: "Satysfakcja", correct: false }
-            ]
+        // 27. Dropdown
+        { id: 27, type: 'gap', text: "W projektowaniu interfejsu jego [gap] to stopień, w jakim interfejs jest [gap] w użyciu, co pozwala na [gap] osiąganie celów.",
+            parts: ["W projektowaniu interfejsu jego ", " to stopień, w jakim interfejs jest ", " w użyciu, co pozwala na ", " osiąganie celów."],
+            answers: ["użyteczność", "łatwy i efektywny", "skuteczne i satysfakcjonujące"],
+            options: ["użyteczność", "dostępność", "łatwy i efektywny", "ryzykowny", "skuteczne i satysfakcjonujące", "szkicowany"]
         },
-        {
-            question: "Co to jest projektowanie responsywne?",
-            type: "single",
-            answers: [
-                { text: "Projektowanie stron internetowych, które dostosowują się do różnych urządzeń", correct: true },
-                { text: "Projektowanie widgetów interfejsu graficznego", correct: false },
-                { text: "Projektowanie interfejsów tylko dla komputerów stacjonarnych", correct: false },
-                { text: "Projektowanie obiektowe, wykorzystujące model relacyjny", correct: false },
-                { text: "Projektowanie interfejsu graficznego użytkownika", correct: false },
-                { text: "Tworzenie statycznych stron internetowych", correct: false }
-            ]
+        // 28. Single
+        { id: 28, type: 'single', text: "Poprawna zasada w projektowaniu interfejsów:", options: [
+            { t: "buduj interfejsy reaktywne, lub responsywne", c: true }, { t: "maksymalizacji obciążenia poznawczego", c: false }
+        ]},
+        // 29. Otwarte
+        { id: 29, type: 'open', text: "Rodzaj modelowania polegający na projektowaniu fizycznych aspektów interfejsu (układ przycisków):", answer: "Modelowanie fizyczne" },
+        // 30. Single
+        { id: 30, type: 'single', text: "Co to jest makieta (mockup)?", options: [
+            { t: "Szczegółowy projekt wizualny", c: true }, { t: "Działający kod", c: false }, { t: "Uproszczony schemat", c: false }
+        ]},
+        // 31. Otwarte
+        { id: 31, type: 'open', text: "Narzędzie badawcze używane w ankietach do mierzenia postaw (stopień zgody):", answer: "Skala Likerta" },
+        // 32. Dropdown
+        { id: 32, type: 'gap', text: "[gap] jest procesem tworzenia [gap] produktu w celu ich [gap] przed finalnym wdrożeniem.",
+            parts: ["", " jest procesem tworzenia ", " produktu w celu ich ", " przed finalnym wdrożeniem."],
+            answers: ["Prototypowanie", "wstępnych wersji", "testowania"],
+            options: ["Prototypowanie", "Kodowanie", "wstępnych wersji", "obrazów", "testowania", "modelowanie"]
         },
-        {
-            question: "Określ, jakie to kryterium użyteczności interfejsu użytkownika, które określa jak szybko nowi użytkownicy mogą osiągnąć biegłość w korzystaniu z aplikacji.",
-            type: "single",
-            answers: [
-                { text: "Łatwość nauki (Learnability)", correct: true },
-                { text: "Błędy", correct: false },
-                { text: "Efektywność", correct: false }
-            ]
+        // 33. Dropdown
+        { id: 33, type: 'gap', text: "Analiza [gap] polega na jego ocenie przez [gap] na podstawie [gap].",
+            parts: ["Analiza ", " polega na jego ocenie przez ", " na podstawie ", "."],
+            answers: ["heurystyczna", "ekspertów", "ustalonych zasad"],
+            options: ["heurystyczna", "dynamiczna", "ekspertów", "użytkowników", "ustalonych zasad", "twierdzeń"]
         },
-        {
-            question: "Jakie są korzyści z testów A/B?",
-            type: "single",
-            answers: [
-                { text: "Ocena i porównanie różnych wersji interfejsu", correct: true },
-                { text: "Zmniejszenie czasu ładowania strony", correct: false },
-                { text: "Zwiększenie estetyki interfejsu", correct: false },
-                { text: "Tworzenie dokumentacji technicznej", correct: false }
-            ]
-        },
-        {
-            question: "Dopasuj elementy do kategorii (Wskaż poprawne pary):",
-            type: "multi",
-            answers: [
-                { text: "Testy użyteczności -> Testy z udziałem rzeczywistych użytkowników", correct: true },
-                { text: "Analiza heurystyczna -> Ocena przez ekspertów", correct: true },
-                { text: "Testy użyteczności -> Ocena przez użytkowników", correct: true },
-                { text: "Analiza heurystyczna -> Testy z udziałem rzeczywistych użytkowników", correct: false },
-                { text: "Testy użyteczności -> Ocena przez ekspertów", correct: false }
-            ]
-        },
-        {
-            question: "Dlaczego ważne są testy użyteczności?",
-            type: "single",
-            answers: [
-                { text: "Aby ocenić łatwość obsługi i zrozumiałość interfejsu", correct: true },
-                { text: "Aby poprawić wydajność serwera", correct: false },
-                { text: "Aby zredukować liczbę linii kodu", correct: false },
-                { text: "Aby zwiększyć koszty produkcji", correct: false }
-            ]
-        },
-        {
-            question: "Co to jest heatmap w kontekście testowania użyteczności?",
-            type: "single",
-            answers: [
-                { text: "Wizualne przedstawienie danych użytkowników", correct: true },
-                { text: "Narzędzie do tworzenia grafiki", correct: false },
-                { text: "Protokół sieciowy", correct: false },
-                { text: "Technika kompresji obrazu", correct: false }
-            ]
-        },
-        {
-            question: "Aby zapewnić czytelność i dostępność treści dla wszystkich użytkowników, w tym osób z wadami wzroku należy utrzymać na stronach internetowych wysoki...",
-            type: "single",
-            answers: [
-                { text: "Kontrast", correct: true },
-                { text: "Poziom skomplikowania", correct: false },
-                { text: "Współczynnik odrzuceń", correct: false }
-            ]
-        },
-        {
-            question: "Ułóż w odpowiedniej kolejności przebieg scenariusza oceny jakości działania użytkownika:",
-            type: "single",
-            answers: [
-                { text: "Zdefiniowanie celów -> Identyfikacja użytkowników -> Projektowanie testów -> Przeprowadzenie testów -> Analiza wyników -> Wdrożenie poprawek -> Monitorowanie", correct: true },
-                { text: "Projektowanie testów -> Wdrożenie poprawek -> Analiza wyników -> Zdefiniowanie celów...", correct: false }
-            ]
-        },
-        {
-            question: "Jakie są główne cele testów użyteczności?",
-            type: "single",
-            answers: [
-                { text: "Ocena łatwości obsługi interfejsu", correct: true },
-                { text: "Zmniejszenie czasu projektowania interfejsu użytkownika", correct: false },
-                { text: "Zwiększenie zadowolenia użytkowników", correct: false },
-                { text: "Ocena wydajności systemu", correct: false },
-                { text: "Zwiększenie wydajności zbudowanego interfejsu użytkownika", correct: false }
-            ]
-        },
-        {
-            question: "Jakie są korzyści z tworzenia person?",
-            type: "single",
-            answers: [
-                { text: "Wszystkie wymienione odpowiedzi (Lepsze dopasowanie, zrozumienie, komunikacja)", correct: true },
-                { text: "Lepsze dopasowanie projektu do potrzeb użytkowników", correct: false },
-                { text: "Lepsze zrozumienie użytkowników", correct: false },
-                { text: "Lepsza komunikacja w zespole projektowym", correct: false },
-                { text: "Zwiększenie kosztów produkcji", correct: false }
-            ]
-        },
-        {
-            question: "Co to jest wireframe?",
-            type: "single",
-            answers: [
-                { text: "Uproszczony schematyczny model projektu strony", correct: true },
-                { text: "Analiza danych użytkowników", correct: false },
-                { text: "Szczegółowy projekt graficzny", correct: false },
-                { text: "Narzędzie do testowania użyteczności", correct: false }
-            ]
-        },
-        {
-            question: "Wpisz jaki to rodzaj modelowania, jeśli polega on badaniu zachowania użytkowników w interakcji z systemem:",
-            type: "single",
-            answers: [
-                { text: "Modelowanie behawioralne", correct: true },
-                { text: "Modelowanie fizyczne", correct: false },
-                { text: "Modelowanie mentalne", correct: false }
-            ]
-        },
-        {
-            question: "Dopasuj elementy do kategorii (Przycisk, Łatwość, Ikona, Zadowolenie):",
-            type: "multi",
-            answers: [
-                { text: "Przycisk -> Przykład UI", correct: true },
-                { text: "Ikona -> Przykład UI", correct: true },
-                { text: "Łatwość obsługi -> Przykład UX", correct: true },
-                { text: "Zadowolenie użytkownika -> Przykład UX", correct: true },
-                { text: "Przycisk -> Przykład UX", correct: false }
-            ]
-        },
-        {
-            question: "Dopasuj narzędzie do zastosowania:",
-            type: "multi",
-            answers: [
-                { text: "Sketch / Adobe XD -> Projektowanie graficzne", correct: true },
-                { text: "Heatmap / UsabilityHub -> Testowanie prototypów", correct: true },
-                { text: "Sketch -> Testowanie prototypów", correct: false }
-            ]
-        },
-        {
-            question: "Dopasuj definicje do pojęć (UI, UX, Użyteczność, Architektura Informacji):",
-            type: "multi",
-            answers: [
-                { text: "UI -> Zbiór elementów (przyciski, pola) umożliwiających interakcję", correct: true },
-                { text: "UX -> Całokształt doświadczeń (funkcjonalne, emocjonalne)", correct: true },
-                { text: "Użyteczność -> Stopień efektywności, skuteczności i satysfakcji", correct: true },
-                { text: "Architektura informacji -> Sposób organizacji treści i nawigacji", correct: true }
-            ]
-        },
-        {
-            question: "Wskaż, które z wymienionych to metody badania użyteczności interfejsu? (Wybierz poprawne)",
-            type: "multi",
-            answers: [
-                { text: "Analiza heurystyczna", correct: true },
-                { text: "Testy użytkowników", correct: true },
-                { text: "Ankiety i wywiady", correct: true },
-                { text: "Ocena konstrukcji person", correct: false },
-                { text: "Analiza wdrożenia", correct: false }
-            ]
-        },
-        {
-            question: "Ułóż w odpowiedniej kolejności kluczowe etapy procesu projektowania interfejsu:",
-            type: "single",
-            answers: [
-                { text: "Badanie użytkowników -> Tworzenie person -> Projektowanie wstępne -> Prototypowanie -> Testowanie -> Wdrażanie", correct: true },
-                { text: "Prototypowanie -> Testowanie -> Badanie użytkowników -> Wdrażanie...", correct: false }
-            ]
-        },
-        {
-            question: "Jakie są główne cele prototypowania?",
-            type: "single",
-            answers: [
-                { text: "Testowanie i poprawianie wstępnych wersji produktu", correct: true },
-                { text: "Tworzenie końcowej wersji produktu", correct: false },
-                { text: "Opracowanie modelu architektury informacji", correct: false },
-                { text: "Analiza kodu źródłowego", correct: false }
-            ]
-        },
-        {
-            question: "Jakie są korzyści z utrzymania wysokiego kontrastu kolorów?",
-            type: "single",
-            answers: [
-                { text: "Poprawa czytelności", correct: true },
-                { text: "Zmniejszenie czytelności treści dla osób z wadami wzroku", correct: false },
-                { text: "Lepsza dostępność", correct: false }, // Choć technicznie prawda, klucz wskazuje 'poprawa czytelności' jako primary w tym kontekście pytań
-                { text: "Łatwiejsze kodowanie", correct: false },
-                { text: "Estetyczny wygląd", correct: false }
-            ]
-        },
-        {
-            question: "Co to jest UX (User Experience) w procesach projektowania interfejsu użytkownika?",
-            type: "single",
-            answers: [
-                { text: "Ogólne doświadczenie użytkownika z aplikacją (produktem)", correct: true },
-                { text: "Projektowanie architektury informacji", correct: false },
-                { text: "Kodowanie backendu", correct: false },
-                { text: "Estetyka interfejsu", correct: false },
-                { text: "Projektowanie logotypów", correct: false }
-            ]
-        },
-        {
-            question: "Co to jest analiza heurystyczna interfejsu użytkownika?",
-            type: "single",
-            answers: [
-                { text: "Ocena interfejsu przez ekspertów na podstawie ustalonych zasad", correct: true },
-                { text: "Analiza dynamiczna danych użytkowników", correct: false },
-                { text: "Tworzenie prototypów", correct: false },
-                { text: "Analiza statystyczna danych użytkowników", correct: false },
-                { text: "Testowanie użyteczności przez rzeczywistych użytkowników", correct: false }
-            ]
-        },
-        {
-            question: "Dopasuj typy testów do opisów i ról:",
-            type: "multi",
-            answers: [
-                { text: "Testy A/B -> Porównanie dwóch wersji interfejsu", correct: true },
-                { text: "Testy użyteczności -> Ocena łatwości obsługi przez użytkowników", correct: true },
-                { text: "Testy akceptacyjne -> Zgodność ze specyfikacją wymagań", correct: true },
-                { text: "Testy jednostkowe -> Poprawność kodu", correct: true },
-                { text: "Testy użyteczności prowadzi -> Developer UX/UI lub Tester", correct: true },
-                { text: "Testy jednostkowe prowadzi -> Developer", correct: true }
-            ]
-        },
-        {
-            question: "Co powinno być celem tworzenia person w projektowaniu interakcji?",
-            type: "single",
-            answers: [
-                { text: "Zrozumienie różnorodnych potrzeb użytkowników", correct: true },
-                { text: "Tworzenie estetycznego interfejsu", correct: false },
-                { text: "Optymalizacja kodu źródłowego", correct: false },
-                { text: "Redukcja kosztów produkcji", correct: false }
-            ]
-        },
-        {
-            question: "Uzupełnij luki w zdaniu: 'Celem ___ jest zapewnienie ___ obsługi dla użytkowników oraz ___ potencjalnych problemów...'",
-            type: "single",
-            answers: [
-                { text: "projektowania interakcji | intuicyjnej, zrozumiałej, efektywnej | identyfikacja", correct: true },
-                { text: "definiowania | trudnej | ocena", correct: false }
-            ]
-        },
-        {
-            question: "Uzupełnij luki: 'W projektowaniu interfejsu jego ___ to stopień, w jakim interfejs jest ___ w użyciu...'",
-            type: "single",
-            answers: [
-                { text: "użyteczność | łatwy i efektywny | skuteczne i satysfakcjonujące", correct: true },
-                { text: "dostępność | ryzykowny | komponowalność", correct: false }
-            ]
-        },
-        {
-            question: "Wskaż poprawną zasadę w projektowaniu interfejsów użytkownika?",
-            type: "single",
-            answers: [
-                { text: "buduj interfejsy reaktywne, lub responsywne", correct: true },
-                { text: "mobile-first", correct: false }, // Często dobra praktyka, ale w kontekście tego testu 'responsywne' to klucz
-                { text: "twórz rozbudowane interfejsy graficzne i tekstowe", correct: false },
-                { text: "maksymalizacji obciążenia poznawczego", correct: false }
-            ]
-        },
-        {
-            question: "Wpisz jaki to rodzaj modelowania, jeśli polega on na projektowaniu fizycznych aspektów interfejsu (układ przycisków, ekran):",
-            type: "single",
-            answers: [
-                { text: "Modelowanie fizyczne", correct: true },
-                { text: "Modelowanie behawioralne", correct: false },
-                { text: "Modelowanie mentalne", correct: false }
-            ]
-        },
-        {
-            question: "Co to jest makieta (mockup) w kontekście projektowania interfejsu?",
-            type: "single",
-            answers: [
-                { text: "Szczegółowy projekt wizualny (określający interfejs użytkownika)", correct: true },
-                { text: "Uproszczony schematyczny model w postaci diagramu", correct: false },
-                { text: "Działający kod rozwiązania", correct: false },
-                { text: "Dokumentacja techniczna", correct: false },
-                { text: "Narzędzie do testowania kodu", correct: false }
-            ]
-        },
-        {
-            question: "Wpisz jakie narzędzie badawcze używane jest w ankietach do mierzenia postaw (ocena stwierdzeń):",
-            type: "single",
-            answers: [
-                { text: "Skala Likerta", correct: true },
-                { text: "Test A/B", correct: false },
-                { text: "Heatmap", correct: false }
-            ]
-        },
-        {
-            question: "Uzupełnij luki: '___ jest procesem tworzenia ___ produktu w celu ich ___ przed finalnym wdrożeniem.'",
-            type: "single",
-            answers: [
-                { text: "Prototypowanie | wstępnych wersji | testowania", correct: true },
-                { text: "Kodowanie | obrazów | modelowania", correct: false }
-            ]
-        },
-        {
-            question: "Uzupełnij luki: 'Analiza ___ polega na jego ocenie przez ___ na podstawie ___.'",
-            type: "single",
-            answers: [
-                { text: "heurystyczna | ekspertów | ustalonych zasad", correct: true },
-                { text: "dynamiczna | użytkowników | twierdzeń", correct: false },
-                { text: "statyczna | programistów | klas", correct: false }
-            ]
-        },
-        {
-            question: "Wpisz jaki to rodzaj modelowania, jeśli polega on na badaniu sposobu, w jaki użytkownicy myślą o interfejsie i zadaniach:",
-            type: "single",
-            answers: [
-                { text: "Modelowanie mentalne", correct: true },
-                { text: "Modelowanie behawioralne", correct: false },
-                { text: "Modelowanie fizyczne", correct: false }
-            ]
-        }
+        // 34. Otwarte
+        { id: 34, type: 'open', text: "Rodzaj modelowania - badanie sposobu, w jaki użytkownicy myślą o interfejsie:", answer: "Modelowanie mentalne" }
     ];
 
-    // Funkcja mieszająca (Fisher-Yates)
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
+    const root = document.getElementById('quiz-root');
+
+    // Mieszanie tablicy
+    function shuffle(array) {
+        return array.sort(() => Math.random() - 0.5);
     }
 
-    function renderQuestions() {
-        const container = document.getElementById('questions-container');
-        container.innerHTML = '';
+    questions.forEach((q, idx) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
         
-        // Mieszamy kolejność pytań
-        // shuffleArray(questionsDB); // Odkomentuj jeśli chcesz losową kolejność pytań
+        let headerHTML = `<div class="q-header"><span>${idx+1}. ${q.text.replace(/\[gap\]/g, "...")}</span> <span class="q-type">${translateType(q.type)}</span></div>`;
+        
+        let contentHTML = '';
 
-        questionsDB.forEach((q, index) => {
-            // Mieszamy odpowiedzi (chyba że to sekwencja logiczna, ale tu mieszamy dla utrudnienia)
-            if(q.type !== 'single' || q.answers.length > 2) {
-                 shuffleArray(q.answers);
-            }
-
-            const qBlock = document.createElement('div');
-            qBlock.className = 'question-block';
-
-            const qTitle = document.createElement('div');
-            qTitle.className = 'question-text';
-            // Numeracja 1..34
-            qTitle.innerHTML = (index + 1) + ". " + q.question;
-            
-            const qType = document.createElement('span');
-            qType.className = 'type-badge';
-            qType.innerText = q.type === 'multi' ? "(Wielokrotny wybór)" : "(Jednokrotny wybór / Dopasowanie)";
-
-            const optionsList = document.createElement('ul');
-            optionsList.className = 'options';
-
-            q.answers.forEach((ans, ansIndex) => {
-                const li = document.createElement('li');
-                li.className = 'option';
-                
-                const inputType = q.type === 'multi' ? 'checkbox' : 'radio';
-                const inputName = 'q' + index;
-                const inputId = 'q' + index + 'a' + ansIndex;
-
-                const input = document.createElement('input');
-                input.type = inputType;
-                input.name = inputName;
-                input.id = inputId;
-                input.value = ans.correct; 
-
-                const label = document.createElement('label');
-                label.htmlFor = inputId;
-                label.innerText = ans.text;
-                label.style.cursor = 'pointer';
-                label.style.width = "100%";
-
-                // Logika kliknięcia - natychmiastowa weryfikacja
-                li.onclick = function(e) {
-                    if (e.target !== input) {
-                        input.checked = !input.checked;
-                        if(inputType === 'radio') {
-                             const siblings = optionsList.querySelectorAll('.option');
-                             siblings.forEach(sib => {
-                                 sib.classList.remove('correct-clicked', 'wrong-clicked');
-                                 const sibInput = sib.querySelector('input');
-                                 if(sibInput !== input) sibInput.checked = false;
-                             });
-                        }
-                    }
-                    
-                    if (ans.correct) {
-                        li.classList.add('correct-clicked');
-                        li.classList.remove('wrong-clicked');
-                    } else {
-                        li.classList.add('wrong-clicked');
-                        li.classList.remove('correct-clicked');
-                    }
-                };
-                
-                input.onclick = function(e) {
-                    e.stopPropagation();
-                      if(inputType === 'radio') {
-                         const siblings = optionsList.querySelectorAll('.option');
-                         siblings.forEach(sib => sib.classList.remove('correct-clicked', 'wrong-clicked'));
-                    }
-                    if (ans.correct) {
-                        li.classList.add('correct-clicked');
-                        li.classList.remove('wrong-clicked');
-                    } else {
-                        li.classList.add('wrong-clicked');
-                        li.classList.remove('correct-clicked');
-                    }
-                }
-
-                li.appendChild(input);
-                li.appendChild(label);
-                optionsList.appendChild(li);
+        // GENEROWANIE TREŚCI ZALEŻNIE OD TYPU
+        if (q.type === 'single' || q.type === 'multi') {
+            contentHTML = `<div class="options-grid">`;
+            const opts = shuffle([...q.options]);
+            opts.forEach((opt, oIdx) => {
+                const inputType = q.type === 'single' ? 'radio' : 'checkbox';
+                contentHTML += `
+                    <label class="tile-option" id="q${q.id}_o${oIdx}">
+                        <input type="${inputType}" name="q${q.id}" value="${opt.c}">
+                        <span>${opt.t}</span>
+                    </label>
+                `;
             });
+            contentHTML += `</div><button class="btn-check" onclick="checkChoice(${q.id}, '${q.type}')">Sprawdź</button>`;
+        } 
+        else if (q.type === 'open') {
+            contentHTML = `
+                <textarea class="open-input" placeholder="Wpisz odpowiedź..."></textarea>
+                <div class="model-answer" id="ans-${q.id}">Wzorcowa odpowiedź: <strong>${q.answer}</strong></div>
+                <button class="btn-check" onclick="document.getElementById('ans-${q.id}').style.display='block'">Pokaż wzorcową odpowiedź</button>
+            `;
+        }
+        else if (q.type === 'gap') {
+            headerHTML = `<div class="q-header"><span>${idx+1}. Uzupełnij luki:</span> <span class="q-type">Lista rozwijana</span></div>`;
+            contentHTML = `<div class="gap-text">`;
+            q.parts.forEach((part, i) => {
+                contentHTML += part;
+                if (i < q.parts.length - 1) {
+                    let optsHTML = `<option value="">---</option>`;
+                    shuffle([...q.options]).forEach(opt => optsHTML += `<option value="${opt}">${opt}</option>`);
+                    contentHTML += `<select class="gap-select" data-ans="${q.answers[i]}">${optsHTML}</select>`;
+                }
+            });
+            contentHTML += `</div><button class="btn-check" onclick="checkGaps(this)">Sprawdź</button>`;
+        }
+        else if (q.type === 'category') {
+            // Drag and Drop Logic
+            contentHTML = `<div class="dd-area"><div class="dd-source" id="src-${q.id}">`;
+            shuffle([...q.items]).forEach((item, i) => {
+                contentHTML += `<div class="draggable" draggable="true" data-cat="${item.cat}">${item.t}</div>`;
+            });
+            contentHTML += `</div><div class="dd-targets">`;
+            q.categories.forEach((cat, i) => {
+                contentHTML += `<div class="dd-zone" data-cat-id="${i}"><h4>${cat}</h4></div>`;
+            });
+            contentHTML += `</div></div><button class="btn-check" onclick="checkDrag(${q.id})">Sprawdź</button>`;
+        }
+        else if (q.type === 'order') {
+            contentHTML = `<ul class="sort-list" id="sort-${q.id}">`;
+            // Losujemy kolejność początkową (ale nie idealnie taką samą, chyba że shuffle zadziała)
+            let mixed = shuffle([...q.items]); 
+            // Jeśli przez przypadek wylosuje dobrą, mieszamy jeszcze raz (opcjonalne)
+            
+            mixed.forEach(item => {
+                contentHTML += `<li class="sort-item" draggable="true">${item}</li>`;
+            });
+            contentHTML += `</ul><button class="btn-check" onclick="checkOrder(${q.id}, this)">Sprawdź kolejność</button>`;
+        }
 
-            qBlock.appendChild(qTitle);
-            qBlock.appendChild(qType);
-            qBlock.appendChild(optionsList);
-            container.appendChild(qBlock);
-        });
+        card.innerHTML = headerHTML + contentHTML + `<div class="feedback" id="feed-${q.id}"></div>`;
+        root.appendChild(card);
+    });
+
+    function translateType(type) {
+        if(type === 'multi') return 'Wielokrotny wybór';
+        if(type === 'single') return 'Jednokrotny wybór';
+        if(type === 'open') return 'Pytanie otwarte';
+        if(type === 'gap') return 'Uzupełnij luki';
+        if(type === 'category') return 'Kategoryzacja';
+        if(type === 'order') return 'Kolejność';
+        return '';
     }
 
-    function checkScore() {
-        const blocks = document.querySelectorAll('.question-block');
-        let score = 0;
-        let total = blocks.length;
+    // --- LOGIKA SPRAWDZANIA ---
 
-        blocks.forEach((block, index) => {
-            const type = questionsDB[index].type;
-            const inputs = block.querySelectorAll('input');
-            let isCorrect = true;
-
-            if (type === 'single') {
-                let selected = false;
-                inputs.forEach(inp => {
-                    if (inp.checked) {
-                        selected = true;
-                        if (inp.value !== 'true') isCorrect = false;
-                    }
-                });
-                if (!selected) isCorrect = false;
-            } else {
-                // Multi - rygorystyczne sprawdzanie
-                let hasSelection = false;
-                inputs.forEach(inp => {
-                    if (inp.checked) hasSelection = true;
-                    if (inp.value === 'true' && !inp.checked) isCorrect = false;
-                    if (inp.value === 'false' && inp.checked) isCorrect = false;
-                });
-                if (!hasSelection) isCorrect = false;
+    // 1. Wybór (Radio/Check)
+    window.checkChoice = (id, type) => {
+        const inputs = document.querySelectorAll(`input[name="q${id}"]`);
+        inputs.forEach(inp => {
+            const parent = inp.parentElement;
+            parent.classList.remove('correct', 'wrong');
+            if(inp.checked) {
+                if(inp.value === 'true') parent.classList.add('correct');
+                else parent.classList.add('wrong');
+            } else if (type === 'multi' && inp.value === 'true') {
+                // Opcjonalnie: pokaż, co powinno być zaznaczone
+                 parent.style.border = "2px dashed #27ae60"; 
             }
-
-            if (isCorrect) score++;
         });
+    };
 
-        const resultBox = document.getElementById('result-box');
-        const percent = Math.round((score / total) * 100);
-        
-        let msg = `Twój wynik: ${score} / ${total} (${percent}%)`;
-        if (percent === 100) msg += " <br>👑 Mistrz Ergonomii! 👑";
-        else if (percent >= 80) msg += " <br>🔥 Bardzo dobrze! 🔥";
-        else if (percent >= 50) msg += " <br>👍 Nieźle, ale powtórz pytania.";
-        else msg += " <br>📚 Musisz jeszcze poćwiczyć.";
+    // 2. Luki (Gaps)
+    window.checkGaps = (btn) => {
+        const container = btn.previousElementSibling;
+        const selects = container.querySelectorAll('select');
+        selects.forEach(sel => {
+            sel.classList.remove('valid', 'invalid');
+            if(sel.value === sel.dataset.ans) sel.classList.add('valid');
+            else sel.classList.add('invalid');
+        });
+    };
 
-        resultBox.innerHTML = msg;
-        resultBox.style.display = 'block';
+    // 3. Drag & Drop (Categories)
+    // Inicjalizacja Drag & Drop Events
+    document.addEventListener('dragstart', e => {
+        if(e.target.classList.contains('draggable') || e.target.classList.contains('sort-item')) {
+            e.dataTransfer.setData('text/plain', null); // Firefox fix
+            e.target.classList.add('dragging');
+        }
+    });
+
+    document.addEventListener('dragend', e => {
+        if(e.target.classList.contains('dragging')) {
+            e.target.classList.remove('dragging');
+        }
+    });
+
+    document.addEventListener('dragover', e => {
+        e.preventDefault();
+        const afterElement = getDragAfterElement(e.target.closest('.dd-zone, .sort-list'), e.clientY);
+        const dragging = document.querySelector('.dragging');
+        if(!dragging) return;
         
-        resultBox.scrollIntoView({behavior: "smooth"});
+        // Logika dla kategorii
+        if(dragging.classList.contains('draggable')) {
+            const zone = e.target.closest('.dd-zone');
+            const source = e.target.closest('.dd-source');
+            if (zone) zone.appendChild(dragging);
+            if (source) source.appendChild(dragging);
+        }
+        
+        // Logika dla sortowania
+        if(dragging.classList.contains('sort-item')) {
+            const list = e.target.closest('.sort-list');
+            if(list) {
+                if (afterElement == null) {
+                    list.appendChild(dragging);
+                } else {
+                    list.insertBefore(dragging, afterElement);
+                }
+            }
+        }
+    });
+
+    function getDragAfterElement(container, y) {
+        if(!container) return null;
+        const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging), .sort-item:not(.dragging)')];
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
     }
 
-    // Start
-    renderQuestions();
+    window.checkDrag = (id) => {
+        const zones = document.querySelectorAll(`.q-card:nth-child(${id}) .dd-zone`); // Uproszczony selektor, w realnym ID trzeba precyzyjniej
+        // Znajdźmy kontener po ID przycisku - bezpieczniej
+        const btn = event.target;
+        const card = btn.closest('.q-card');
+        const zonesInCard = card.querySelectorAll('.dd-zone');
+        
+        zonesInCard.forEach(zone => {
+            const targetCat = zone.dataset.catId;
+            const items = zone.querySelectorAll('.draggable');
+            items.forEach(item => {
+                item.classList.remove('placed-correct', 'placed-wrong');
+                if(item.dataset.cat === targetCat) item.classList.add('placed-correct');
+                else item.classList.add('placed-wrong');
+            });
+        });
+    };
+
+    window.checkOrder = (id, btn) => {
+        const list = btn.previousElementSibling;
+        const items = list.querySelectorAll('.sort-item');
+        // Prawidłowa kolejność jest w obiekcie questions, musimy ją pobrać
+        const qData = questions.find(q => q.id === id);
+        
+        items.forEach((item, index) => {
+            item.classList.remove('correct-order');
+            if(item.innerText === qData.items[index]) {
+                item.classList.add('correct-order');
+            } else {
+                item.style.background = "#fff0f0";
+            }
+        });
+    };
 
 </script>
 
