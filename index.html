@@ -3,542 +3,581 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Egzamin Linux - Administracja Systemami</title>
+    <title>Egzamin Administratora Linux - Test Wiedzy</title>
     <style>
-        :root { --primary: #2980b9; --bg: #ecf0f1; --card: #ffffff; --text: #2c3e50; --correct: #27ae60; --wrong: #c0392b; }
+        :root { --primary: #e95420; --bg: #f5f6fa; --card: #ffffff; --text: #2d3436; --correct: #00b894; --wrong: #d63031; --primary-dark: #c0392b; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; line-height: 1.6; }
-        .container { max-width: 950px; margin: 0 auto; padding-bottom: 60px; }
-        h1 { text-align: center; color: var(--text); margin-bottom: 40px; }
+        .container { max-width: 900px; margin: 0 auto; padding-bottom: 60px; }
+        
+        h1 { 
+            text-align: center; 
+            color: #2c3e50; 
+            margin-bottom: 40px; 
+            font-size: 2.2em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
         /* Karta pytania */
-        .q-card { background: var(--card); padding: 25px; margin-bottom: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-left: 6px solid var(--primary); }
-        .q-header { font-weight: 700; font-size: 1.15em; margin-bottom: 20px; color: #34495e; }
-        .badge { display: inline-block; background: #eee; font-size: 0.75em; padding: 2px 8px; border-radius: 4px; color: #7f8c8d; font-weight: normal; margin-left: 10px; vertical-align: middle; }
+        .q-card { 
+            background: var(--card); 
+            padding: 30px; 
+            margin-bottom: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            border-left: 6px solid var(--primary); 
+            transition: transform 0.2s;
+        }
+        .q-card:hover { transform: translateY(-2px); }
 
-        /* Wielokrotny/Jednokrotny wybór */
-        .options-list { display: flex; flex-direction: column; gap: 8px; }
-        .opt-label { display: flex; align-items: flex-start; padding: 12px; border: 2px solid #bdc3c7; border-radius: 6px; cursor: pointer; transition: 0.2s; background: #fff; }
-        .opt-label:hover { background: #f7f9f9; }
-        .opt-label input { margin-right: 15px; margin-top: 5px; transform: scale(1.3); }
-        .opt-label.correct { border-color: var(--correct); background: #eafaf1; color: #145a32; }
-        .opt-label.wrong { border-color: var(--wrong); background: #fdedec; color: #78281f; }
+        .q-header { 
+            font-weight: 700; 
+            font-size: 1.2em; 
+            margin-bottom: 25px; 
+            color: #2c3e50; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .badge { 
+            background: #dfe6e9; 
+            font-size: 0.75em; 
+            padding: 4px 10px; 
+            border-radius: 20px; 
+            color: #636e72; 
+            font-weight: 600; 
+            white-space: nowrap;
+            margin-left: 15px;
+        }
 
-        /* Przyciski */
-        .btn-check { background: var(--primary); color: #fff; border: none; padding: 12px 25px; font-size: 1em; border-radius: 5px; cursor: pointer; margin-top: 20px; transition: 0.3s; }
-        .btn-check:hover { background: #1a5276; }
+        /* Lista opcji */
+        .options-list { display: flex; flex-direction: column; gap: 10px; }
+        
+        .opt-label { 
+            display: flex; 
+            align-items: center; 
+            padding: 15px; 
+            border: 2px solid #e1e1e1; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+            background: #fff; 
+            font-size: 1em;
+        }
+        
+        .opt-label:hover { background: #fdfdfd; border-color: #b2bec3; }
+        
+        /* Stylizacja checkboxa */
+        .opt-label input { 
+            margin-right: 15px; 
+            width: 20px; 
+            height: 20px; 
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        /* Style walidacji */
+        .opt-label.correct { border-color: var(--correct); background: #e3fcf7; color: #006b54; font-weight: 600; }
+        .opt-label.wrong { border-color: var(--wrong); background: #fff0f0; color: #c0392b; }
+        
+        /* Styl dla poprawnej odpowiedzi, której użytkownik NIE zaznaczył */
+        .opt-label.missed { border: 2px dashed var(--correct); background: #f0fffa; opacity: 0.8; }
+
+        /* Przycisk */
+        .btn-check { 
+            background: var(--primary); 
+            color: #fff; 
+            border: none; 
+            padding: 12px 30px; 
+            font-size: 1em; 
+            font-weight: 600;
+            border-radius: 6px; 
+            cursor: pointer; 
+            margin-top: 25px; 
+            transition: background 0.3s; 
+            display: inline-block;
+        }
+        .btn-check:hover { background: var(--primary-dark); }
+
+        .score-box {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #2d3436;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            font-weight: bold;
+            z-index: 100;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Egzamin: Administracja Systemami Linux (50 pytań)</h1>
+    <h1>Egzamin Administratora Linux</h1>
     <div id="quiz-area"></div>
 </div>
 
 <script>
-    // --- BAZA DANYCH PYTAŃ (50 PYTAŃ Z LINUXA) ---
+    // --- BAZA DANYCH PYTAŃ (ZGODNA Z TREŚCIĄ ZADANIA) ---
+    // Wszystkie pytania są traktowane jako "Wybierz wszystkie poprawne" (multi)
+    // Opcje c: true są ustawione na podstawie sekcji "poprawne odpowiedzi" z promptu.
+    
     const rawQuestions = [
-    {
-        id: 1, type: "multi",
-        text: "Jakie skutki może mieć zamontowanie systemu plików z opcją noexec?",
-        options: [
-            { t: "Uniemożliwia wykonywanie plików binarnych.", c: true },
-            { t: "Ogranicza możliwość uruchamiania złośliwego kodu.", c: true },
-            { t: "Przyspiesza działanie systemu plików.", c: false },
-            { t: "Uniemożliwia zapisywanie plików w katalogu.", c: false }
-        ]
-    },
-    {
-        id: 2, type: "multi",
-        text: "Które zadania należą do obowiązków administratora systemu Linux/Unix?",
-        options: [
-            { t: "Zarządzanie kontami użytkowników.", c: true },
-            { t: "Konfiguracja usług systemowych.", c: true },
-            { t: "Tworzenie aplikacji użytkowych (programowanie).", c: false },
-            { t: "Projektowanie logotypów firmowych.", c: false }
-        ]
-    },
-    {
-        id: 3, type: "multi",
-        text: "Które elementy są niezbędne do podstawowej komunikacji sieciowej hosta?",
-        options: [
-            { t: "Interfejs sieciowy.", c: true },
-            { t: "Adres IP.", c: true },
-            { t: "Brama domyślna.", c: true },
-            { t: "Serwer wydruku.", c: false }
-        ]
-    },
-    {
-        id: 4, type: "multi",
-        text: "Jakie ryzyka niesie za sobą ręczna modyfikacja plików konfiguracyjnych bez dokumentowania zmian?",
-        options: [
-            { t: "Problemy podczas aktualizacji lub migracji systemu.", c: true },
-            { t: "Utrudnioną diagnostykę błędów.", c: true },
-            { t: "Trudności w odtworzeniu konfiguracji systemu.", c: true },
-            { t: "Automatyczne usunięcie kont użytkowników.", c: false }
-        ]
-    },
-    {
-        id: 5, type: "multi",
-        text: "Dlaczego błędy w pliku /etc/fstab są szczególnie niebezpieczne?",
-        options: [
-            { t: "Mogą powodować długie opóźnienia startu systemu (timeout montowania).", c: true },
-            { t: "Mogą uniemożliwić poprawne uruchomienie systemu.", c: true },
-            { t: "Powodują natychmiastowe usunięcie danych z dysku.", c: false },
-            { t: "Zmieniają hasło użytkownika root.", c: false }
-        ]
-    },
-    {
-        id: 6, type: "multi",
-        text: "Dlaczego zasada najmniejszych uprawnień jest fundamentem bezpieczeństwa systemów Linux?",
-        options: [
-            { t: "Wspiera wielowarstwowy model ochrony systemu.", c: true },
-            { t: "Zmniejsza zakres potencjalnych wektorów ataku.", c: true },
-            { t: "Ogranicza skutki błędów użytkowników i usług.", c: true },
-            { t: "Pozwala na instalację oprogramowania bez hasła.", c: false }
-        ]
-    },
-    {
-        id: 7, type: "multi",
-        text: "Jakie mogą być skutki błędnej konfiguracji zależności między jednostkami systemd?",
-        options: [
-            { t: "System może przejść w tryb awaryjny.", c: true },
-            { t: "Może dojść do niedostępności kluczowych usług.", c: true },
-            { t: "Usługi mogą uruchamiać się w niewłaściwej kolejności.", c: true },
-            { t: "Jądro systemu zostanie automatycznie skompilowane.", c: false }
-        ]
-    },
-    {
-        id: 8, type: "multi",
-        text: "Które elementy wpływają na możliwość nawiązywania połączeń sieciowych przez proces?",
-        options: [
-            { t: "Konfiguracja sieci systemu.", c: true },
-            { t: "Konfiguracja zapory sieciowej.", c: true },
-            { t: "Kolor tła terminala.", c: false },
-            { t: "Rozmiar pliku wymiany (swap).", c: false }
-        ]
-    },
-    {
-        id: 9, type: "multi",
-        text: "Dlaczego system logów jest kluczowym elementem administracji systemem Linux?",
-        options: [
-            { t: "Umożliwia analizę przyczyn awarii i incydentów.", c: true },
-            { t: "Pozwala śledzić działania użytkowników i usług.", c: true },
-            { t: "Zastępuje system kopii zapasowych.", c: false },
-            { t: "Automatycznie naprawia błędy w kodzie aplikacji.", c: false }
-        ]
-    },
-    {
-        id: 10, type: "multi",
-        text: "W systemie Debian 13 zmiana konfiguracji usługi nie przynosi efektu. Co należy sprawdzić w pierwszej kolejności?",
-        options: [
-            { t: "Czy usługa została ponownie uruchomiona.", c: true },
-            { t: "Czy zmiany zapisano w odpowiednim pliku konfiguracyjnym.", c: true },
-            { t: "Czy komputer jest podłączony do Internetu.", c: false },
-            { t: "Czy zainstalowano sterowniki karty graficznej.", c: false }
-        ]
-    },
-    {
-        id: 11, type: "multi",
-        text: "Które stwierdzenia dotyczące katalogu głównego / są prawdziwe?",
-        options: [
-            { t: "Jest najwyższym poziomem hierarchii systemu plików.", c: true },
-            { t: "Jest punktem montowania innych systemów plików.", c: true },
-            { t: "Może zostać usunięty podczas pracy systemu.", c: false },
-            { t: "Przechowuje wyłącznie pliki użytkowników.", c: false }
-        ]
-    },
-    {
-        id: 12, type: "multi",
-        text: "Jaką rolę pełni mechanizm sudo?",
-        options: [
-            { t: "Umożliwia czasowe podniesienie uprawnień.", c: true },
-            { t: "Pozwala wykonywać polecenia z uprawnieniami administratora.", c: true },
-            { t: "Zastępuje konto root całkowicie (usuwa je z systemu).", c: false },
-            { t: "Działa bez konieczności wcześniejszej konfiguracji.", c: false }
-        ]
-    },
-    {
-        id: 13, type: "multi",
-        text: "Które stwierdzenia dotyczące jądra systemu operacyjnego są prawdziwe?",
-        options: [
-            { t: "Zarządza dostępem do zasobów sprzętowych.", c: true },
-            { t: "Pośredniczy w dostępie procesów do pamięci.", c: true },
-            { t: "Jest odpowiedzialne za interfejs graficzny użytkownika.", c: false },
-            { t: "Przechowuje hasła użytkowników w postaci jawnej.", c: false }
-        ]
-    },
-    {
-        id: 14, type: "multi",
-        text: "Które elementy składają się na model uprawnień DAC w systemie Linux?",
-        options: [
-            { t: "Właściciel pliku.", c: true },
-            { t: "Prawa dostępu.", c: true },
-            { t: "Grupa pliku.", c: true },
-            { t: "Kontekst bezpieczeństwa SELinux.", c: false }
-        ]
-    },
-    {
-        id: 15, type: "multi",
-        text: "Które funkcje pełni system plików w systemie Linux?",
-        options: [
-            { t: "Organizuje dane na nośnikach pamięci.", c: true },
-            { t: "Umożliwia hierarchiczną strukturę katalogów.", c: true },
-            { t: "Zapewnia mechanizmy kontroli dostępu do plików.", c: true },
-            { t: "Odpowiada za planowanie procesów CPU.", c: false }
-        ]
-    },
-    {
-        id: 16, type: "multi",
-        text: "Dlaczego wykonywanie kopii zapasowych konfiguracji jest istotne w administracji systemami Linux?",
-        options: [
-            { t: "Pozwala cofnąć nieudane zmiany konfiguracyjne.", c: true },
-            { t: "Umożliwia szybkie odtworzenie systemu po awarii.", c: true },
-            { t: "Wspiera ciągłość działania usług.", c: true },
-            { t: "Eliminuje potrzebę testowania zmian.", c: false }
-        ]
-    },
-    {
-        id: 17, type: "multi",
-        text: "Jaką funkcję pełni system DNS?",
-        options: [
-            { t: "Tłumaczy nazwy domenowe na adresy IP.", c: true },
-            { t: "Umożliwia wskazanie hosta lub usługi na podstawie nazwy.", c: true },
-            { t: "Szyfruje połączenia sieciowe.", c: false },
-            { t: "Zarządza routingiem pakietów.", c: false }
-        ]
-    },
-    {
-        id: 18, type: "multi",
-        text: "Dlaczego uruchamianie usług sieciowych z uprawnieniami root jest uznawane za ryzykowne?",
-        options: [
-            { t: "Kompromitacja usługi może prowadzić do pełnego przejęcia systemu.", c: true },
-            { t: "Zwiększa potencjalne skutki błędów konfiguracji.", c: true },
-            { t: "Narusza zasadę najmniejszych uprawnień.", c: true },
-            { t: "Powoduje spowolnienie łącza internetowego.", c: false }
-        ]
-    },
-    {
-        id: 19, type: "multi",
-        text: "Które konsekwencje może mieć błędny wpis w pliku /etc/fstab?",
-        options: [
-            { t: "System plików może zostać zamontowany w trybie tylko do odczytu.", c: true },
-            { t: "System może nie uruchomić się poprawnie.", c: true },
-            { t: "Usługi sieciowe przestaną działać.", c: false },
-            { t: "Jądro zostanie automatycznie zaktualizowane.", c: false }
-        ]
-    },
-    {
-        id: 20, type: "multi",
-        text: "Dlaczego w systemach Linux proces potomny dziedziczy deskryptory plików po procesie rodzicu?",
-        options: [
-            { t: "Umożliwia to przekazywanie strumieni danych między procesami.", c: true },
-            { t: "Pozwala na dalsze korzystanie z już otwartych zasobów.", c: true },
-            { t: "Jest to wymagane przez system plików EXT4.", c: false },
-            { t: "Zapobiega wyciekom pamięci RAM.", c: false }
-        ]
-    },
-    {
-        id: 21, type: "multi",
-        text: "Które stwierdzenia poprawnie opisują różnicę między enabled a active w systemd?",
-        options: [
-            { t: "enabled określa, czy usługa uruchamia się przy starcie systemu.", c: true },
-            { t: "active oznacza, że usługa aktualnie działa.", c: true },
-            { t: "enabled oznacza, że usługa jest obecnie uruchomiona.", c: false },
-            { t: "active oznacza, że usługa jest zainstalowana, ale wyłączona.", c: false }
-        ]
-    },
-    {
-        id: 22, type: "multi",
-        text: "Dlaczego restart pojedynczej usługi jest często preferowany zamiast restartu całego systemu?",
-        options: [
-            { t: "Ogranicza wpływ zmian do konkretnego komponentu.", c: true },
-            { t: "Minimalizuje przerwę w dostępności usług.", c: true },
-            { t: "Eliminuje potrzebę analizy logów.", c: false },
-            { t: "Zawsze rozwiązuje wszystkie problemy systemowe.", c: false }
-        ]
-    },
-    {
-        id: 23, type: "multi",
-        text: "Dlaczego mechanizmy MAC są stosowane równolegle z DAC w systemach Linux?",
-        options: [
-            { t: "Ograniczają skutki przejęcia kont użytkowników lub usług.", c: true },
-            { t: "Zapewniają dodatkową, niezależną warstwę kontroli dostępu.", c: true },
-            { t: "Zastępują klasyczne prawa plików (chmod).", c: false },
-            { t: "Upraszczają konfigurację systemu.", c: false }
-        ]
-    },
-    {
-        id: 24, type: "multi",
-        text: "Dlaczego monitorowanie systemu jest istotnym elementem administracji?",
-        options: [
-            { t: "Pozwala analizować długoterminowe trendy obciążenia.", c: true },
-            { t: "Umożliwia wykrywanie problemów zanim wpłyną na użytkowników.", c: true },
-            { t: "Zastępuje mechanizmy kopii zapasowych.", c: false },
-            { t: "Eliminuje potrzebę dokumentowania zmian.", c: false }
-        ]
-    },
-    {
-        id: 25, type: "multi",
-        text: "Dlaczego wydzielenie katalogu /home do osobnego systemu plików jest dobrą praktyką administracyjną?",
-        options: [
-            { t: "Ułatwia reinstalację systemu bez utraty danych użytkowników.", c: true },
-            { t: "Pozwala stosować inne opcje montowania niż dla systemu głównego.", c: true },
-            { t: "Zwiększa szybkość działania aplikacji systemowych.", c: false },
-            { t: "Eliminuje potrzebę wykonywania kopii zapasowych.", c: false }
-        ]
-    },
-    {
-        id: 26, type: "multi",
-        text: "Dlaczego regularne aktualizacje systemu są kluczowe z punktu widzenia bezpieczeństwa?",
-        options: [
-            { t: "Usuwają znane podatności bezpieczeństwa.", c: true },
-            { t: "Zmniejszają ryzyko wykorzystania znanych exploitów.", c: true },
-            { t: "Mogą wprowadzać poprawki w mechanizmach ochrony systemu.", c: true },
-            { t: "Eliminują potrzebę tworzenia kopii zapasowych.", c: false }
-        ]
-    },
-    {
-        id: 27, type: "multi",
-        text: "Dlaczego w systemach Linux zaleca się korzystanie z sudo zamiast bezpośredniego logowania na konto root?",
-        options: [
-            { t: "Umożliwia rejestrowanie i audyt wykonywanych poleceń.", c: true },
-            { t: "Ogranicza czas trwania podwyższonych uprawnień.", c: true },
-            { t: "Eliminuje potrzebę istnienia konta root.", c: false },
-            { t: "Upraszcza konfigurację kont użytkowników.", c: false }
-        ]
-    },
-    {
-        id: 28, type: "multi",
-        text: "Które problemy mogą wystąpić przy błędnej konfiguracji jednostki typu service?",
-        options: [
-            { t: "Usługa nie uruchomi się po starcie systemu.", c: true },
-            { t: "System może przejść w tryb awaryjny.", c: true },
-            { t: "Zostanie usunięty plik wykonywalny usługi.", c: false },
-            { t: "Zmieni się adres IP serwera.", c: false }
-        ]
-    },
-    {
-        id: 29, type: "multi",
-        text: "Które stwierdzenia dotyczące konta root są prawdziwe?",
-        options: [
-            { t: "Posiada nieograniczone uprawnienia w systemie.", c: true },
-            { t: "Jest przeznaczone do administracji systemem.", c: true },
-            { t: "Może być bezpiecznie używane do codziennej pracy biurowej.", c: false },
-            { t: "Nie może być zastąpione przez mechanizm sudo.", c: false }
-        ]
-    },
-    {
-        id: 30, type: "multi",
-        text: "Które cechy charakteryzują wątki w systemach Unix/Linux?",
-        options: [
-            { t: "Wątki są planowane przez jądro systemu.", c: true },
-            { t: "Wątki współdzielą przestrzeń adresową procesu.", c: true },
-            { t: "Wątki umożliwiają równoległe wykonywanie zadań.", c: true },
-            { t: "Każdy wątek posiada niezależną przestrzeń adresową.", c: false }
-        ]
-    },
-    {
-        id: 31, type: "multi",
-        text: "Za co odpowiada planista (scheduler) w systemie Linux?",
-        options: [
-            { t: "Przydziela czas procesora procesom.", c: true },
-            { t: "Decyduje o kolejności wykonywania procesów.", c: true },
-            { t: "Zarządza adresacją IP.", c: false },
-            { t: "Tworzy kopie zapasowe plików.", c: false }
-        ]
-    },
-    {
-        id: 32, type: "multi",
-        text: "Jakie korzyści daje stosowanie mechanizmów MAC (np. SELinux) w systemach Linux?",
-        options: [
-            { t: "Wprowadza politykę bezpieczeństwa niezależną od modelu DAC.", c: true },
-            { t: "Ogranicza skutki przejęcia konta lub usługi.", c: true },
-            { t: "Zwiększa wydajność procesora.", c: false },
-            { t: "Pozwala na używanie systemu bez haseł.", c: false }
-        ]
-    },
-    {
-        id: 33, type: "multi",
-        text: "Które elementy powinny być uwzględnione przy projektowaniu bezpiecznego systemu Linux?",
-        options: [
-            { t: "Minimalizacja liczby uruchomionych usług.", c: true },
-            { t: "Stosowanie zasady najmniejszych uprawnień.", c: true },
-            { t: "Regularne aktualizacje systemu.", c: true },
-            { t: "Użycie jednego wspólnego konta administracyjnego dla wszystkich.", c: false }
-        ]
-    },
-    {
-        id: 34, type: "multi",
-        text: "Które elementy świadczą o dojrzałym podejściu do administracji systemem Linux?",
-        options: [
-            { t: "Świadome i systematyczne zarządzanie bezpieczeństwem.", c: true },
-            { t: "Monitorowanie oraz dokumentowanie zmian.", c: true },
-            { t: "Automatyzacja powtarzalnych zadań administracyjnych.", c: true },
-            { t: "Ręczna konfiguracja każdego elementu systemu.", c: false }
-        ]
-    },
-    {
-        id: 35, type: "multi",
-        text: "Po restarcie systemu Debian 13 usługa nie uruchamia się automatycznie. Które przyczyny są możliwe?",
-        options: [
-            { t: "Usługa nie została włączona do startu systemu (systemctl enable).", c: true },
-            { t: "Jednostka systemd zawiera błędną konfigurację.", c: true },
-            { t: "Usługa została ręcznie zatrzymana przed restartem.", c: false },
-            { t: "Procesor nie obsługuje tej usługi.", c: false }
-        ]
-    },
-    {
-        id: 36, type: "multi",
-        text: "Które elementy wpływają na bezpieczeństwo systemu Linux?",
-        options: [
-            { t: "Konfiguracja usług.", c: true },
-            { t: "Model uprawnień.", c: true },
-            { t: "Wyłącznie hasła użytkowników.", c: false },
-            { t: "Wyłącznie zapora sieciowa.", c: false }
-        ]
-    },
-    {
-        id: 37, type: "multi",
-        text: "Które stwierdzenia dotyczące systemd są prawdziwe?",
-        options: [
-            { t: "Zarządza usługami systemowymi.", c: true },
-            { t: "Umożliwia definiowanie zależności między jednostkami.", c: true },
-            { t: "Jest systemem init.", c: true },
-            { t: "Odpowiada za kompilację jądra.", c: false }
-        ]
-    },
-    {
-        id: 38, type: "multi",
-        text: "Jakie zagrożenia może powodować niekontrolowane uruchamianie usług przy starcie systemu?",
-        options: [
-            { t: "Wydłużenie czasu uruchamiania systemu.", c: true },
-            { t: "Zwiększenie powierzchni ataku systemu.", c: true },
-            { t: "Utrudnioną diagnostykę problemów systemowych.", c: true },
-            { t: "Zwiększenie przepustowości sieci.", c: false }
-        ]
-    },
-    {
-        id: 39, type: "multi",
-        text: "Które czynniki należy uwzględnić przy aktualizacji systemu Debian 13 na serwerze produkcyjnym?",
-        options: [
-            { t: "Konieczność restartu usług lub systemu.", c: true },
-            { t: "Zgodność konfiguracji po aktualizacji.", c: true },
-            { t: "Kolorystykę interfejsu graficznego.", c: false },
-            { t: "Markę monitora podłączonego do serwera.", c: false }
-        ]
-    },
-    {
-        id: 40, type: "multi",
-        text: "Dlaczego usługi sieciowe często działają na dedykowanych kontach systemowych?",
-        options: [
-            { t: "Zmniejsza skutki ewentualnego przejęcia usługi.", c: true },
-            { t: "Ogranicza to ich uprawnienia.", c: true },
-            { t: "Zwiększa wydajność sieci.", c: false },
-            { t: "Upraszcza konfigurację systemu DNS.", c: false }
-        ]
-    },
-    {
-        id: 41, type: "multi",
-        text: "Jakie konsekwencje może mieć brak monitorowania usług na serwerze produkcyjnym?",
-        options: [
-            { t: "Trudności w ocenie stabilności systemu.", c: true },
-            { t: "Opóźnione wykrycie awarii.", c: true },
-            { t: "Brak danych do analizy incydentów.", c: true },
-            { t: "Zmniejszenie zużycia prądu.", c: false }
-        ]
-    },
-    {
-        id: 42, type: "multi",
-        text: "Do czego służy katalog /etc w systemie Linux?",
-        options: [
-            { t: "Przechowuje pliki konfiguracyjne systemu.", c: true },
-            { t: "Jest wykorzystywany do konfiguracji usług.", c: true },
-            { t: "Zawiera dane użytkowników.", c: false },
-            { t: "Przechowuje pliki binarne programów.", c: false }
-        ]
-    },
-    {
-        id: 43, type: "multi",
-        text: "Jaką rolę pełnią jednostki typu target w systemd?",
-        options: [
-            { t: "Grupują inne jednostki logicznie.", c: true },
-            { t: "Zastępują klasyczne runlevele.", c: true },
-            { t: "Służą do kompilacji kodu źródłowego.", c: false },
-            { t: "Zarządzają partycjami dyskowymi.", c: false }
-        ]
-    },
-    {
-        id: 44, type: "multi",
-        text: "Które stwierdzenia dotyczące usług sieciowych są prawdziwe?",
-        options: [
-            { t: "Usługi sieciowe działają jako procesy.", c: true },
-            { t: "Mogą być zarządzane przez systemd.", c: true },
-            { t: "Są zawsze uruchamiane z uprawnieniami root.", c: false },
-            { t: "Nie wymagają konfiguracji.", c: false }
-        ]
-    },
-    {
-        id: 45, type: "multi",
-        text: "Które skutki może mieć błędna konfiguracja zapory sieciowej na serwerze?",
-        options: [
-            { t: "Narażenie systemu na ataki z sieci.", c: true },
-            { t: "Utrudnienia w zdalnym zarządzaniu systemem.", c: true },
-            { t: "Utrata dostępu do świadczonych usług.", c: true },
-            { t: "Zwiększenie wydajności systemu.", c: false }
-        ]
-    },
-    {
-        id: 46, type: "multi",
-        text: "Które stwierdzenia poprawnie opisują proces w systemie Linux?",
-        options: [
-            { t: "Proces jest instancją uruchomionego programu.", c: true },
-            { t: "Każdy proces posiada unikalny identyfikator PID.", c: true },
-            { t: "Proces zawsze składa się z jednego wątku.", c: false },
-            { t: "Proces nie posiada własnej przestrzeni adresowej.", c: false }
-        ]
-    },
-    {
-        id: 47, type: "multi",
-        text: "Które konsekwencje może mieć uruchomienie usługi systemowej z uprawnieniami root?",
-        options: [
-            { t: "Dostęp usługi do wszystkich zasobów systemowych.", c: true },
-            { t: "Zwiększenie potencjalnych skutków podatności w usłudze.", c: true },
-            { t: "Poprawę wydajności usługi.", c: false },
-            { t: "Brak konieczności zarządzania uprawnieniami.", c: false }
-        ]
-    },
-    {
-        id: 48, type: "multi",
-        text: "Które informacje są kluczowe przy analizie procesu zużywającego nadmierne zasoby systemowe?",
-        options: [
-            { t: "Stan procesu.", c: true },
-            { t: "Zużycie pamięci.", c: true },
-            { t: "Zużycie procesora.", c: true },
-            { t: "Nazwa systemu plików.", c: false }
-        ]
-    },
-    {
-        id: 49, type: "multi",
-        text: "Które prawa dostępu są definiowane dla plików w systemie Linux?",
-        options: [
-            { t: "Zapis (w).", c: true },
-            { t: "Wykonanie (x).", c: true },
-            { t: "Odczyt (r).", c: true },
-            { t: "Archiwizacja (a).", c: false }
-        ]
-    },
-    {
-        id: 50, type: "multi",
-        text: "Dlaczego systemd wykorzystuje zależności między jednostkami?",
-        options: [
-            { t: "Aby kontrolować kolejność uruchamiania usług.", c: true },
-            { t: "Aby zapewnić dostępność wymaganych zasobów.", c: true },
-            { t: "Aby ograniczyć zużycie pamięci.", c: false },
-            { t: "Aby zastąpić mechanizm kontroli dostępu DAC.", c: false }
-        ]
-    }
-];
+        {
+            id: 1, text: "Jakie skutki może mieć zamontowanie systemu plików z opcją noexec?",
+            options: [
+                { t: "Wpływa na prawa odczytu plików.", c: false },
+                { t: "Uniemożliwia wykonywanie plików binarnych.", c: true },
+                { t: "Ogranicza możliwość uruchamiania złośliwego kodu.", c: true },
+                { t: "Powoduje błędy zapisu danych.", c: false }
+            ]
+        },
+        {
+            id: 2, text: "Które zadania należą do obowiązków administratora systemu Linux/Unix?",
+            options: [
+                { t: "Tworzenie aplikacji użytkowych.", c: false },
+                { t: "Zarządzanie kontami użytkowników.", c: true },
+                { t: "Konfiguracja usług systemowych.", c: true },
+                { t: "Kompilacja jądra przy każdej aktualizacji.", c: false }
+            ]
+        },
+        {
+            id: 3, text: "Które elementy są niezbędne do podstawowej komunikacji sieciowej hosta?",
+            options: [
+                { t: "Interfejs sieciowy.", c: true },
+                { t: "Brama domyślna.", c: true },
+                { t: "System plików.", c: false },
+                { t: "Adres IP.", c: true }
+            ]
+        },
+        {
+            id: 4, text: "Jakie ryzyka niesie za sobą ręczna modyfikacja plików konfiguracyjnych bez dokumentowania zmian?",
+            options: [
+                { t: "Utrudnioną diagnostykę błędów.", c: true },
+                { t: "Zwiększenie czytelności konfiguracji.", c: false },
+                { t: "Problemy podczas aktualizacji lub migracji systemu.", c: true },
+                { t: "Trudności w odtworzeniu konfiguracji systemu.", c: true }
+            ]
+        },
+        {
+            id: 5, text: "Dlaczego błędy w pliku /etc/fstab są szczególnie niebezpieczne?",
+            options: [
+                { t: "Mogą powodować długie opóźnienia startu systemu (timeout montowania).", c: true },
+                { t: "Mogą uniemożliwić poprawne uruchomienie systemu.", c: true },
+                { t: "Powodują automatyczną i nieodwracalną utratę danych.", c: false },
+                { t: "Uniemożliwiają aktualizację jądra systemu.", c: false }
+            ]
+        },
+        {
+            id: 6, text: "Dlaczego zasada najmniejszych uprawnień jest fundamentem bezpieczeństwa systemów Linux?",
+            options: [
+                { t: "Ogranicza skutki błędów użytkowników i usług.", c: true },
+                { t: "Upraszcza zarządzanie pakietami systemowymi.", c: false },
+                { t: "Zmniejsza zakres potencjalnych wektorów ataku.", c: true },
+                { t: "Wspiera wielowarstwowy model ochrony systemu.", c: true }
+            ]
+        },
+        {
+            id: 7, text: "Jakie mogą być skutki błędnej konfiguracji zależności między jednostkami systemd?",
+            options: [
+                { t: "System może przejść w tryb awaryjny.", c: true },
+                { t: "Może dojść do niedostępności kluczowych usług.", c: true },
+                { t: "Zawsze następuje automatyczny restart systemu.", c: false },
+                { t: "Usługi mogą uruchamiać się w niewłaściwej kolejności.", c: true }
+            ]
+        },
+        {
+            id: 8, text: "Które elementy wpływają na możliwość nawiązywania połączeń sieciowych przez proces?",
+            options: [
+                { t: "Konfiguracja sieci systemu.", c: true },
+                { t: "Uprawnienia użytkownika, z którym działa proces.", c: true },
+                { t: "Konfiguracja zapory sieciowej.", c: true },
+                { t: "Typ systemu plików.", c: false }
+            ]
+        },
+        {
+            id: 9, text: "Dlaczego system logów jest kluczowym elementem administracji systemem Linux?",
+            options: [
+                { t: "Umożliwia analizę przyczyn awarii i incydentów.", c: true },
+                { t: "Eliminuje potrzebę testowania zmian.", c: false },
+                { t: "Zastępuje narzędzia monitorujące.", c: false },
+                { t: "Pozwala śledzić działania użytkowników i usług.", c: true }
+            ]
+        },
+        {
+            id: 10, text: "W systemie Debian 13 zmiana konfiguracji usługi nie przynosi efektu. Co należy sprawdzić w pierwszej kolejności?",
+            options: [
+                { t: "Czy usługa została ponownie uruchomiona.", c: true },
+                { t: "Czy system został zaktualizowany.", c: false },
+                { t: "Czy użytkownik posiada konto w systemie.", c: false },
+                { t: "Czy zmiany zapisano w odpowiednim pliku konfiguracyjnym.", c: true }
+            ]
+        },
+        {
+            id: 11, text: "Które stwierdzenia dotyczące katalogu głównego / są prawdziwe?",
+            options: [
+                { t: "Jest najwyższym poziomem hierarchii systemu plików.", c: true },
+                { t: "Jest punktem montowania innych systemów plików.", c: true },
+                { t: "Zawiera pliki konfiguracyjne użytkownika.", c: false },
+                { t: "Może zostać usunięty po zamontowaniu /home.", c: false }
+            ]
+        },
+        {
+            id: 12, text: "Jaką rolę pełni mechanizm sudo?",
+            options: [
+                { t: "Umożliwia czasowe podniesienie uprawnień.", c: true },
+                { t: "Pozwala wykonywać polecenia z uprawnieniami administratora.", c: true },
+                { t: "Zastępuje konto root.", c: false },
+                { t: "Działa bez wcześniejszej konfiguracji.", c: false }
+            ]
+        },
+        {
+            id: 13, text: "Które stwierdzenia dotyczące jądra systemu operacyjnego są prawdziwe?",
+            options: [
+                { t: "Jest uruchamiane jako zwykły proces użytkownika.", c: false },
+                { t: "Zarządza dostępem do zasobów sprzętowych.", c: true },
+                { t: "Odpowiada za interfejs graficzny użytkownika.", c: false },
+                { t: "Pośredniczy w dostępie procesów do pamięci.", c: true }
+            ]
+        },
+        {
+            id: 14, text: "Które elementy składają się na model uprawnień DAC w systemie Linux?",
+            options: [
+                { t: "Właściciel pliku.", c: true },
+                { t: "Kontekst bezpieczeństwa SELinux.", c: false },
+                { t: "Prawa dostępu.", c: true },
+                { t: "Grupa pliku.", c: true }
+            ]
+        },
+        {
+            id: 15, text: "Które funkcje pełni system plików w systemie Linux?",
+            options: [
+                { t: "Organizuje dane na nośnikach pamięci.", c: true },
+                { t: "Umożliwia hierarchiczną strukturę katalogów.", c: true },
+                { t: "Odpowiada za planowanie procesów.", c: false },
+                { t: "Zapewnia mechanizmy kontroli dostępu do plików.", c: true }
+            ]
+        },
+        {
+            id: 16, text: "Dlaczego wykonywanie kopii zapasowych konfiguracji jest istotne w administracji systemami Linux?",
+            options: [
+                { t: "Pozwala cofnąć nieudane zmiany konfiguracyjne.", c: true },
+                { t: "Umożliwia szybkie odtworzenie systemu po awarii.", c: true },
+                { t: "Wspiera ciągłość działania usług.", c: true },
+                { t: "Eliminuje potrzebę testowania zmian.", c: false }
+            ]
+        },
+        {
+            id: 17, text: "Jaką funkcję pełni system DNS?",
+            options: [
+                { t: "Tłumaczy nazwy domenowe na adresy IP.", c: true },
+                { t: "Zarządza routingiem pakietów.", c: false },
+                { t: "Zapewnia szyfrowanie połączeń.", c: false },
+                { t: "Umożliwia wskazanie hosta lub usługi na podstawie nazwy.", c: true }
+            ]
+        },
+        {
+            id: 18, text: "Dlaczego uruchamianie usług sieciowych z uprawnieniami root jest uznawane za ryzykowne?",
+            options: [
+                { t: "Zmniejsza wydajność systemu.", c: false },
+                { t: "Kompromitacja usługi może prowadzić do pełnego przejęcia systemu.", c: true },
+                { t: "Zwiększa potencjalne skutki błędów konfiguracji.", c: true },
+                { t: "Narusza zasadę najmniejszych uprawnień.", c: true }
+            ]
+        },
+        {
+            id: 19, text: "Które konsekwencje może mieć błędny wpis w pliku /etc/fstab?",
+            options: [
+                { t: "System plików może zostać zamontowany w trybie tylko do odczytu.", c: true },
+                { t: "Jądro zostanie automatycznie zaktualizowane.", c: false },
+                { t: "Usługi sieciowe przestaną działać.", c: false },
+                { t: "System może nie uruchomić się poprawnie.", c: true }
+            ]
+        },
+        {
+            id: 20, text: "Dlaczego w systemach Linux proces potomny dziedziczy deskryptory plików po procesie rodzicu?",
+            options: [
+                { t: "Umożliwia to przekazywanie strumieni danych między procesami.", c: true },
+                { t: "Jest wymagane przez system plików.", c: false },
+                { t: "Zapobiega wyciekom pamięci.", c: false },
+                { t: "Pozwala na dalsze korzystanie z już otwartych zasobów.", c: true }
+            ]
+        },
+        {
+            id: 21, text: "Które stwierdzenia poprawnie opisują różnicę między enabled a active w systemd?",
+            options: [
+                { t: "Usługa aktywna zawsze jest włączona.", c: false },
+                { t: "enabled określa, czy usługa uruchamia się przy starcie systemu.", c: true },
+                { t: "Usługa włączona zawsze jest aktywna.", c: false },
+                { t: "active oznacza, że usługa aktualnie działa.", c: true }
+            ]
+        },
+        {
+            id: 22, text: "Dlaczego restart pojedynczej usługi jest często preferowany zamiast restartu całego systemu?",
+            options: [
+                { t: "Ogranicza wpływ zmian do konkretnego komponentu.", c: true },
+                { t: "Minimalizuje przerwę w dostępności usług.", c: true },
+                { t: "Eliminuje potrzebę analizy logów.", c: false },
+                { t: "Zawsze rozwiązuje wszystkie problemy systemowe.", c: false }
+            ]
+        },
+        {
+            id: 23, text: "Dlaczego mechanizmy MAC są stosowane równolegle z DAC w systemach Linux?",
+            options: [
+                { t: "Zastępują klasyczne prawa plików.", c: false },
+                { t: "Upraszczają konfigurację systemu.", c: false },
+                { t: "Ograniczają skutki przejęcia kont użytkowników lub usług.", c: true },
+                { t: "Zapewniają dodatkową, niezależną warstwę kontroli dostępu.", c: true }
+            ]
+        },
+        {
+            id: 24, text: "Dlaczego monitorowanie systemu jest istotnym elementem administracji?",
+            options: [
+                { t: "Eliminuje potrzebę dokumentowania zmian.", c: false },
+                { t: "Zastępuje mechanizmy kopii zapasowych.", c: false },
+                { t: "Pozwala analizować długoterminowe trendy obciążenia.", c: true },
+                { t: "Umożliwia wykrywanie problemów zanim wpłyną na użytkowników.", c: true }
+            ]
+        },
+        {
+            id: 25, text: "Dlaczego wydzielenie katalogu /home do osobnego systemu plików jest dobrą praktyką administracyjną?",
+            options: [
+                { t: "Ułatwia reinstalację systemu bez utraty danych użytkowników.", c: true },
+                { t: "Zwiększa szybkość działania aplikacji użytkownika.", c: false },
+                { t: "Pozwala stosować inne opcje montowania niż dla systemu głównego.", c: true },
+                { t: "Eliminuje potrzebę wykonywania kopii zapasowych.", c: false }
+            ]
+        },
+        {
+            id: 26, text: "Dlaczego regularne aktualizacje systemu są kluczowe z punktu widzenia bezpieczeństwa?",
+            options: [
+                { t: "Usuwają znane podatności bezpieczeństwa.", c: true },
+                { t: "Zmniejszają ryzyko wykorzystania znanych exploitów.", c: true },
+                { t: "Eliminują potrzebę tworzenia kopii zapasowych.", c: false },
+                { t: "Mogą wprowadzać poprawki w mechanizmach ochrony systemu.", c: true }
+            ]
+        },
+        {
+            id: 27, text: "Dlaczego w systemach Linux zaleca się korzystanie z sudo zamiast bezpośredniego logowania na konto root?",
+            options: [
+                { t: "Eliminuje potrzebę istnienia konta root.", c: false },
+                { t: "Umożliwia rejestrowanie i audyt wykonywanych poleceń.", c: true },
+                { t: "Ogranicza czas trwania podwyższonych uprawnień.", c: true },
+                { t: "Upraszcza konfigurację kont użytkowników.", c: false }
+            ]
+        },
+        {
+            id: 28, text: "Które problemy mogą wystąpić przy błędnej konfiguracji jednostki typu service?",
+            options: [
+                { t: "Usługa nie uruchomi się po starcie systemu.", c: true },
+                { t: "System może przejść w tryb awaryjny.", c: true },
+                { t: "Usługa zawsze zostanie automatycznie zrestartowana.", c: false },
+                { t: "Konfiguracja interfejsów sieciowych przestanie działać.", c: false }
+            ]
+        },
+        {
+            id: 29, text: "Które stwierdzenia dotyczące konta root są prawdziwe?",
+            options: [
+                { t: "Nie może być zastąpione przez mechanizm sudo.", c: false },
+                { t: "Może być bezpiecznie używane do codziennej pracy.", c: false },
+                { t: "Posiada nieograniczone uprawnienia w systemie.", c: true },
+                { t: "Jest przeznaczone do administracji systemem.", c: true }
+            ]
+        },
+        {
+            id: 30, text: "Które cechy charakteryzują wątki w systemach Unix/Linux?",
+            options: [
+                { t: "Wątki są planowane przez jądro systemu.", c: true },
+                { t: "Wątki umożliwiają równoległe wykonywanie zadań.", c: true },
+                { t: "Każdy wątek posiada niezależną przestrzeń adresową.", c: false },
+                { t: "Wątki współdzielą przestrzeń adresową procesu.", c: true }
+            ]
+        },
+        {
+            id: 31, text: "Za co odpowiada planista (scheduler) w systemie Linux?",
+            options: [
+                { t: "Zarządza strukturą systemu plików.", c: false },
+                { t: "Przydziela czas procesora procesom.", c: true },
+                { t: "Decyduje o kolejności wykonywania procesów.", c: true },
+                { t: "Odpowiada za ładowanie modułów jądra.", c: false }
+            ]
+        },
+        {
+            id: 32, text: "Jakie korzyści daje stosowanie mechanizmów MAC (np. SELinux) w systemach Linux?",
+            options: [
+                { t: "Zastępuje klasyczne prawa dostępu do plików.", c: false },
+                { t: "Upraszcza zarządzanie użytkownikami.", c: false },
+                { t: "Wprowadza politykę bezpieczeństwa niezależną od modelu DAC.", c: true },
+                { t: "Ogranicza skutki przejęcia konta lub usługi.", c: true }
+            ]
+        },
+        {
+            id: 33, text: "Które elementy powinny być uwzględnione przy projektowaniu bezpiecznego systemu Linux?",
+            options: [
+                { t: "Minimalizacja liczby uruchomionych usług.", c: true },
+                { t: "Regularne aktualizacje systemu.", c: true },
+                { t: "Użycie jednego wspólnego konta administracyjnego.", c: false },
+                { t: "Stosowanie zasady najmniejszych uprawnień.", c: true }
+            ]
+        },
+        {
+            id: 34, text: "Które elementy świadczą o dojrzałym podejściu do administracji systemem Linux?",
+            options: [
+                { t: "Świadome i systematyczne zarządzanie bezpieczeństwem.", c: true },
+                { t: "Monitorowanie oraz dokumentowanie zmian.", c: true },
+                { t: "Ręczna konfiguracja każdego elementu systemu.", c: false },
+                { t: "Automatyzacja powtarzalnych zadań administracyjnych.", c: true }
+            ]
+        },
+        {
+            id: 35, text: "Po restarcie systemu Debian 13 usługa nie uruchamia się automatycznie. Które przyczyny są możliwe?",
+            options: [
+                { t: "Usługa jest jednostką typu static.", c: true },
+                { t: "Usługa nie została włączona do startu systemu.", c: true },
+                { t: "Brak połączenia z Internetem.", c: false },
+                { t: "Jednostka systemd zawiera błędną konfigurację.", c: true }
+            ]
+        },
+        {
+            id: 36, text: "Które elementy wpływają na bezpieczeństwo systemu Linux?",
+            options: [
+                { t: "Konfiguracja usług.", c: true },
+                { t: "Model uprawnień.", c: true },
+                { t: "Wyłącznie hasła użytkowników.", c: false },
+                { t: "Wyłącznie zapora sieciowa.", c: false }
+            ]
+        },
+        {
+            id: 37, text: "Które stwierdzenia dotyczące systemd są prawdziwe?",
+            options: [
+                { t: "Zarządza usługami systemowymi.", c: true },
+                { t: "Umożliwia definiowanie zależności między jednostkami.", c: true },
+                { t: "Odpowiada za kompilację jądra.", c: false },
+                { t: "Jest systemem init.", c: true }
+            ]
+        },
+        {
+            id: 38, text: "Jakie zagrożenia może powodować niekontrolowane uruchamianie usług przy starcie systemu?",
+            options: [
+                { t: "Zwiększenie przepustowości sieci.", c: false },
+                { t: "Wydłużenie czasu uruchamiania systemu.", c: true },
+                { t: "Utrudnioną diagnostykę problemów systemowych.", c: true },
+                { t: "Zwiększenie powierzchni ataku systemu.", c: true }
+            ]
+        },
+        {
+            id: 39, text: "Które czynniki należy uwzględnić przy aktualizacji systemu Debian 13 na serwerze produkcyjnym?",
+            options: [
+                { t: "Konieczność restartu usług lub systemu.", c: true },
+                { t: "Możliwość przerwy w dostępności usług.", c: true },
+                { t: "Zgodność konfiguracji po aktualizacji.", c: true },
+                { t: "Aktualną temperaturę procesora.", c: false }
+            ]
+        },
+        {
+            id: 40, text: "Dlaczego usługi sieciowe często działają na dedykowanych kontach systemowych?",
+            options: [
+                { t: "Zmniejsza skutki ewentualnego przejęcia usługi.", c: true },
+                { t: "Upraszcza konfigurację systemu DNS.", c: false },
+                { t: "Zwiększa wydajność sieci.", c: false },
+                { t: "Ogranicza to ich uprawnienia.", c: true }
+            ]
+        },
+        {
+            id: 41, text: "Jakie konsekwencje może mieć brak monitorowania usług na serwerze produkcyjnym?",
+            options: [
+                { t: "Trudności w ocenie stabilności systemu.", c: true },
+                { t: "Opóźnione wykrycie awarii.", c: true },
+                { t: "Brak danych do analizy incydentów.", c: true },
+                { t: "Zwiększenie dostępności systemu.", c: false }
+            ]
+        },
+        {
+            id: 42, text: "Do czego służy katalog /etc w systemie Linux?",
+            options: [
+                { t: "Przechowuje pliki konfiguracyjne systemu.", c: true },
+                { t: "Przechowuje pliki binarne programów.", c: false },
+                { t: "Jest wykorzystywany do konfiguracji usług.", c: true },
+                { t: "Zawiera dane użytkowników.", c: false }
+            ]
+        },
+        {
+            id: 43, text: "Jaką rolę pełnią jednostki typu target w systemd?",
+            options: [
+                { t: "Grupują inne jednostki logicznie.", c: true },
+                { t: "Zastępują klasyczne runlevele.", c: true },
+                { t: "Odpowiadają za konfigurację sieci.", c: false },
+                { t: "Są wykonywane jako procesy.", c: false }
+            ]
+        },
+        {
+            id: 44, text: "Które stwierdzenia dotyczące usług sieciowych są prawdziwe?",
+            options: [
+                { t: "Są zawsze uruchamiane z uprawnieniami root.", c: false },
+                { t: "Usługi sieciowe działają jako procesy.", c: true },
+                { t: "Mogą być zarządzane przez systemd.", c: true },
+                { t: "Nie wymagają konfiguracji.", c: false }
+            ]
+        },
+        {
+            id: 45, text: "Które skutki może mieć błędna konfiguracja zapory sieciowej na serwerze?",
+            options: [
+                { t: "Narażenie systemu na ataki z sieci.", c: true },
+                { t: "Utrudnienia w zdalnym zarządzaniu systemem.", c: true },
+                { t: "Utrata dostępu do świadczonych usług.", c: true },
+                { t: "Zwiększenie wydajności systemu.", c: false }
+            ]
+        },
+        {
+            id: 46, text: "Które stwierdzenia poprawnie opisują proces w systemie Linux?",
+            options: [
+                { t: "Proces jest instancją uruchomionego programu.", c: true },
+                { t: "Proces nie posiada własnej przestrzeni adresowej.", c: false },
+                { t: "Każdy proces posiada unikalny identyfikator PID.", c: true },
+                { t: "Proces zawsze składa się z jednego wątku.", c: false }
+            ]
+        },
+        {
+            id: 47, text: "Które konsekwencje może mieć uruchomienie usługi systemowej z uprawnieniami root?",
+            options: [
+                { t: "Poprawę wydajności usługi.", c: false },
+                { t: "Brak konieczności zarządzania uprawnieniami.", c: false },
+                { t: "Dostęp usługi do wszystkich zasobów systemowych.", c: true },
+                { t: "Zwiększenie potencjalnych skutków podatności w usłudze.", c: true }
+            ]
+        },
+        {
+            id: 48, text: "Które informacje są kluczowe przy analizie procesu zużywającego nadmierne zasoby systemowe?",
+            options: [
+                { t: "Nazwa systemu plików.", c: false },
+                { t: "Zużycie pamięci.", c: true },
+                { t: "Stan procesu.", c: true },
+                { t: "Zużycie procesora.", c: true }
+            ]
+        },
+        {
+            id: 49, text: "Które prawa dostępu są definiowane dla plików w systemie Linux?",
+            options: [
+                { t: "Zapis.", c: true },
+                { t: "Wykonanie.", c: true },
+                { t: "Dziedziczenie.", c: false },
+                { t: "Odczyt.", c: true }
+            ]
+        },
+        {
+            id: 50, text: "Dlaczego systemd wykorzystuje zależności między jednostkami?",
+            options: [
+                { t: "Aby zastąpić mechanizm kontroli dostępu DAC.", c: false },
+                { t: "Aby kontrolować kolejność uruchamiania usług.", c: true },
+                { t: "Aby ograniczyć zużycie pamięci.", c: false },
+                { t: "Aby zapewnić dostępność wymaganych zasobów", c: true }
+            ]
+        }
+    ];
 
     // Funkcja mieszająca (Fisher-Yates)
     function shuffle(array) {
@@ -551,81 +590,90 @@
         return array;
     }
 
-    // --- RENDEROWANIE ---
+    // Renderowanie pytań
     function renderQuiz() {
         const quizArea = document.getElementById('quiz-area');
-        // Mieszamy kolejność pytań
+        // Mieszanie kolejności pytań
         const shuffledQuestions = shuffle([...rawQuestions]);
 
         shuffledQuestions.forEach((q, index) => {
             const card = document.createElement('div');
             card.className = 'q-card';
             
-            // Nagłówek pytania
-            let typeLabel = getTypeLabel(q.type);
-            card.innerHTML = `<div class="q-header">${index + 1}. ${q.text} <span class="badge">${typeLabel}</span></div>`;
+            // Nagłówek
+            card.innerHTML = `<div class="q-header">
+                <span>${index + 1}. ${q.text}</span>
+                <span class="badge">Wielokrotny wybór</span>
+            </div>`;
 
-            // Treść
-            const content = document.createElement('div');
-            content.className = 'q-content';
-            renderOptions(q, content);
+            // Kontener opcji
+            const list = document.createElement('div');
+            list.className = 'options-list';
+            
+            // Mieszanie opcji wewnątrz pytania
+            const shuffledOptions = shuffle([...q.options]);
 
-            card.appendChild(content);
+            shuffledOptions.forEach((opt) => {
+                const label = document.createElement('label');
+                label.className = 'opt-label';
+                
+                // Input checkbox
+                const input = document.createElement('input');
+                input.type = 'checkbox';
+                input.value = opt.c; // true/false jako string
+                
+                label.appendChild(input);
+                // Usunięcie ewentualnych prefiksów "a.", "b." z tekstu dla estetyki po przemieszaniu
+                const cleanText = opt.t.replace(/^[a-z]\.\s+/, '');
+                label.appendChild(document.createTextNode(cleanText));
+                
+                list.appendChild(label);
+            });
+
+            card.appendChild(list);
+
+            // Przycisk sprawdzania
+            const btn = document.createElement('button');
+            btn.className = 'btn-check';
+            btn.innerText = 'Sprawdź odpowiedź';
+            
+            btn.onclick = () => {
+                const inputs = list.querySelectorAll('input');
+                let allCorrect = true;
+
+                inputs.forEach(inp => {
+                    const parent = inp.parentElement;
+                    parent.classList.remove('correct', 'wrong', 'missed');
+                    
+                    const isCorrect = inp.value === 'true';
+                    const isChecked = inp.checked;
+
+                    if (isChecked) {
+                        if (isCorrect) {
+                            parent.classList.add('correct');
+                        } else {
+                            parent.classList.add('wrong');
+                            allCorrect = false;
+                        }
+                    } else {
+                        // Jeśli odpowiedź była poprawna, ale nie zaznaczona
+                        if (isCorrect) {
+                            parent.classList.add('missed');
+                            allCorrect = false;
+                        }
+                    }
+                });
+                
+                btn.innerText = allCorrect ? 'Świetnie! Poprawna odpowiedź' : 'Sprawdź poprawki';
+                btn.style.background = allCorrect ? '#00b894' : '#e95420';
+            };
+
+            card.appendChild(btn);
             quizArea.appendChild(card);
         });
     }
 
-    function getTypeLabel(type) {
-        if(type === 'single') return 'Jednokrotny wybór';
-        if(type === 'multi') return 'Wielokrotny wybór';
-        return '';
-    }
-
-    // Funkcja renderująca opcje (Single/Multi)
-    function renderOptions(q, container) {
-        const list = document.createElement('div');
-        list.className = 'options-list';
-        
-        // Mieszanie odpowiedzi
-        const shuffledOpts = shuffle([...q.options]);
-
-        shuffledOpts.forEach((opt, idx) => {
-            const label = document.createElement('label');
-            label.className = 'opt-label';
-            const inputType = q.type === 'single' ? 'radio' : 'checkbox';
-            
-            label.innerHTML = `
-                <input type="${inputType}" name="q_${q.id}" value="${opt.c}">
-                <span>${opt.t}</span>
-            `;
-            list.appendChild(label);
-        });
-
-        const btn = document.createElement('button');
-        btn.className = 'btn-check';
-        btn.innerText = 'Sprawdź odpowiedź';
-        btn.onclick = () => {
-            const inputs = list.querySelectorAll('input');
-            inputs.forEach(inp => {
-                const parent = inp.parentElement;
-                parent.classList.remove('correct', 'wrong');
-                parent.style.border = ""; 
-
-                if (inp.checked) {
-                    if (inp.value === 'true') parent.classList.add('correct');
-                    else parent.classList.add('wrong');
-                } else if (q.type === 'multi' && inp.value === 'true') {
-                    // Opcjonalnie: zaznacz poprawne, których użytkownik nie wybrał
-                    parent.style.border = "2px dashed #27ae60"; 
-                }
-            });
-        };
-
-        container.appendChild(list);
-        container.appendChild(btn);
-    }
-
-    // START
+    // Start
     renderQuiz();
 
 </script>
