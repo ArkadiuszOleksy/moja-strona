@@ -120,7 +120,206 @@
     <h1>Egzamin Administratora Linux</h1>
     <div id="quiz-area"></div>
 </div>
+<div id="linux-exam-compendium-full" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; line-height: 1.6; max-width: 950px; margin: 20px auto; padding: 30px; background-color: #fff; border: 1px solid #e1e4e8; border-radius: 8px;">
 
+    <style>
+        #linux-exam-compendium-full h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        #linux-exam-compendium-full h2 { color: #2980b9; margin-top: 30px; border-left: 5px solid #3498db; padding-left: 15px; background: #f8f9fa; }
+        #linux-exam-compendium-full h3 { color: #16a085; margin-top: 20px; text-decoration: underline; }
+        #linux-exam-compendium-full .section-box { border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; border-radius: 5px; }
+        #linux-exam-compendium-full .important-note { background-color: #fff3cd; border: 1px solid #ffeeba; padding: 10px; margin: 10px 0; border-radius: 4px; }
+        #linux-exam-compendium-full ul { padding-left: 25px; }
+        #linux-exam-compendium-full code { background-color: #f4f4f4; padding: 2px 5px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; font-weight: bold; }
+        #linux-exam-compendium-full .exam-focus { color: #d63031; font-weight: bold; }
+    </style>
+
+    <header style="text-align: center; margin-bottom: 30px;">
+        <h1>Kompendium Wiedzy: Administracja Systemami Linux/Unix</h1>
+        <p><em>Notatka opracowana na podstawie wymagań, wykładów oraz analizy pytań testowych.</em></p>
+    </header>
+
+    <div class="section-box">
+        <h2>1. Wprowadzenie do Administracji</h2>
+        <p><strong>Podstawa:</strong> Administrator (root) to osoba odpowiedzialna za ciągłość działania, bezpieczeństwo i wydajność systemu.</p>
+        <p><span class="exam-focus">Kluczowe Obowiązki (Pytania egzaminacyjne):</span></p>
+        <ul>
+            <li><strong>Zarządzanie kontami użytkowników:</strong> Tworzenie, usuwanie, modyfikacja uprawnień.</li>
+            <li><strong>Konfiguracja usług systemowych:</strong> Instalacja, dostrajanie, zabezpieczanie demonów (np. WWW, SSH).</li>
+            <li><strong>Bezpieczeństwo:</strong> Regularne aktualizacje (łatanie podatności), konfiguracja zapory (firewall).</li>
+            <li><strong>Automatyzacja:</strong> Skrypty, narzędzia config management (unikamy ręcznej pracy przy powtarzalnych zadaniach).</li>
+            <li><strong>Backup:</strong> Wykonywanie kopii zapasowych, w tym kopii konfiguracji (pozwala na szybkie odtworzenie po awarii lub błędzie).</li>
+        </ul>
+        <h3>Najważniejsze Zasady ("Dobre Praktyki"):</h3>
+        <ul>
+            <li><strong>Dokumentowanie zmian:</strong> Każda ręczna zmiana w plikach konfiguracyjnych musi być udokumentowana.
+                <ul><li><em>Ryzyko braku:</em> Problemy przy aktualizacji, niemożliwość odtworzenia systemu, trudna diagnostyka.</li></ul>
+            </li>
+            <li><strong>Monitorowanie (Logi):</strong>
+                <ul>
+                    <li><em>Dlaczego?</em> Pozwala wykryć awarie zanim wpłyną na użytkownika, śledzić incydenty bezpieczeństwa i analizować trendy obciążenia.</li>
+                    <li><em>Główny katalog logów:</em> <code>/var/log</code>.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="section-box">
+        <h2>2. Procesy i Wątki</h2>
+        <p>To mechanizmy wykonywania programów. Egzamin kładzie duży nakład na różnice między nimi.</p>
+        
+        [Image of process and thread memory sharing comparison]
+
+        <h3>Proces</h3>
+        <ul>
+            <li><strong>Definicja:</strong> Instancja uruchomionego programu.</li>
+            <li><strong>Izolacja:</strong> Każdy proces ma własną przestrzeń adresową (pamięć).</li>
+            <li><strong>Identyfikacja:</strong> Unikalny numer PID (Process ID).</li>
+            <li><strong>Dziedziczenie:</strong> Proces potomny (child) dziedziczy po rodzicu deskryptory plików (co pozwala np. przekazywać strumienie danych).</li>
+            <li><strong>Analiza obciążenia:</strong> Kluczowe metryki to CPU (procesor) i RAM (pamięć). Stan procesu (Running, Sleeping, Zombie) jest ważny diagnostycznie.</li>
+        </ul>
+
+        <h3>Wątek (Thread)</h3>
+        <ul>
+            <li><strong>Definicja:</strong> "Lżejsza" jednostka wykonania wewnątrz procesu.</li>
+            <li><strong>Współdzielenie:</strong> Wątki tego samego procesu współdzielą przestrzeń adresową (tę samą pamięć) oraz deskryptory plików. To ich główna cecha odróżniająca od procesów.</li>
+            <li><strong>Planowanie:</strong> W systemie Linux wątki są planowane (zarządzane) przez jądro systemu (kernel), a nie tylko przez bibliotekę użytkownika.</li>
+        </ul>
+        <p><strong>Planista (Scheduler):</strong> Odpowiada za przydział czasu procesora. Decyduje o kolejności wykonywania procesów/wątków.</p>
+    </div>
+
+    <div class="section-box">
+        <h2>3. System Plików</h2>
+        <p>Linux traktuje wszystko jako plik (nawet sprzęt).</p>
+        <h3>Hierarchia i Katalogi</h3>
+        <ul>
+            <li><code>/</code> (Root): Najwyższy poziom hierarchii, punkt montowania innych systemów.</li>
+            <li><code>/etc</code>: Serce konfiguracji. Przechowuje pliki konfiguracyjne systemu i usług.</li>
+            <li><code>/home</code>: Katalogi domowe użytkowników.</li>
+            <li><strong>Dobra praktyka:</strong> Wydzielenie <code>/home</code> na osobną partycję/system plików. Ułatwia to reinstalację systemu (formatujesz <code>/</code>, a dane w <code>/home</code> zostają nienaruszone) oraz pozwala na inne opcje montowania (np. <code>nosuid</code>).</li>
+        </ul>
+
+        <h3>Montowanie i /etc/fstab</h3>
+        <ul>
+            <li><strong>Montowanie:</strong> Podłączenie systemu plików do drzewa katalogów.</li>
+            <li><code>/etc/fstab</code>: Plik definiujący systemy plików montowane przy starcie.</li>
+            <li><span class="exam-focus">Ryzyko błędu:</span> Błąd w tym pliku (np. literówka w UUID) jest krytyczny. Może spowodować, że system nie uruchomi się wcale (boot failure) lub wejdzie w tryb awaryjny (emergency mode), co zatrzyma usługi sieciowe. Czasami system czeka długo na timeout.</li>
+            <li><strong>Opcja noexec:</strong> Zabezpieczenie. Montowanie partycji (np. <code>/tmp</code> lub <code>/home</code>) z tą flagą uniemożliwia wykonywanie plików binarnych. Chroni to przed uruchomieniem złośliwego kodu, który użytkownik mógłby pobrać.</li>
+        </ul>
+
+        <h3>Funkcje Systemu Plików</h3>
+        <ul>
+            <li>Organizacja danych na nośniku.</li>
+            <li>Tworzenie hierarchicznej struktury katalogów.</li>
+            <li>Zapewnienie mechanizmów kontroli dostępu (prawa, właściciele).</li>
+        </ul>
+    </div>
+
+    <div class="section-box">
+        <h2>4. Mechanizmy Kontroli Dostępu i Bezpieczeństwo</h2>
+        <p>Bezpieczeństwo w Linuxie jest warstwowe.</p>
+        
+        [Image of DAC vs MAC security models]
+
+        <h3>DAC (Discretionary Access Control) - "Tradycyjny model"</h3>
+        <ul>
+            <li>Opiera się na tożsamości właściciela.</li>
+            <li>Elementy: Właściciel, Grupa, Prawa dostępu (r - odczyt, w - zapis, x - wykonanie).</li>
+            <li><strong>Wada:</strong> Jeśli użytkownik ma prawo do pliku, może przekazać je innym. Wirus uruchomiony przez użytkownika ma dostęp do wszystkich jego plików.</li>
+        </ul>
+
+        <h3>MAC (Mandatory Access Control) - np. SELinux, AppArmor</h3>
+        <ul>
+            <li>Dodatkowa warstwa bezpieczeństwa działająca równolegle z DAC.</li>
+            <li>Polityka jest narzucona odgórnie przez administratora (użytkownik nie może jej zmienić).</li>
+            <li><strong>Kluczowa zaleta:</strong> Ogranicza skutki przejęcia usługi/konta. Nawet jeśli haker przejmie proces WWW, MAC zablokuje mu dostęp do <code>/etc/shadow</code> czy katalogów domowych, jeśli nie są one niezbędne do działania serwera WWW.</li>
+        </ul>
+
+        <h3>Konto Root i Sudo</h3>
+        <ul>
+            <li><strong>Root:</strong> Superużytkownik. Ma nieograniczony dostęp. <em>Ryzyko:</em> Uruchamianie usług jako root to proszenie się o kłopoty. Luka w usłudze = pełne przejęcie systemu.</li>
+            <li><strong>Sudo:</strong> Narzędzie do czasowego podnoszenia uprawnień.
+                <ul>
+                    <li><em>Zalety:</em> Rejestruje (loguje) każde polecenie (audytowalność), nie wymaga znajomości hasła roota, ogranicza czas działania na wysokich uprawnieniach.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="important-note">
+            <strong>Zasada Najmniejszych Uprawnień (Least Privilege):</strong><br>
+            Fundament bezpieczeństwa. Użytkownik/proces powinien mieć tylko tyle uprawnień, ile jest absolutnie niezbędne do wykonania zadania.<br>
+            <em>Skutki:</em> Ogranicza wektory ataku i minimalizuje szkody w przypadku błędu lub włamania.
+        </div>
+    </div>
+
+    <div class="section-box">
+        <h2>5. Systemd</h2>
+        <p>Współczesny menedżer systemu i usług (PID 1).</p>
+        <h3>Funkcje</h3>
+        <ul>
+            <li>Jest systemem init (startuje jako pierwszy).</li>
+            <li>Zarządza usługami (start, stop, restart).</li>
+            <li>Rozwiązuje zależności między usługami.</li>
+        </ul>
+
+        <h3>Jednostki (Units)</h3>
+        <ul>
+            <li><strong>Service (.service):</strong> Opisuje usługę (demona), np. serwer WWW.
+                <ul><li><em>Błędna konfiguracja:</em> Może sprawić, że usługa nie wstanie lub system wejdzie w tryb awaryjny (jeśli usługa jest oznaczona jako krytyczna <code>Requires</code>).</li></ul>
+            </li>
+            <li><strong>Target (.target):</strong> Grupuje inne jednostki. Odpowiednik dawnych "runleveli" (np. <code>multi-user.target</code> to tryb tekstowy z siecią).</li>
+        </ul>
+
+        <h3>Zarządzanie (Systemctl)</h3>
+        <p><strong>enable vs active (częste pytanie):</strong></p>
+        <ul>
+            <li><strong>Enabled:</strong> Usługa jest skonfigurowana do automatycznego startu przy uruchamianiu systemu (tworzy symlinki). Nie oznacza, że działa "teraz".</li>
+            <li><strong>Active:</strong> Usługa aktualnie działa (jest w pamięci).</li>
+            <li><strong>Niekontrolowane usługi:</strong> Zbyt wiele usług włączonych przy starcie (enabled) wydłuża bootowanie, zwiększa "powierzchnię ataku" i utrudnia diagnostykę.</li>
+        </ul>
+
+        <h3>Zależności (Dependencies)</h3>
+        <ul>
+            <li><strong>Kolejność (Ordering):</strong> <code>Before=</code>, <code>After=</code> (np. sieć musi wstać przed serwerem poczty).</li>
+            <li><strong>Wymagania (Requirement):</strong> <code>Requires=</code>, <code>Wants=</code> (np. usługa A wymaga usługi B).</li>
+            <li><em>Skutki błędów:</em> Pętle zależności, start w złej kolejności, niewstawanie usług.</li>
+        </ul>
+    </div>
+
+    <div class="section-box">
+        <h2>6. Sieci i Usługi Sieciowe</h2>
+        <h3>Podstawy Komunikacji</h3>
+        <p>Do działania hosta w sieci (szczególnie LAN/Internet) niezbędne są 3 elementy:</p>
+        <ul>
+            <li>Adres IP: Unikalny identyfikator.</li>
+            <li>Interfejs sieciowy: Karta/urządzenie.</li>
+            <li>Brama domyślna (Gateway): Aby wyjść poza sieć lokalną (do Internetu).</li>
+        </ul>
+
+        <h3>DNS (Domain Name System)</h3>
+        <p>Tłumaczy nazwy zrozumiałe dla człowieka na adresy IP.</p>
+
+        <h3>Usługi Sieciowe</h3>
+        <ul>
+            <li>Działają jako procesy w tle, zarządzane przez systemd.</li>
+            <li><strong>Dedykowane konta:</strong> Usługi (np. Apache, Postfix) uruchamia się na dedykowanych kontach użytkowników (nie root!), aby ograniczyć uprawnienia w razie włamania.</li>
+        </ul>
+
+        <h3>Zapora Sieciowa (Firewall)</h3>
+        <p>Kontroluje ruch przychodzący i wychodzący. <em>Skutki złej konfiguracji:</em> Odcięcie dostępu (np. zablokowanie sobie SSH), niedostępność usług dla klientów, narażenie na ataki.</p>
+
+        <p><strong>Co decyduje, czy proces nawiąże połączenie?</strong></p>
+        <ol>
+            <li>Konfiguracja sieci (IP, routing).</li>
+            <li>Zapora sieciowa (czy port jest otwarty).</li>
+            <li>Uprawnienia procesu/użytkownika (np. SELinux może blokować wyjście na świat).</li>
+        </ol>
+    </div>
+
+    <footer style="text-align: center; color: #7f8c8d; margin-top: 20px; font-size: 0.8em;">
+        Opracowano na potrzeby egzaminu z Administracji Systemami Linux.
+    </footer>
+
+</div>
 <script>
     // --- BAZA DANYCH PYTAŃ (ZGODNA Z TREŚCIĄ ZADANIA) ---
     // Wszystkie pytania są traktowane jako "Wybierz wszystkie poprawne" (multi)
