@@ -120,225 +120,312 @@
     <h1>Egzamin Administratora Linux</h1>
     <div id="quiz-area"></div>
 </div>
-<div style="font-family: sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px;">
-
-    <p>Zrozumiałem. Przechodzimy na poziom „Expert Mode”. Egzaminy tego typu często sprawdzają nie tylko to, „co” się dzieje, ale „dlaczego” tak się dzieje pod maską. Aby odpowiedzieć na podchwytliwe pytania, musisz rozumieć mechanizmy jądra (kernela).</p>
+<div id="streszczenie-wykladow">
     
-    <p>Oto kompleksowe kompendium wiedzy, które wykracza poza pytania testowe, wyjaśniając architekturę systemu Linux.</p>
-
-    <hr style="border: 0; border-top: 1px solid #ccc; margin: 20px 0;">
-
-    <h2 style="color: #0056b3;">CZĘŚĆ I: Architektura i Jądro Systemu (Fundamenty)</h2>
-    <p>Zrozumienie tego działu jest kluczowe dla pytań o "obowiązki administratora" i "wpływ na system".</p>
-
-    <h3 style="color: #333;">1. Jądro (Kernel) – Serce Systemu</h3>
-    <p>To nie jest tylko "program zarządzający sprzętem". Kernel działa w uprzywilejowanym trybie procesora (<strong>Ring 0</strong>), podczas gdy wszystko inne (przeglądarka, serwer WWW, Twoja powłoka bash) działa w przestrzeni użytkownika (<strong>Ring 3</strong>).</p>
+    <h2>Wykład 1: Wprowadzenie do Administracji Systemami Operacyjnymi Linux/Unix</h2>
+    <p>Wykład ten stanowi fundament wiedzy dla administratora, definiując podstawowe pojęcia bezpieczeństwa, przegląd systemów oraz rolę administratora.</p>
+    
+    <h3>1. Podstawy bezpieczeństwa (Triada CIA)</h3>
+    <p>Fundamentem bezpieczeństwa są trzy elementy:</p>
     <ul>
-        <li><strong>System Call (Wywołanie systemowe):</strong> Gdy program chce zapisać plik lub wysłać pakiet, nie robi tego sam. Prosi o to jądro poprzez syscall (np. <code>read()</code>, <code>write()</code>, <code>fork()</code>).</li>
-        <li><strong>Monolityczna architektura:</strong> W Linuxie sterowniki, obsługa sieci i systemy plików są częścią jądra (ładowane dynamicznie jako moduły <code>.ko</code>), co zapewnia wydajność, ale błąd w sterowniku może wywalić cały system (Kernel Panic).</li>
+        <li><strong>Poufność (Confidentiality):</strong> Ochrona danych przed dostępem osób niepowołanych.</li>
+        <li><strong>Integralność (Integrity):</strong> Gwarancja, że dane nie zostały zmienione w sposób nieautoryzowany.</li>
+        <li><strong>Dostępność (Availability):</strong> Zapewnienie dostępu do systemów dla uprawnionych użytkowników.</li>
     </ul>
 
-    <h3 style="color: #333;">2. Przestrzeń Użytkownika (User Space)</h3>
-    <p>Tu działają procesy. Administrator zarządza tą warstwą, konfigurując, jak procesy rozmawiają z jądrem.</p>
+    <h3>2. Wektory ataku i środki zapobiegawcze</h3>
     <ul>
-        <li><strong>Shell (Powłoka):</strong> To tylko interfejs tekstowy do jądra. Bash, Zsh, Sh to programy, które interpretują Twoje polecenia i uruchamiają inne programy.</li>
+        <li><strong>Socjotechnika:</strong> Użytkownicy są najsłabszym ogniwem; wymagane są regularne szkolenia.</li>
+        <li><strong>Podatności oprogramowania:</strong> Błędy w kodzie umożliwiające przejęcie kontroli. Należy ograniczać uprawnienia aplikacji i stosować systemy kontroli dostępu jak SELinux czy AppArmor.</li>
+        <li><strong>DDoS:</strong> Ataki na dostępność, wymagające mitygacji na poziomie infrastruktury sieciowej i WAF.</li>
+        <li><strong>Zagrożenia wewnętrzne:</strong> Trudne do wykrycia działania osób z legalnym dostępem.</li>
+    </ul>
+    <p>Środki bezpieczeństwa:</p>
+    <ul>
+        <li><strong>Minimalizacja powierzchni ataku:</strong> Wyłączanie zbędnych usług (narzędzia: ss -tulpn, lsof -nP -i:22).</li>
+        <li><strong>Zdalne logowanie:</strong> Centralizacja logów (Syslog, ELK) w celu korelacji incydentów.</li>
+        <li><strong>Ochrona warstwowa:</strong> Od firewalli sieciowych po WAF aplikacyjne.</li>
     </ul>
 
-    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-
-    <h2 style="color: #0056b3;">CZĘŚĆ II: Procesy, Wątki i Zarządzanie Zasobami</h2>
-    <p>Pytania o "procesy potomne", "zużycie zasobów" i "wątki" wymagają wiedzy o cyklu życia procesu.</p>
-
-    <h3 style="color: #333;">1. Anatomia Procesu</h3>
-    <p>Proces to "kontener" na zasoby. Każdy proces posiada:</p>
+    <h3>3. Przegląd dystrybucji Linuxa</h3>
+    <p>Wszystkie dystrybucje dzielą to samo jądro, ale różnią się pakietami i przeznaczeniem:</p>
     <ul>
-        <li><strong>PID (Process ID):</strong> Unikalny numer.</li>
-        <li><strong>Przestrzeń adresową:</strong> Wirtualną pamięć, której proces "myśli", że jest właścicielem (izolacja).</li>
-        <li><strong>Tablicę deskryptorów plików (File Descriptors - FD):</strong> Lista otwartych zasobów (pliki, gniazda sieciowe, potoki).<br>
-        <em>Kluczowe:</em> Standardowe FD to 0 (stdin), 1 (stdout), 2 (stderr).</li>
-        <li><strong>Kontekst bezpieczeństwa:</strong> UID (kto uruchomił), GID, eUID (efektywny użytkownik - ważny przy SUID).</li>
+        <li><strong>Debian:</strong> Stabilny, baza dla Ubuntu/Kali, mocny nacisk na wolne oprogramowanie.</li>
+        <li><strong>RHEL:</strong> Komercyjny standard korporacyjny, stabilny z długim wsparciem.</li>
+        <li><strong>Arch Linux:</strong> Minimalistyczny, pełna kontrola użytkownika, model rolling-release.</li>
+        <li><strong>Alpine Linux:</strong> Lekki, idealny pod kontenery Docker.</li>
+        <li><strong>Kali Linux:</strong> Specjalistyczna dystrybucja do pentestów.</li>
+        <li><strong>Immutable OS:</strong> Nowe podejście (np. Fedora CoreOS, Talos), gdzie system jest niemutowalny, zoptymalizowany pod Kubernetes.</li>
     </ul>
 
-    <h3 style="color: #333;">2. Cykl Życia: Fork() i Exec()</h3>
-    <p>To mechanizm tworzenia nowych procesów (pytanie o dziedziczenie).</p>
+    <h3>4. Obowiązki i środowiska pracy administratora</h3>
     <ul>
-        <li><strong>Fork():</strong> Proces rodzic klonuje samego siebie. Powstaje proces potomny (Child).
-            <ul>
-                <li><em>Co jest dziedziczone?</em> Wszystkie otwarte deskryptory plików (dlatego potomek może pisać do tego samego pliku co rodzic), zmienne środowiskowe, aktualny katalog.</li>
-                <li><em>CoW (Copy on Write):</em> Pamięć nie jest kopiowana fizycznie od razu. Jest kopiowana dopiero, gdy potomek próbuje coś w niej zmienić. To optymalizacja.</li>
-            </ul>
-        </li>
-        <li><strong>Exec():</strong> Potomek podmienia swój kod nowym programem (np. poleceniem <code>ls</code>).</li>
+        [cite_start]<li><strong>Zadania:</strong> Zarządzanie użytkownikami, kopiami zapasowymi, monitoring, automatyzacja (skrypty), konfiguracja sprzętu i polityk bezpieczeństwa [cite: 37-47].</li>
+    </ul>
+    <p>Środowiska:</p>
+    <ul>
+        <li><strong>Data Center:</strong> Praca ze sprzętem fizycznym, zasilaniem, chłodzeniem.</li>
+        <li><strong>Chmura (AWS/Azure):</strong> Skalowanie, IaC (Infrastructure as Code), zarządzanie kosztami.</li>
+        <li><strong>Praca zdalna:</strong> Wymaga biegłości w SSH, VPN i zarządzaniu rozproszonymi zasobami.</li>
     </ul>
 
-    <h3 style="color: #333;">3. Stany Procesu (Diagnostyka "ps aux" i "top")</h3>
-    <p>Gdy analizujesz "nadmierne zużycie zasobów", musisz znać stany:</p>
+    <h3>5. Narzędzia administratora</h3>
     <ul>
-        <li><strong>R (Running/Runnable):</strong> Działa na CPU lub czeka w kolejce do CPU.</li>
-        <li><strong>S (Sleeping):</strong> Czeka na zdarzenie (np. naciśnięcie klawisza, pakiet z sieci). Nie zużywa CPU.</li>
-        <li><strong>D (Uninterruptible Sleep):</strong> Bardzo ważne. Proces czeka na sprzęt (I/O dysku). Nie da się go ubić <code>kill -9</code>, dopóki dysk nie odpowie. Wysokie Load Average przy niskim użyciu CPU często oznacza dużo procesów w stanie D (problem z dyskiem/NFS).</li>
-        <li><strong>Z (Zombie):</strong> Proces zakończył działanie, zwolnił pamięć, ale wciąż wisi w tabeli procesów. Dlaczego? Bo rodzic nie odebrał jego kodu wyjścia (przez <code>wait()</code>). Zombie nie zużywa RAM ani CPU, tylko wpis w tabeli PID.</li>
+        <li><strong>Edytory:</strong> vim (standard wszechstronny), nano.</li>
+        <li><strong>Automatyzacja:</strong> Ansible, Puppet, Chef do zarządzania konfiguracją na dużą skalę.</li>
+        [cite_start]<li><strong>Dokumentacja:</strong> Markdown (prosty), LaTeX (zaawansowany), Man pages (podstawowe źródło wiedzy o poleceniach) [cite: 114-120].</li>
     </ul>
 
-    <h3 style="color: #333;">4. Wątki (Threads) – "Lekkie Procesy"</h3>
+    <hr>
+
+    <h2>Wykład 2: Proces rozruchu i łańcuch zaufania</h2>
+    <p>Szczegółowa analiza techniczna startu systemu, ze szczególnym naciskiem na bezpieczeństwo (Secure Boot).</p>
+
+    <h3>1. Etapy rozruchu</h3>
+    <ol>
+        <li><strong>Firmware (UEFI/BIOS):</strong> Inicjalizacja sprzętu (POST).</li>
+        <li><strong>Bootloader:</strong> Ładuje kernel i initramfs (weryfikacja przy Secure Boot).</li>
+        <li><strong>Kernel + Initramfs:</strong> Start jądra, montaż rootfs, uruchomienie PID 1 (systemd).</li>
+        <li><strong>Userspace:</strong> Start usług systemowych.</li>
+    </ol>
+
+    <h3>2. Secure Boot i kryptografia</h3>
+    <p>Hierarchia kluczy:</p>
     <ul>
-        <li><strong>Współdzielenie:</strong> Wątki w obrębie jednego procesu widzą tę samą pamięć (zmienne globalne). Zmiana zmiennej w wątku A jest widoczna w wątku B.</li>
-        <li><strong>Linux implementation:</strong> Dla jądra Linux wątek to po prostu proces, który współdzieli tablicę stron pamięci z innym procesem (LWP - Light Weight Process).</li>
-        <li><strong>Planowanie:</strong> Scheduler jądra przydziela czas procesora wątkom, a nie "procesom" jako całości.</li>
+        <li><strong>PK (Platform Key):</strong> Korzeń zaufania.</li>
+        <li><strong>KEK (Key Exchange Key):</strong> Do aktualizacji baz kluczy.</li>
+        <li><strong>db (Allowed):</strong> Baza zaufanych certyfikatów/hashy.</li>
+        <li><strong>dbx (Forbidden):</strong> Baza unieważnionych certyfikatów (np. skompromitowanych).</li>
+        <li><strong>MOK (Machine Owner Key):</strong> Klucz użytkownika/admina zarządzany przez shim, pozwalający na uruchamianie własnych jąder/modułów.</li>
+        <li><strong>Kernel Lockdown:</strong> W trybie Secure Boot jądro blokuje dostęp do funkcji mogących naruszyć jego integralność; moduły muszą być podpisane.</li>
     </ul>
 
-    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-
-    <h2 style="color: #0056b3;">CZĘŚĆ III: System Plików (VFS, Inody, Montowanie)</h2>
-    <p>Pytania o <code>/etc/fstab</code>, noexec, <code>/home</code> i strukturę katalogów.</p>
-
-    <h3 style="color: #333;">1. VFS (Virtual File System)</h3>
-    <p>Linux używa warstwy abstrakcji. Dla aplikacji nie ma znaczenia, czy plik leży na dysku SSD (ext4), w sieci (NFS), czy w pamięci RAM (tmpfs). Wszystko wygląda jak drzewo katalogów.</p>
-
-    <h3 style="color: #333;">2. I-węzeł (Inode) – Fizyczna reprezentacja pliku</h3>
-    <p>Plik w Linuxie składa się z dwóch części:</p>
+    <h3>3. MBR vs GPT</h3>
     <ul>
-        <li><strong>Nazwa:</strong> Przechowywana w "katalogu" (katalog to tylko mapa: Nazwa -> Numer Inoda).</li>
-        <li><strong>Inode (Metadane):</strong> Przechowuje rozmiar, uprawnienia, właściciela, czasy (atime, mtime, ctime) i wskaźniki do bloków z danymi na dysku.</li>
-    </ul>
-    <p><em>Uwaga:</em> Inode nie przechowuje nazwy pliku.</p>
-
-    <h3 style="color: #333;">3. Twarde i Miękkie Dowiązania (Hard vs Soft Links)</h3>
-    <ul>
-        <li><strong>Hard Link:</strong> Druga nazwa wskazująca na ten sam numer Inoda. Usunięcie oryginału nie usuwa danych, dopóki istnieje hard link. Nie działają między partycjami.</li>
-        <li><strong>Soft Link (Symlink):</strong> Nowy plik (nowy Inode), który zawiera w środku ścieżkę do innego pliku. Jeśli usuniesz cel, symlink staje się "sierotą" (broken link).</li>
+        <li><strong>MBR:</strong> Limit 2 TiB, 4 partycje podstawowe, kod rozruchowy w LBA 0.</li>
+        [cite_start]<li><strong>GPT:</strong> Limit ~8 ZiB, brak limitu partycji, redundancja (kopia tablicy na końcu dysku), wymagane przez UEFI [cite: 154-156].</li>
     </ul>
 
-    <h3 style="color: #333;">4. Montowanie i /etc/fstab</h3>
-    <p><strong>Montowanie:</strong> Kernel łączy system plików z urządzenia (np. <code>/dev/sda1</code>) z katalogiem (np. <code>/home</code>).</p>
-    <p><strong>Opcje montowania (Security):</strong></p>
+    <h3>4. UKI (Unified Kernel Image)</h3>
+    <p>Nowoczesne podejście, gdzie kernel, initramfs i cmdline są spakowane w jeden plik PE/COFF i podpisane jako całość. Zapobiega to manipulacji parametrami startowymi jądra.</p>
+
+    <h3>5. Praktyka administracyjna</h3>
     <ul>
-        <li><code>noexec</code>: Jądro odmawia wykonania wywołania <code>exec()</code> na plikach z tej partycji. Idealne dla <code>/tmp</code> i <code>/home</code> (ochrona przed malwarem).</li>
-        <li><code>nodev</code>: Ignorowanie plików urządzeń (block/character devices) na partycji.</li>
-        <li><code>nosuid</code>: Ignorowanie bitu SUID (kluczowe dla bezpieczeństwa pendrive'ów).</li>
-    </ul>
-    <p><strong>Awaria fstab:</strong> Podczas startu systemd parsuje <code>/etc/fstab</code>. Jeśli napotka błąd (zły UUID, literówka) i partycja nie jest oznaczona jako <code>nofail</code>, system wchodzi w Emergency Mode, aby zapobiec uszkodzeniu danych. Usługi sieciowe nie startują w tym trybie.</p>
-
-    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-
-    <h2 style="color: #0056b3;">CZĘŚĆ IV: Uprawnienia i Kontrola Dostępu</h2>
-    <p>Pytania o root, sudo, DAC, MAC.</p>
-
-    <h3 style="color: #333;">1. DAC (Discretionary Access Control) – Szczegóły</h3>
-    <ul>
-        <li><strong>Reprezentacja numeryczna (Octal):</strong> r=4, w=2, x=1.
-            <br><code>chmod 750</code> -> Właściciel (7=rwx), Grupa (5=r-x), Inni (0=---).
-        </li>
-        <li><strong>Znaczenie x dla katalogu:</strong>
-            <ul>
-                <li>Dla pliku x to prawo uruchomienia.</li>
-                <li>Dla katalogu x to prawo wejścia do środka (<code>cd</code>) i dostępu do metadanych plików wewnątrz (ale do wylistowania nazw plików potrzebujesz r).</li>
-            </ul>
-        </li>
-        <li><strong>Bity specjalne:</strong>
-            <ul>
-                <li><em>SUID (Set User ID):</em> Plik wykonywalny uruchamia się z uprawnieniami właściciela pliku, a nie użytkownika uruchamiającego. Przykład: <code>/usr/bin/passwd</code> musi być rootem, by zmienić <code>/etc/shadow</code>, mimo że uruchamia go zwykły Jan. To główne źródło eskalacji uprawnień.</li>
-                <li><em>Sticky Bit (t):</em> Na katalogu (np. <code>/tmp</code>). Pozwala usuwać pliki tylko ich właścicielom, mimo że katalog ma uprawnienia zapisu dla wszystkich (777).</li>
-            </ul>
-        </li>
+        <li><strong>Podpisywanie modułów (DKMS):</strong> Wymaga stworzenia hooka (skryptu), który automatycznie podpisuje nowe moduły kluczem MOK przy aktualizacji jądra.</li>
+        <li><strong>Zabezpieczenie GRUB:</strong> Należy ustawić hasło (PBKDF2), aby zablokować edycję wpisów (np. dopisanie init=/bin/bash).</li>
+        <li><strong>Initramfs:</strong> Można go analizować (lsinitramfs) i modyfikować (update-initramfs). [cite_start]Zawiera niezbędne moduły (np. do obsługi LUKS/LVM) [cite: 179-183].</li>
     </ul>
 
-    <h3 style="color: #333;">2. MAC (Mandatory Access Control) – SELinux/AppArmor</h3>
-    <p>W modelu DAC, jeśli zawirusujesz Firefoksa (działającego jako Ty), wirus ma dostęp do Twoich zdjęć i dokumentów.</p>
-    <p>W modelu MAC (np. SELinux):</p>
+    <hr>
+
+    <h2>Wykład 3: Zarządzanie usługami w systemie Linux (Systemd)</h2>
+    <p>Wykład poświęcony architekturze i konfiguracji systemd – domyślnego menedżera systemu.</p>
+
+    <h3>1. Podstawowe pojęcia i ścieżki</h3>
+    <p>systemd jest procesem PID 1, zarządza usługami, logami (journald) i zasobami (cgroups).</p>
+    <p>Lokalizacja plików:</p>
     <ul>
-        <li>Każdy proces i plik ma kontekst (etykietę).</li>
-        <li>Polityka w jądrze mówi: "Proces typu <code>httpd_t</code> może czytać tylko pliki typu <code>httpd_sys_content_t</code> i słuchać na porcie 80".</li>
+        <li><strong>/lib/systemd/system:</strong> Domyślne pliki z pakietów (nie edytować!).</li>
+        <li><strong>/etc/systemd/system:</strong> Konfiguracja administratora (nadrzędna).</li>
+        <li><strong>/run/systemd/system:</strong> Jednostki dynamiczne.</li>
     </ul>
-    <p>Nawet jeśli Apache działa jako root (teoretycznie), SELinux zablokuje mu dostęp do <code>/etc/shadow</code>, bo polityka tego zabrania. To jest ta "niezależna warstwa".</p>
+    <p>Nadpisywanie: Używamy systemctl edit &lt;unit&gt;, co tworzy plik override.conf – bezpieczna metoda modyfikacji.</p>
 
-    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-
-    <h2 style="color: #0056b3;">CZĘŚĆ V: Systemd – Zarządzanie Systemem</h2>
-    <p>Pytania o targety, zależności, enabled/active.</p>
-
-    <h3 style="color: #333;">1. Architektura Systemd</h3>
-    <p>To nie tylko init. To platforma zarządzająca systemem. Używa cgroups (Control Groups) do śledzenia procesów i limitowania ich zasobów (CPU/RAM). Dzięki temu systemd wie, że procesy potomne Apache należą do usługi <code>apache2.service</code> i może ubić je wszystkie naraz.</p>
-
-    <h3 style="color: #333;">2. Jednostki (Units) – Typy</h3>
+    <h3>2. Typy jednostek (Units)</h3>
     <ul>
-        <li><strong>Service:</strong> Usługa/Demon.</li>
-        <li><strong>Socket:</strong> Gniazdo. Systemd nasłuchuje na porcie (np. 22). Gdy przyjdzie pakiet, dopiero wtedy uruchamia usługę (Socket Activation). Oszczędza RAM.</li>
-        <li><strong>Target:</strong> Punkt synchronizacji.
-            <ul>
-                <li><code>graphical.target</code> = dawny runlevel 5 (GUI).</li>
-                <li><code>multi-user.target</code> = dawny runlevel 3 (CLI + Sieć).</li>
-                <li><code>rescue.target</code> = tryb ratunkowy (single user, montuje dyski r/o).</li>
-                <li><code>emergency.target</code> = tryb awaryjny (minimalny shell, dyski r/o, brak sieci).</li>
-            </ul>
-        </li>
+        <li><strong>Service:</strong> Usługa (proces).</li>
+        <li><strong>Socket:</strong> Aktywacja usługi na żądanie (np. przy połączeniu na port).</li>
+        <li><strong>Target:</strong> Grupowanie jednostek (odpowiednik runleveli), np. multi-user.target.</li>
+        <li><strong>Timer:</strong> Harmonogram (zastępstwo crona).</li>
+        <li><strong>Mount/Automount:</strong> Zarządzanie punktami montowania.</li>
     </ul>
 
-    <h3 style="color: #333;">3. Zależności – "Dlaczego system nie wstał?"</h3>
+    <h3>3. Szablony i instancje</h3>
+    <p>Jednostki z @ w nazwie (np. sshd@.service) to szablony.</p>
     <ul>
-        <li><code>Requires=</code> (Wymaga): Jeśli A wymaga B, a B zawiedzie przy starcie, A też zostanie wyłączone. To jest "mocna" zależność.</li>
-        <li><code>Wants=</code> (Chce): Jeśli A chce B, a B zawiedzie, A i tak spróbuje wystartować. To "słaba" zależność.</li>
-        <li><code>After=/Before=</code>: To definiuje tylko czas. <code>After=network.target</code> nie znaczy, że sieć musi działać, tylko że usługa spróbuje wystartować po próbie startu sieci.</li>
+        <li><strong>%i:</strong> Parametr instancji (uproszczony).</li>
+        <li><strong>%I:</strong> Parametr instancji (pełny, np. ścieżka).</li>
+    </ul>
+    [cite_start]<p>Pozwala to na uruchamianie wielu wersji usługi z jednego pliku konfiguracyjnego [cite: 218-219].</p>
+
+    <h3>4. Zależności i analiza rozruchu</h3>
+    <ul>
+        <li><strong>Requires:</strong> Silna zależność (błąd A zatrzymuje start B).</li>
+        <li><strong>Wants:</strong> Słaba zależność (start B nastąpi nawet przy błędzie A).</li>
+        [cite_start]<li><strong>After/Before:</strong> Tylko kolejność, nie wymusza startu [cite: 221-222].</li>
+        [cite_start]<li><strong>Analiza:</strong> systemd-analyze blame (czas startu usług), critical-chain (wąskie gardło procesu startu) [cite: 223-224].</li>
     </ul>
 
-    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-
-    <h2 style="color: #0056b3;">CZĘŚĆ VI: Sieci w Linuxie</h2>
-    <p>Pytania o podstawy, DNS, porty.</p>
-
-    <h3 style="color: #333;">1. Warstwy i Konfiguracja</h3>
+    <h3>5. Bezpieczeństwo (Hardening)</h3>
+    [cite_start]<p>Systemd pozwala izolować usługi bez dodatkowego oprogramowania [cite: 227-228]:</p>
     <ul>
-        <li><strong>Interfejs (Layer 2):</strong> Ma adres MAC. Widoczny w <code>ip link</code>.</li>
-        <li><strong>IP (Layer 3):</strong> Adres logiczny. Widoczny w <code>ip addr</code>.</li>
-        <li><strong>Routing:</strong> Decyzja, gdzie wysłać pakiet. <code>ip route</code>. Jeśli cel nie jest w sieci lokalnej (określonej maską), pakiet leci do Bramy Domyślnej (0.0.0.0/0).</li>
+        <li><strong>NoNewPrivileges:</strong> Blokada eskalacji uprawnień.</li>
+        <li><strong>PrivateTmp:</strong> Własny /tmp dla usługi.</li>
+        <li><strong>ProtectSystem/ProtectHome:</strong> Ograniczenie dostępu do plików systemowych/użytkownika.</li>
+        <li><strong>DynamicUser:</strong> Uruchamianie usługi jako tymczasowy użytkownik bez dostępu do reszty systemu.</li>
     </ul>
 
-    <h3 style="color: #333;">2. DNS – /etc/resolv.conf</h3>
-    <p>System nie "wie", gdzie jest google.com. Pyta serwera DNS zdefiniowanego w <code>/etc/resolv.conf</code> (lub przez systemd-resolved).</p>
-    <p>Kolejność rozwiązywania nazw: Najpierw <code>/etc/hosts</code>, potem DNS.</p>
+    <hr>
 
-    <h3 style="color: #333;">3. Porty i Gniazda (Sockets)</h3>
-    <p>Proces sieciowy musi wykonać <code>bind()</code> (zarezerwować port) i <code>listen()</code> (nasłuchiwać).</p>
-    <p>Porty < 1024 są uprzywilejowane – może je otworzyć tylko root. Dlatego Apache (port 80) startuje jako root, a potem zrzuca uprawnienia do użytkownika www-data (bezpieczeństwo).</p>
+    <h2>Wykład 4: Środowisko wykonawcze (Procesy, Wątki, Sygnały)</h2>
+    <p>Techniczne spojrzenie na działanie programów w systemie oraz ich monitorowanie.</p>
 
-    <h3 style="color: #333;">4. Netfilter (Firewall)</h3>
-    <p>Zapora sieciowa (iptables/nftables) jest modułem jądra.</p>
-    <p>Może decydować o losie pakietu na podstawie: IP źródła, IP celu, portu, stanu połączenia (NEW, ESTABLISHED).</p>
-    <p><strong>Connection Tracking:</strong> Linux pamięta, że pakiet przychodzący jest odpowiedzią na Twoje zapytanie, więc wpuszcza go, nawet jeśli domyślnie blokuje ruch przychodzący.</p>
-
-    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-
-    <h2 style="color: #0056b3;">CZĘŚĆ VII: Praktyka Administratora (Monitoring i Diagnostyka)</h2>
-
-    <h3 style="color: #333;">1. Analiza Wydajności</h3>
+    <h3>1. Definicje</h3>
     <ul>
-        <li><strong>Load Average:</strong> Średnia liczba procesów, które chcą użyć CPU lub czekają na I/O (stan D). Jeśli Load > liczba rdzeni CPU, masz "korek".</li>
-        <li><strong>Pamięć:</strong>
-            <ul>
-                <li><code>free -h</code>.</li>
-                <li><em>Cache/Buffer:</em> Linux używa "wolnego" RAMu do cache'owania dysku. To dobrze. Pamięć ta jest zwalniana natychmiast, gdy aplikacja jej potrzebuje. Nie panikuj, że "wolny RAM" jest niski.</li>
-            </ul>
-        </li>
+        <li><strong>Proces:</strong> Egzemplarz programu z własną przestrzenią adresową i zasobami.</li>
+        <li><strong>Wątek:</strong> Jednostka wykonawcza wewnątrz procesu, współdzieli pamięć i pliki (lżejsza od procesu).</li>
+        <li><strong>Zasoby:</strong> CPU, pamięć, deskryptory plików.</li>
     </ul>
 
-    <h3 style="color: #333;">2. Logi – /var/log</h3>
+    <h3>2. Cykl życia i typy procesów</h3>
     <ul>
-        <li><strong>Syslog:</strong> Tradycyjny system tekstowy (<code>/var/log/syslog</code> lub messages).</li>
-        <li><strong>Journald:</strong> Binarny system logowania systemd.
-            <ul>
-                <li><code>journalctl -u nginx.service</code> – pokaż logi konkretnej usługi.</li>
-                <li><code>journalctl -b -1</code> – pokaż logi z poprzedniego uruchomienia systemu (przed restartem).</li>
-            </ul>
-        </li>
-        <li>Logi binarne są trudniejsze do sfałszowania przez hakera (zawierają sumy kontrolne).</li>
+        <li><strong>Hierarchia:</strong> Drzewiasta struktura z systemd (PID 1) jako korzeniem.</li>
+        <li><strong>Zombie:</strong> Proces zakończony, którego statusu nie odebrał rodzic (widoczny jako defunct). [cite_start]Nie można go zabić, trzeba naprawić rodzica [cite: 249-251].</li>
+        <li><strong>Daemon:</strong> Proces działający w tle, bez terminala (TTY).</li>
     </ul>
 
-    <h3 style="color: #333;">3. Aktualizacje</h3>
-    <p>Regularność to bezpieczeństwo.</p>
+    <h3>3. System plików /proc</h3>
+    <p>Wirtualny system plików generowany przez jądro w locie.</p>
     <ul>
-        <li><strong>CVE (Common Vulnerabilities and Exposures):</strong> Baza znanych podatności. Administrator sprawdza, czy jego kernel/usługi mają znane CVE i instaluje poprawki.</li>
+        <li><strong>/proc/PID/cmdline:</strong> Komenda uruchomieniowa.</li>
+        <li><strong>/proc/PID/fd/:</strong> Otwarte pliki (deskryptory).</li>
+        <li><strong>/proc/PID/environ:</strong> Zmienne środowiskowe (często wrażliwe dane!).</li>
+    </ul>
+    <p>Różnica: /proc dotyczy procesów, /sys dotyczy sprzętu i sterowników.</p>
+
+    <h3>4. Narzędzia i sygnały</h3>
+    <ul>
+        <li><strong>Sygnały:</strong> SIGKILL (wymuszone zabicie, nieprzechwytywalne), SIGTERM (prośba o zakończenie), SIGSEGV (błąd pamięci).</li>
+        [cite_start]<li><strong>Narzędzia:</strong> ps, top/htop (monitoring), strace (śledzenie syscalli – kluczowe przy debugowaniu), lsof (otwarte pliki/porty) [cite: 278-280].</li>
     </ul>
 
+    <h3>5. eBPF (Extended Berkeley Packet Filter)</h3>
+    <p>Nowoczesna technologia pozwalająca bezpiecznie uruchamiać kod w jądrze w celu monitorowania (bez modułów jądra). Narzędzia: bpftrace, bcc-tools. [cite_start]Używane do wykrywania anomalii i zaawansowanego debugowania wydajności [cite: 282-285].</p>
+
+    <h3>6. Procedura reakcji na incydent</h3>
+    [cite_start]<p>Identyfikacja (PID) -> Izolacja (odcięcie sieci) -> Zabezpieczenie dowodów (zrzut pamięci, brak modyfikacji plików) -> Analiza (statyczna/dynamiczna) -> Naprawa [cite: 317-322].</p>
+
+    <hr>
+
+    <h2>Wykład 5: Zarządzanie i ochrona danych (Storage)</h2>
+    <p>Wykład omawia warstwy pamięci masowej, od sprzętu po systemy plików i backup.</p>
+
+    <h3>1. Warstwy pamięci masowej</h3>
+    <ul>
+        <li><strong>Sprzęt:</strong> HDD, SSD/NVMe (wymagają TRIM), macierze RAID.</li>
+        [cite_start]<li><strong>Partycjonowanie:</strong> Zalecane GPT (UUID/PARTUUID jako stabilne identyfikatory w /etc/fstab) [cite: 344-347].</li>
+    </ul>
+
+    <h3>2. LVM (Logical Volume Manager)</h3>
+    <p>Warstwa abstrakcji pozwalająca na elastyczne zarządzanie dyskami.</p>
+    <ul>
+        <li><strong>PV (Physical Volume):</strong> Fizyczny dysk/partycja.</li>
+        <li><strong>VG (Volume Group):</strong> Pula przestrzeni z wielu PV.</li>
+        <li><strong>LV (Logical Volume):</strong> Partycja logiczna widoczna dla systemu.</li>
+    </ul>
+    [cite_start]<p>Funkcje: Snapshoty, Thin Provisioning, zmiana rozmiaru online [cite: 353-356].</p>
+
+    <h3>3. Szyfrowanie LUKS</h3>
+    <p>Szyfrowanie blokowe (pod systemem plików).</p>
+    <p><strong>Kluczowe:</strong> Backup nagłówka LUKS – jego uszkodzenie oznacza utratę wszystkich danych, nawet przy znajomości hasła.</p>
+
+    <h3>4. Struktura katalogów (FHS)</h3>
+    <ul>
+        [cite_start]<li><strong>/var:</strong> Dane zmienne (logi), zalecane montowanie z nosuid, nodev [cite: 371-373].</li>
+        <li><strong>/home:</strong> Dane użytkowników, nosuid, nodev.</li>
+        <li><strong>/usr:</strong> Oprogramowanie, można montować jako ro (read-only) dla bezpieczeństwa.</li>
+    </ul>
+
+    <h3>5. Systemy plików</h3>
+    <ul>
+        <li><strong>Tradycyjne (Ext4, XFS):</strong> Dojrzałe, z journalingiem, ale brak wbudowanych snapshotów i sum kontrolnych danych (tylko metadane).</li>
+        <li><strong>Nowoczesne (ZFS, Btrfs):</strong></li>
+    </ul>
+    <ul>
+        <li><strong>CoW (Copy-on-Write):</strong> Dane nie są nadpisywane, lecz pisane w nowe miejsce – gwarancja spójności.</li>
+        [cite_start]<li><strong>Cechy:</strong> Wbudowany RAID, snapshoty, kompresja, deduplikacja, ochrona przed "bit rot" (sumy kontrolne bloków danych) [cite: 432-436].</li>
+    </ul>
+
+    <h3>6. Kopie zapasowe</h3>
+    <ul>
+        [cite_start]<li><strong>Reguła 3-2-1-1-0:</strong> 3 kopie, 2 nośniki, 1 poza firmą, 1 offline (ochrona przed ransomware), 0 błędów odzyskiwania [cite: 478-480].</li>
+        <li><strong>RPO (Recovery Point Objective):</strong> Ile danych możemy stracić (czas wstecz).</li>
+        [cite_start]<li><strong>RTO (Recovery Time Objective):</strong> Jak szybko musimy wstać po awarii [cite: 458-460].</li>
+    </ul>
+
+    <hr>
+
+    <h2>Wykład 6: Podstawy sieci w systemach Unix/Linux</h2>
+    <p>Kompleksowe omówienie konfiguracji sieci, routingu i bezpieczeństwa sieciowego.</p>
+
+    <h3>1. Konfiguracja sieci</h3>
+    <ul>
+        <li><strong>Model:</strong> W Linuxie stos TCP/IP jest w jądrze, komunikacja z userspace przez gniazda Netlink (AF_NETLINK).</li>
+    </ul>
+    <p>Narzędzia:</p>
+    <ul>
+        <li><strong>iproute2 (ip addr, ip link):</strong> Nowoczesny standard zastępujący ifconfig.</li>
+        <li><strong>NetworkManager:</strong> Domyślny w desktopach/RHEL (nmcli).</li>
+        <li><strong>Netplan:</strong> Konfiguracja YAML (Ubuntu).</li>
+        <li><strong>systemd-networkd:</strong> Lekki, idealny do chmury/serwerów.</li>
+    </ul>
+
+    <h3>2. Routing</h3>
+    <ul>
+        <li><strong>Statyczny:</strong> Prosty, ręcznie definiowany (ip route add).</li>
+        [cite_start]<li><strong>Dynamiczny:</strong> Protokoły OSPF/BGP (np. daemon bird), automatyczna reakcja na awarie [cite: 532-533].</li>
+        <li><strong>Policy Routing:</strong> Kierowanie ruchem na podstawie reguł (np. adresu źródłowego), nie tylko celu. [cite_start]Używa wielu tablic routingu [cite: 535-539].</li>
+    </ul>
+
+    <h3>3. Wirtualizacja sieci</h3>
+    <ul>
+        <li><strong>Network Namespaces:</strong> Izolowane stosy sieciowe (własne interfejsy, routing). Podstawa działania Docker/K8s. [cite_start]Łączone parami veth [cite: 564-573].</li>
+        <li><strong>Open vSwitch (OVS):</strong> Zaawansowany wirtualny switch, obsługuje VLAN, VXLAN, OpenFlow, QoS. [cite_start]Używany w wirtualizacji na dużą skalę [cite: 577-584].</li>
+    </ul>
+
+    <h3>4. Bezpieczeństwo i diagnostyka</h3>
+    <ul>
+        <li><strong>Firewall:</strong> iptables (klasyczny) oraz nftables (wydajniejszy następca). [cite_start]Filtrowanie w łańcuchach (INPUT, FORWARD, OUTPUT) [cite: 590-592].</li>
+    </ul>
+    <p>Diagnostyka:</p>
+    <ul>
+        <li><strong>ss:</strong> Następca netstat (szybszy, pobiera info z jądra).</li>
+        <li><strong>tcpdump/wireshark:</strong> Analiza pakietów.</li>
+        <li><strong>mtr:</strong> Ping + traceroute w jednym.</li>
+    </ul>
+
+    <hr>
+
+    <h2>Wykład 7: Kontrola dostępu i uprawnień</h2>
+    <p>Zarządzanie użytkownikami, modelami uprawnień i eskalacją przywilejów.</p>
+
+    <h3>1. Modele kontroli dostępu</h3>
+    <ul>
+        <li><strong>DAC (Discretionary):</strong> Właściciel decyduje o prawach (rwx).</li>
+        <li><strong>MAC (Mandatory):</strong> System wymusza polityki (SELinux, AppArmor). Chroni system nawet gdy root/aplikacja zostanie skompromitowana.</li>
+        <li><strong>RBAC:</strong> Uprawnienia oparte na rolach.</li>
+    </ul>
+
+    <h3>2. Zarządzanie uprawnieniami</h3>
+    <ul>
+        <li><strong>Podstawowe:</strong> chmod (prawa), chown (właściciel).</li>
+        [cite_start]<li><strong>ACL (Access Control Lists):</strong> Rozszerzone uprawnienia (setfacl), pozwalają nadać prawa konkretnemu użytkownikowi do pliku bez zmiany grupy właściciela [cite: 614-615].</li>
+        <li><strong>SUID/SGID:</strong> Bity specjalne. Program uruchamia się z uprawnieniami właściciela pliku (niebezpieczne, jeśli właścicielem jest root).</li>
+    </ul>
+
+    <h3>3. Linux Capabilities</h3>
+    <p>Bezpieczna alternatywa dla SUID. Zamiast dawać pełnego roota, dajemy procesowi tylko jedną "zdolność", np. cap_net_raw dla ping (otwieranie surowych gniazd) lub cap_net_bind_service (bindowanie niskich portów).</p>
+
+    <h3>4. Sudo i bezpieczeństwo</h3>
+    <ul>
+        <li>sudo pozwala na granulację uprawnień.</li>
+        <li><strong>Zasada:</strong> Używać visudo do edycji /etc/sudoers. Unikać ALL=(ALL) ALL. Precyzować ścieżki do komend, aby uniknąć podstawienia złośliwego binarium.</li>
+    </ul>
+
+    <h3>5. PAM (Pluggable Authentication Modules)</h3>
+    <p>Modułowy system logowania. Pozwala np. dodać uwierzytelnianie dwuskładnikowe (Google Authenticator) czy limity zasobów (pam_limits) do SSH lub logowania lokalnego bez rekompilacji programów.</p>
+    
+    <p>Czy chciałbyś, abym teraz przygotował zestaw pytań kontrolnych lub scenariusz laboratoryjny oparty na tej wiedzy?</p>
 </div>
 <script>
     // --- BAZA DANYCH PYTAŃ (ZGODNA Z TREŚCIĄ ZADANIA) ---
