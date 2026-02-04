@@ -2214,6 +2214,724 @@
                 { t: "Data Recovery Field", c: true },
                 { t: "Data Results Field", c: false }
             ]
+        },
+                {
+            id: 241, text: "Narzędziem wiersza poleceń umożliwiającym administrowanie serwerami DHCP jest polecenie:",
+            options: [
+                { t: "Nettool", c: false },
+                { t: "Netsh", c: true },
+                { t: "DHCPadmin", c: false },
+                { t: "DHCPconfig", c: false }
+            ]
+        },
+        {
+            id: 242, text: "Który z wymienionych niżej atrybutów konta użytkownika moze posiadać wartośc \"cn=alfa,ou=beta,dc=abc,dc=com\".",
+            options: [
+                { t: "userPrincipalName", c: false },
+                { t: "userAccountControl", c: false },
+                { t: "displayName", c: false },
+                { t: "distinguishedName", c: true }
+            ]
+        },
+        {
+            id: 243, text: "w Windows, mobilny profil osobisty (roaming profile):",
+            options: [
+                { t: "domyslnie nie moze byc zmieniany, ale mozna to odblokowac poprzez odpowiednie ustawienie rejestrow", c: false },
+                { t: "domyslnie moze byc zmieniany, ale mozna to zablokowac poprzez odpowiednie ustawienie rejestrow", c: false },
+                { t: "moze byc zmieniany przez uzytkownika", c: true },
+                { t: "nie moze byc zmieniany przez uzytkownika", c: false }
+            ]
+        },
+        {
+            id: 244, text: "Gdy wiele GPO jest powiazanych z tym samym kontenerem AD, to kolejność ich aplikowania wynika z:",
+            options: [
+                { t: "z kolejnosci tworzenia GPO (wczesniej utworzone sa aplikowane pozniej)", c: false },
+                { t: "z kolejnosci tworzenia GPO (wczesniej utworzone sa aplikowane wczesniej)", c: true },
+                { t: "z wartosci atrybutu o nazwie PRIORITY definowanej w oknie PROPERTIES danego GPO", c: false },
+                { t: "wartosci priorytetu na liscie GPO, okreslanej przez administratora", c: false }
+            ]
+        },
+        {
+            id: 245, text: "Umiejscowienie roli zarządcy RID można poznać wykorzystując konsolę:",
+            options: [
+                { t: "Active Directory Master Roles", c: false },
+                { t: "Active Directory Schema", c: false },
+                { t: "Active Directory Users and Computers", c: true },
+                { t: "Active Directory Domains and Trusts", c: false }
+            ]
+        },
+        {
+            id: 246, text: "Protokołem usługi katalogowej jest:",
+            options: [
+                { t: "X.25", c: false },
+                { t: "LDAP", c: true },
+                { t: "SMB", c: false },
+                { t: "NetBEUI", c: false }
+            ]
+        },
+        {
+            id: 247, text: "Które z zamieszczonych twierdzeń nie jest prawdziwe?",
+            options: [
+                { t: "Relacja zaufania jest przechodnia", c: false },
+                { t: "W drzewie domen nie obowiązuje spójny schemat nazewniczy", c: false },
+                { t: "Bezpośrednie relacje zaufania są tworzone pomiędzy domeną nadrzędną i podrzędną", c: true },
+                { t: "W lesie domen nie obowiązuje spójny schemat nazewniczy", c: false }
+            ]
+        },
+        {
+            id: 248, text: "W Windows, przy przesuwaniu pliku pomiędzy wolumenami NTFS, atrybut kompresji:",
+            options: [
+                { t: "jest ustawiany wg zawartosci zmiennej COMPR", c: false },
+                { t: "jest ustawiany na wartość pobraną z katalogu docelowego", c: true },
+                { t: "jest ustawiany na wartość pobraną z jednego z kluczy rejestru systemuPytanie:", c: false },
+                { t: "jest zachowywany", c: false }
+            ]
+        },
+        {
+            id: 249, text: "W Windows, przy przesuwaniu pliku wewnątrz wolumenu NTFS, atrybut kompresji:",
+            options: [
+                { t: "jest zachowywany", c: true },
+                { t: "jest ustawiany na wartość pobraną z jednego z kluczy rejestru systemu", c: false },
+                { t: "jest ustawiany wg zawartosci zmiennej COMPR", c: false },
+                { t: "jest ustawiany na wartość pobraną z katalogu docelowego", c: false }
+            ]
+        },
+        {
+            id: 250, text: "Opcja blokowania dziedziczenia ustawień zasad grupowych dla danego obiektu Active Directory",
+            options: [
+                { t: "dotyczy wybranych ustawień, we wszystkich obiektach zasad grupowych związanych z obiektami nadrzędnymi, danego obiektu Active Directory", c: false },
+                { t: "dotyczy wszystkich ustawień, we wszystkich obiektach zasad grupowych związanych z obiektami nadrzędnymi, danego obiektu Active Directory", c: true },
+                { t: "dotyczy wybranych ustawień, w wybranych obiektach zasad grupowych związanych z obiektami nadrzędnymi, danego obiektu Active Directory", c: false },
+                { t: "dotyczy wszystkich ustawień, w wybranych obiektach zasad grupowych związanych z obiektami nadrzędnymi, danego obiektu Active Directory", c: false }
+            ]
+        },
+        {
+            id: 251, text: "Na poziomie domeny ustawiono opcję wymuszania dziedziczenia ustawień z GPO ALFA. Na poziomie pewnej jednostki organizacyjnej w tej domenie zablokowano mechanizm dziedziczenia i połączono tą jednostkę z GPO BETA . Dla kont w tej jednostce organizacyjnej:",
+            options: [
+                { t: "Obowiązywać będą tylko ustawienia z GPO ALFA", c: true },
+                { t: "Obowiązywać będą wszystkie ustawienia z GPO BETA i niekonfliktowe ustawienia z GPO ALFA", c: false },
+                { t: "Obowiązywać będą wszystkie ustawienia z GPO ALFA i niekonfliktowe ustawienia z GPO BETA", c: false },
+                { t: "Obowiązywać będą tylko ustawienia z GPO BETA", c: false }
+            ]
+        },
+        {
+            id: 252, text: "Gdy użytkownik uruchamia komputer i loguje się, skrypty wykonywane sa w następującej kolejności:",
+            options: [
+                { t: "skrypty logowania (okreslone w zasadach grupowych), skrypty logowania (zwiazane z kontem, ale nie zwiazane z zasadami grupowymi), skrypty startowe (okreslone w zasadach grupowych)", c: false },
+                { t: "skrypty startowe (okreslone w zasadach grupowych), skrypty logowania (zwiazane z kontem, ale nie zwiazane z zasadami grupowymi), skrypty logowania (okreslone w zasadach grupowych)", c: false },
+                { t: "skrypty logowania (zwiazane z kontem, ale nie zwiazane z zasadami grupowymi), skrypty logowania (okreslone w zasadach grupowych), skrypty startowe (okreslone w zasadach grupowych)", c: true },
+                { t: "skrypty startowe (okreslone w zasadach grupowych), skrypty logowania (zwiazane z kontem, ale nie zwiazane z zasadami grupowymi), skrypty logowania (okreslone w zasadach grupowych)", c: false }
+            ]
+        },
+        {
+            id: 253, text: "jeżeli w trakcie replikacji bazy usługi katalogowej zaistnieje konflikt wartości atrybutu obiektu, to",
+            options: [
+                { t: "wazna jest operacja na atrybucie obiektu zrealizowana przez uzytkownika z wiekszymi uprawnieniami", c: false },
+                { t: "wazna jest operacja na atrybucie obiektu z mniejsza wartoscia znacznika czasowego", c: false },
+                { t: "wazna jest operacja na atrybucie obiektu zrealizowana przez uzytkownika z tej samej lokacji (site)", c: false },
+                { t: "wazna jest operacja na atrybucie obiektu z wieksza wartoscia znacznika czasowego", c: true }
+            ]
+        },
+        {
+            id: 254, text: "Klucze symetryczne, wykorzystywane do szyfrowania pliku, sa zapisane w:",
+            options: [
+                { t: "w Active Directory", c: false },
+                { t: "w nagłowku foldera zawierajacego plik", c: false },
+                { t: "atrybutach konta uzytkownika, w lokalnej bazie kont", c: false },
+                { t: "nagłowku pliku", c: true }
+            ]
+        },
+        {
+            id: 255, text: "Opcja wymuszania aplikowania (Enforced) w zasadach grupy:",
+            options: [
+                { t: "odnosi się do obiektu Active Directory", c: false },
+                { t: "odnosi się do GPO", c: true },
+                { t: "odnosi się do GPO oraz obiektu Active Directory, z którym dany GPO jest łączony", c: false },
+                { t: "odnosi się do połączenia pomiędzy GPO a obiektem Active Directory", c: false }
+            ]
+        },
+        {
+            id: 256, text: "Aby zapobiec fizycznemu umieszczaniu (podczas logowania) wszystkich plików użytkownika na pulpicie jego stacji roboczej, należy",
+            options: [
+                { t: "zastosować mechanizm \"przekierowania folderów\"", c: true },
+                { t: "umieścić katalog prywatny (home) użytkownika na sieciowym serwerze plików", c: false },
+                { t: "Ustawić odpowiednio prawa uzytkownika (user rights)", c: false },
+                { t: "zastosować \"profil mobilny\"", c: false }
+            ]
+        },
+        {
+            id: 257, text: "Program KCC generujący schemat polaczen dla potrzeb replikacji zapewnia, ze maksymalna liczba skokow niezbednych dla replikacji nie bedzie przekraczac:",
+            options: [
+                { t: "3", c: true },
+                { t: "5", c: false },
+                { t: "2", c: false },
+                { t: "4", c: false }
+            ]
+        },
+        {
+            id: 258, text: "Zarządca schematu",
+            options: [
+                { t: "steruje wszystkimi operacjami aktualizacji schematu Active Directory", c: true },
+                { t: "wykonuje dodawanie i usuwanie domeny ze struktury lasu", c: false },
+                { t: "jest jedynym kontrolerem, na ktorym rezyduje partycja schematu", c: false },
+                { t: "sprawdza uprawnienia hostow, ktore probuja uzyskac dostep do definicji schematu Active Directory", c: false }
+            ]
+        },
+        {
+            id: 259, text: "Transfer roli zarządcy operacji, to procedura w której",
+            options: [
+                { t: "wymagana jest obecność i uczestniczenie dowolnego jednego kontrolera domeny", c: false },
+                { t: "wymagana jest obecność i uczestniczenie tylko starego kontrolera (zarządcy operacji)", c: false },
+                { t: "wymagana jest obecność i uczestniczenie tylko nowego kontrolera (zarządcy operacji)", c: false },
+                { t: "wymagana jest obecność i uczestniczenie nowego i starego kontrolera (zarządcy operacji)", c: true }
+            ]
+        },
+        {
+            id: 260, text: "W systemach Windows, najniższym poziomem, na którym mozna skonfigurować kompresje jest:",
+            options: [
+                { t: "partycja", c: false },
+                { t: "folder", c: false },
+                { t: "caly system plikow", c: false },
+                { t: "plik", c: true }
+            ]
+        },
+        {
+            id: 261, text: "Konfigurowanie agenta przekazywania DHCP:",
+            options: [
+                { t: "jest realizowane przy użyciu konsoli zarządzania interfejsami sieciowymi", c: false },
+                { t: "nie jest potrzebne, gdyż jest to standardowo dostępna funkcja serwera DHCP", c: false },
+                { t: "jest realizowane przy użyciu konsoli \"Routing i dostęp zdalny\" (Routing and Remote Access)", c: false },
+                { t: "jest realizowane przy użyciu konsoli zarządzania serwerem DHCP", c: true }
+            ]
+        },
+        {
+            id: 262, text: "Kolejność aplikowania ustawień zapisanych w GPO jest następująca:",
+            options: [
+                { t: "   * GPO powiązane z kolejnymi szczeblami OU (wg. hierarchii od góry); 2. GPO powiązane z domeną komputera; 3. GPO powiązane z lokacją; 4. GPO przechowywane lokalnie;", c: false },
+                { t: "1. GPO przechowywane lokalnie; 2. GPO powiązane z lokacją; 3. GPO powiązane z domeną komputera; 4. GPO powiązane z kolejnymi szczeblami OU (wg. hierarchii od góry).", c: true },
+                { t: "   * GPO powiązane z lokacją; 2. GPO powiązane z domeną komputera; 3. GPO powiązane z kolejnymi szczeblami OU (wg. hierarchii od góry).", c: false },
+                { t: "   * GPO powiązane z lokacją; 2. GPO powiązane z domeną komputera; 3. GPO powiązane z kolejnymi szczeblami OU (wg. hierarchii od góry).", c: false }
+            ]
+        },
+        {
+            id: 263, text: "Jeden obiekt zasad grupowych (GPO) można zwiazac z:",
+            options: [
+                { t: "wieloma obiektami Active Directory typu lokacja, domena, jednostka organizacyjna, ale wszystkie one musza byc tego samego typu (np. musza to byc tylko domeny)", c: false },
+                { t: "wieloma lokacjami, domenami, jednostkami organizacyjnymi, bez ograniczen", c: true },
+                { t: "wieloma obiektami Active Directory typu lokacja, domena, jednostka organizacyjna, ale z kazdego rodzaju nalezy wybrac co najwyzej jeden obiekt (tzn jedna lokacja, jedna domena, jedna jednostka organizacyjna)", c: false },
+                { t: "tylko jednym obiektem Active Directory typu lokacja, domena, jednostka organizacyjna", c: false }
+            ]
+        },
+        {
+            id: 264, text: "Po pewnym czasie od zainstalowania (z wykorzystaniem zasad grupowych) pewnego oprogramowania, pojawia się jego nowa wersja. Poprzez modyfikacje zastosowanego uprzednio GPO, administrator:",
+            options: [
+                { t: "moze jedynie wymusic automatyczne zainstalowanie na komputerach nowej wersji, z jednoczesnym usunieciem starej", c: false },
+                { t: "moze wymusic zainstalowanie nowej wersji na komputerach lub moze udostepnic nowa wersje i uzytkownicy bedą decydowac, z ktorej skorzystac", c: true },
+                { t: "nie moze zrealizowac funkcji wprowadzenia nowej wersji. Musi w tym celu skasowac GPO wykorzystany podczas instalacji i zdefniowac nowy GPO - okreslajacy modyfikacje.", c: false },
+                { t: "moze jedynie udostepnic nowa wersje i uzytkownicy bedą decydowac, z ktorej skorzystac (ze starej czy nowej)", c: false }
+            ]
+        },
+        {
+            id: 265, text: "Wymuszenia natychmiastowej replikacji, dokonujemy przy pomocy narzędzia o nazwie:",
+            options: [
+                { t: "Server Manager", c: false },
+                { t: "Active Directory Sites and Services (podświetlone na żółto, ale kropka jest przy opcji poniżej)", c: false },
+                { t: "Active Directory Replication Tool", c: true },
+                { t: "Active Directory Users and Computers", c: false }
+            ]
+        },
+        {
+            id: 266, text: "Jeżeli w trakcie replikacji bazy usługi katalogowej zaistnieje konflikt wartości atrybutu obiektu, to",
+            options: [
+                { t: "wazna jest operacja na atrybucie obiektu z wieksza wartoscia znacznika czasowego", c: true },
+                { t: "wazna jest operacja na atrybucie obiektu zrealizowana przez uzytkownika z tej samej lokacji (site)", c: false },
+                { t: "wazna jest operacja na atrybucie obiektu zrealizowana przez uzytkownika z wiekszymi uprawnieniami", c: false },
+                { t: "wazna jest operacja na atrybucie obiektu z mniejsza wartoscia znacznika czasowego", c: false }
+            ]
+        },
+        {
+            id: 267, text: "Który z wymienionych obiektów jest elementem struktury fizycznej Active Directory?",
+            options: [
+                { t: "katalog globalny (global catalog)", c: false },
+                { t: "domena (domain)", c: false },
+                { t: "kontroler domeny (domain controller)", c: true },
+                { t: "jednostka organizacyjna (organizational unit)", c: false }
+            ]
+        },
+        {
+            id: 268, text: "Schemat Active Directory zawiera definicje wszystkich obiektów Active Directory:",
+            options: [
+                { t: "w pojedynczej lokacji (site)", c: true },
+                { t: "w pojedynczej domenie", c: false },
+                { t: "w lesie domen", c: false },
+                { t: "w drzewie domen", c: false }
+            ]
+        },
+        {
+            id: 269, text: "W Windows, przy kopiowaniu pliku pomiędzy woluminami NTFS uprawnienia dostepu (permissions):",
+            options: [
+                { t: "sa ustawiane wg zawartosci zmiennej PERM", c: false },
+                { t: "sa zachowywane", c: false },
+                { t: "sa pobierane z katalogu docelowego", c: true },
+                { t: "sa ustawiane na wartosc FULL CONTROL", c: false }
+            ]
+        },
+        {
+            id: 270, text: "W Windows, przy kopiowaniu pliku wewnątrz wolumenu NTFS, atrybut kompresji:",
+            options: [
+                { t: "jest ustawiany wg zawartosci zmiennej COMPR", c: false },
+                { t: "jest ustawiany na wartość pobraną z katalogu docelowego", c: false },
+                { t: "jest ustawiany na wartość pobraną z jednego z kluczy rejestru systemu", c: false },
+                { t: "jest zachowywany", c: true }
+            ]
+        },
+        {
+            id: 271, text: "GPO nie mogą być wiązane z:",
+            options: [
+                { t: "kontenerami wbudowanymi", c: true },
+                { t: "domenami", c: false },
+                { t: "jednostkami organizacyjnymi", c: false },
+                { t: "lokacjami", c: false }
+            ]
+        },
+        {
+            id: 272, text: "Przypisywania praw użytkownika (user rights) nie można zrealizować przy pomocy:",
+            options: [
+                { t: "konsoli zasad zabezpieczeń lokalnych", c: false },
+                { t: "przystawki mmc - edytora GPO", c: false },
+                { t: "przystawki MMC - definiowania szablonów zabezpieczeń", c: false },
+                { t: "programu eksploratora plików (File Explorer)", c: true }
+            ]
+        },
+        {
+            id: 273, text: "Pliki zawierające wartości ustawień szablonów administracyjnych (Administrative Templates) pobierane z kontrolera domeny, umieszczone sa na kontrolerze domeny w",
+            options: [
+                { t: "zasobie IPC$", c: false },
+                { t: "folderze %SYSTEMROOT%\\REPL", c: false },
+                { t: "zasobie SYSVOL", c: true },
+                { t: "zasobie ADMIN$", c: false }
+            ]
+        },
+        {
+            id: 274, text: "Odnawianie oprogramowania (redeploying) zainstalowanego z wykorzystaniem zasad grup oznacza",
+            options: [
+                { t: "Instalowanie nowej wersji oprogramowania", c: false },
+                { t: "Ponowne instalowanie w całości tego samego oprogramowania (np. po jego uszkodzeniu)", c: true },
+                { t: "\"Doinstalowywanie\" elementów oprogramowania, które nie zostały zainstalowane podczas instalacji pierwotnej (np. w celu rozszerzenia funkcjonalności)", c: false },
+                { t: "Instalowanie poprawek typu \"service pack\" i \"patch\"", c: false }
+            ]
+        },
+        {
+            id: 275, text: "W lesie domen składającym się z trzech domen A, B, C mamy 9 kontrolerów (po 3 w każdej domenie). Na ilu kontrolerach umieszczona jest partycja domeny A?",
+            options: [
+                { t: "6", c: false },
+                { t: "1", c: false },
+                { t: "3", c: true },
+                { t: "9", c: false }
+            ]
+        },
+        {
+            id: 276, text: "Do przeglądania i ręcznego definiowania topologii replikacji oraz jej wymuszania można wykorzystać program",
+            options: [
+                { t: "REPUTIL", c: false },
+                { t: "DCDIAG", c: false },
+                { t: "REPADMIN", c: true },
+                { t: "NTDSUTIL", c: false }
+            ]
+        },
+        {
+            id: 277, text: "Informacje o strukturze Active Directory zawarte są w bazie Active Directory w:",
+            options: [
+                { t: "partycji konfiguracji", c: false },
+                { t: "partycji struktury", c: false },
+                { t: "partycji schematu", c: true },
+                { t: "partycji domeny", c: false }
+            ]
+        },
+        {
+            id: 278, text: "Zarządca nazw domen",
+            options: [
+                { t: "na podstawie pełnej nazwy domeny (w standardzie DNS) tworzy jej nazwe NetBIOSowa", c: false },
+                { t: "jest jedynym kontrolerem w domenie, na ktorym rezyduje partycja domeny", c: false },
+                { t: "kontroluje poprawnosc skladniowa nazw wszystkich obiektow w domenie", c: false },
+                { t: "wykonuje dodawanie i usuwanie domeny ze struktury lasu", c: true }
+            ]
+        },
+        {
+            id: 279, text: "W DHCP, licznik skoków (Hop Count) jest parametrem używanym do:",
+            options: [
+                { t: "określenia maksymalnej ilości routerów, przez które może zostać przekazane do agenta DHCP, żądanie dzierżawy DHCP, zanim zostanie odrzucone", c: false },
+                { t: "określenia maksymalnej ilości agentów przekazywania, które mogą być zaangażowane w przekazywanie do serwera DHCP, żądania dzierżawy DHCP", c: false },
+                { t: "określenia maksymalnej ilości routerów, przez które może zostać przekazane do serwera DHCP, żądanie dzierżawy DHCP, zanim zostanie odrzucone", c: false },
+                { t: "liczby routerów, które uczestniczyły w przekazywaniu do serwera DHCP, konkretnego żądania dzierżawy DHCP (parametr zapisywany w logu serwera DHCP)", c: true }
+            ]
+        },
+        {
+            id: 280, text: "jeżeli klient DHCP uzyskał z serwera zarezerwowany dla niego adres, to:",
+            options: [
+                { t: "nie dotyczy go problem odnawiania dzierżawy", c: false },
+                { t: "odnawianie dzierżawy jest realizowane wg zasad zdefiniowanych specjalnie dla tego klienta", c: false },
+                { t: "powinien odnowić dzierżawę na ogólnie obowiązujących zasadach", c: false },
+                { t: "odnawianie dzierżawy jest realizowane wg zasad zdefiniowanych specjalnie dla wszystkich klientów tego typu", c: true }
+            ]
+        },
+        {
+            id: 281, text: "W celu odnowienia dzierżawy swojego adresu IP, klient DHCP wysyła do serwera komunikat",
+            options: [
+                { t: "DHCPREQUEST", c: false },
+                { t: "DHCPDISCOVER", c: false },
+                { t: "DHCPRENEW", c: true },
+                { t: "DHCPLEASE", c: false }
+            ]
+        },
+        {
+            id: 282, text: "Wpisy w pamięci podręcznej resolvera, pochodzące z pliku HOSTS, pozostają w niej:",
+            options: [
+                { t: "dopóki nie zostaną usunięte z pliku HOSTS", c: true },
+                { t: "przez 5 minut", c: false },
+                { t: "Przez 6 godzin", c: false },
+                { t: "przez czas okreslony w plku HOSTS", c: false }
+            ]
+        },
+        {
+            id: 283, text: "W przypadku wyznaczenia jednego z serwerów DNS do roli forwardera:",
+            options: [
+                { t: "będą do niego kierowane (przez resolvery) wszystkie nierozwiązane przez nie, kierowane na zewnątrz strefy zapytania DNS", c: false },
+                { t: "będą do niego kierowane wszystkie, pochodzące od klientów (resolverów), zapytania DNS", c: false },
+                { t: "będą do niego kierowane wszystkie, pochodzące od klientów (resolverów) i lokalnych serwerów DNS, zapytania DNS", c: false },
+                { t: "będą do niego kierowane (przez serwery lokalne) wszystkie nierozwiązane przez nie, kierowane na zewnątrz strefy zapytania DNS", c: true }
+            ]
+        },
+        {
+            id: 284, text: "NPS to implementacja",
+            options: [
+                { t: "serwera RADIUS", c: true },
+                { t: "zapory sieciowej", c: false },
+                { t: "serwera proxy", c: false },
+                { t: "systemu IDS", c: false }
+            ]
+        },
+        {
+            id: 285, text: "Elementem NAP (Network Access Protection) służącym do wydawania tzw. \"certyfikatów zdrowia\" jest:",
+            options: [
+                { t: "NPS", c: false },
+                { t: "HCA", c: false },
+                { t: "RRAS", c: false },
+                { t: "HRA", c: true }
+            ]
+        },
+        {
+            id: 286, text: "Automatyczne składowanie bazy serwera DHCP:",
+            options: [
+                { t: "nie jest realizowane (składowanie musi zostać wymuszone przez administratora)", c: false },
+                { t: "jest standardowo realizowane w katalogu bazy DHCP", c: false },
+                { t: "jest standardowo realizowane w jednym z podkatalogów, katalogu bazy DHCP", c: true },
+                { t: "jest standardowo realizowane na nośniku zewnętrznym (jeżeli taki nośnik jest dostępny)", c: false }
+            ]
+        },
+        {
+            id: 287, text: "Narzędziem wiersza poleceń umożliwiającym administrowanie serwerami DHCP jest polecenie:",
+            options: [
+                { t: "DHCPadmin", c: false },
+                { t: "Nettool", c: false },
+                { t: "Netsh", c: true },
+                { t: "DHCPconfig", c: false }
+            ]
+        },
+        {
+            id: 288, text: "Dane wskazujące serwer DNS strefy są dostępne w rekordzie",
+            options: [
+                { t: "CNAME", c: false },
+                { t: "A", c: false },
+                { t: "NS", c: true },
+                { t: "SOA", c: false }
+            ]
+        },
+        {
+            id: 289, text: "Dane wskazujące adres przypisany do nazwy są dostępne w rekordzie",
+            options: [
+                { t: "SOA", c: false },
+                { t: "A", c: true },
+                { t: "CNAME", c: false },
+                { t: "NS", c: false }
+            ]
+        },
+        {
+            id: 290, text: "Który z wymienionych niżej programow umozliwia utworzenie (ale nie modyfikacje) kont uzytkownikow, na podstawie informacji o atrybutach tych kont zapisanych w pliku tekstowym?",
+            options: [
+                { t: "LDAP", c: false },
+                { t: "ACCOUNT", c: false },
+                { t: "LDIFDE", c: true },
+                { t: "CSVDE", c: false }
+            ]
+        },
+        {
+            id: 291, text: "w Windows, jednakowe srodowisko pracy uzytkownika na kazdym komputerze, uzyskuje sie przez zastosowanie mechanizmu:",
+            options: [
+                { t: "zmiennej srodowiskowej ENVIRONMENT", c: false },
+                { t: "profilu lokalnego (local profile)", c: false },
+                { t: "skryptu logowania (login script)", c: false },
+                { t: "profilu mobilnego (roaming profile)", c: true }
+            ]
+        },
+        {
+            id: 292, text: "jeżeli w ustawieniach konkretnego obiektu zasad grupy (GPO) ma miejsce kolizja miedzy ustawieniami komputera (Group Policy Settings for Computers) i uzytkownika (Group Policy Settings for Users), to:",
+            options: [
+                { t: "wyższy priorytet mają ustawienia zdefiniowane pozniej", c: false },
+                { t: "wyższy priorytet mają ustawienia zdefiniowane wczesniej", c: false },
+                { t: "wyższy priorytet mają ustawienia uzytkownika", c: false },
+                { t: "wyższy priorytet mają ustawienia komputera", c: true }
+            ]
+        },
+        {
+            id: 293, text: "Przy pomocy konsoli zarządzania zasadami grupy zrealizowano pewną operację na wybranym GPO. W wyniku tego na dysku został utworzony plik {375483A8-72BB-4DAB-B20D-123456789ACFD}. jaką operację wykonano?",
+            options: [
+                { t: "Archiwizowanie GPO", c: true },
+                { t: "Kasowanie GPO", c: false },
+                { t: "Kopiowanie GPO", c: false },
+                { t: "Importowanie GPO", c: false }
+            ]
+        },
+        {
+            id: 294, text: "W trakcie uruchamiania systemu",
+            options: [
+                { t: "ustawienia zasad grupowych umieszczone w sekcji Computer Configuration obiektów zasad grupowych sa zapisywane do wybranych kluczy drzewa HKEY_LOCAL_MACHINE (HKLM) rejestru", c: true },
+                { t: "ustawienia zasad grupowych umieszczone w sekcji User Configuration obiektów zasad grupowych sa zapisywane do wybranych kluczy drzewa HKEY_LOCAL_MACHINE (HKLM) rejestru", c: false },
+                { t: "ustawienia zasad grupowych umieszczone w sekcji User Configuration obiektów zasad grupowych sa zapisywane do wybranych kluczy drzewa HKEY_CURRENT_USER (HKCU) rejestru", c: false },
+                { t: "ustawienia zasad grupowych umieszczone w sekcji Computer Configuration obiektów zasad grupowych sa zapisywane do wybranych kluczy drzewa HKEY_CURRENT_USER (HKCU) rejestru", c: false }
+            ]
+        },
+        {
+            id: 295, text: "Przy dystrybucji oprogramowania z wykorzystaniem zasad grupowych, zastosowano metode przypisania (assigning). W obiekcie zasad grupowych (GPO) zasady dystrybucji zdefiniowano w kontenerze Computer Configuration. Ktore z ponizszych zdan nie jest prawdziwe?",
+            options: [
+                { t: "W menu Start lub na pulpicie pojawia sie skroty do zainstalowanych aplikacji.", c: false },
+                { t: "Aplikacja zostanie zainstalowana na stacji klienckiej podczas nastepnego uruchomienia systemu operacyjnego.", c: true },
+                { t: "Pliki instalacyjne zostana pobrane z punktu dystrybucyjnego zdefniowanego w obiekcie zasad grupowych", c: false },
+                { t: "Aplikacja zostanie zainstalowana na stacji klienckiej podczas jej pierwszego uruchomienia (uaktywnienia skrotu) przez uzytkownika.", c: false }
+            ]
+        },
+        {
+            id: 296, text: "jeżeli w trakcie replikacji bazy usługi katalogowej zaistnieje konflikt \"siostrzanych nazw\" (sibling names), to",
+            options: [
+                { t: "obiekt z wiekszym znacznikiem czasowym zachowuje nazwe a drugi jest umieszczany pod nazwą CNF_nazwa_pierwotna w kontenerze LostAndFound", c: true },
+                { t: "obiekt z mniejszym znacznikiem czasowym zachowuje nazwe a dla drugiego nazwa jest tworzona przez kontroler domeny", c: false },
+                { t: "obiekt z mniejszym znacznikiem czasowym zachowuje nazwe a drugi jest umieszczany pod nazwą CNF_nazwa_pierwotna w kontenerze LostAndFound", c: false },
+                { t: "obiekt z wiekszym znacznikiem czasowym zachowuje nazwe a dla drugiego nazwa jest tworzona przez kontroler domeny", c: false }
+            ]
+        },
+        {
+            id: 297, text: "Który z wymienionych obiektów jest elementem struktury fizycznej Active Directory?",
+            options: [
+                { t: "jednostka organizacyjna (organizational unit)", c: false },
+                { t: "kontroler domeny (domain controller)", c: true },
+                { t: "domena (domain)", c: false },
+                { t: "katalog globalny (global catalog)", c: false }
+            ]
+        },
+        {
+            id: 298, text: "Obiekty Active Directory nie mogą reprezentowac:",
+            options: [
+                { t: "uzytkownikow", c: false },
+                { t: "komputerow", c: false },
+                { t: "drukarek", c: false },
+                { t: "usług", c: true }
+            ]
+        },
+        {
+            id: 299, text: "Active Directory to:",
+            options: [
+                { t: "baza kont komputerow sieci Windows", c: false },
+                { t: "implementacja dynamicznego zarzadzania systemem plikow w systemie Windows", c: false },
+                { t: "implementacja usługi katalogowej w systemie Windows", c: true },
+                { t: "baza kont uzytkownikow kontrolera domeny", c: false }
+            ]
+        },
+        {
+            id: 300, text: "jeżeli podczas tworzenia konta uzytkownika OLO okreslamy, ze jego profil bedzie znajdował sie w katalogu \\PDC\\USER\\OLO (PDC jest nazwą kontrolera domeny), to:",
+            options: [
+                { t: "administrator powinien wymieniony katalog ręcznie utworzyć, udostępnić w sieci i umieścić w nim profil użytkownika.", c: false },
+                { t: "w kazdym przypadku, wymieniony katalog zostanie automatycznie poprawnie zalozony.", c: false },
+                { t: "wymieniony katalog nalezy zalozyc recznie i powinien on byc udostepniony (shared). Profil uzytkownika zostanie w nim automatycznie poprawnie utworzony.", c: true },
+                { t: "wymieniony katalog nalezy zalozyc recznie i nie jest konieczne jego udostepnianie w sieci. Profil uzytkownika zostanie w nim automatycznie poprawnie utworzony.", c: false }
+            ]
+        },
+        {
+            id: 301, text: "Termin \"konto lokalne\"",
+            options: [
+                { t: "Odnosi się tylko do kont defiowanych na serwerach wydzielonych.", c: false },
+                { t: "Odnosi się tylko do kont defiowanych na stacjach roboczych i serwerach wydzielonych.", c: false },
+                { t: "Odnosi się do kont definiowanych na stacjach roboczych, serwerach wydzielonych, serwerach członkowskich domeny.", c: false },
+                { t: "Odnosi się tylko do kont defiowanych na stacjach roboczych.", c: true }
+            ]
+        },
+        {
+            id: 302, text: "w Windows, przy przesuwaniu pliku pomiędzy wolumenami NTFS, atrybut kompresji:",
+            options: [
+                { t: "jest ustawiany na wartość pobraną z katalogu docelowego", c: true },
+                { t: "jest zachowywany", c: false },
+                { t: "jest ustawiany wg zawartosci zmiennej COMPR", c: false },
+                { t: "jest ustawiany na wartość pobraną z jednego z kluczy rejestru systemuPytanie:", c: false }
+            ]
+        },
+        {
+            id: 303, text: "Które z przedstawionych zdań jest prawdziwe?",
+            options: [
+                { t: "Drzewa domen wyznaczają granicę dziedziczenia GPO. Dla danej domeny stosowane sa rowniez ustawienia z domen nadrzędnych w drzewie.", c: false },
+                { t: "Lasy domen wyznaczają granicę dziedziczenia GPO. Dla danej domeny stosowane sa rowniez ustawienia z domen nadrzędnych w lesie.", c: false },
+                { t: "Domeny wyznaczają granicę dziedziczenia GPO. Nie są stosowane ustawienia z domen nadrzędnych ani podrzędnych.", c: true },
+                { t: "Granice dziedziczenia GPO wynikają z trybu pracy domeny (rodzimy, mieszany).", c: false }
+            ]
+        },
+        {
+            id: 304, text: "Włączanie inspekcji dostępu do obiektów (bez ich szczegółowego wymieniania) można dokonać przy pomocy:",
+            options: [
+                { t: "programu eksploratora plików (File Explorer)", c: true },
+                { t: "programu GPUPDATE", c: false },
+                { t: "edytora zasad grupy", c: false },
+                { t: "programu SECCOMP", c: false }
+            ]
+        },
+        {
+            id: 305, text: "Okno logowania użytkownika jest wyświetlane",
+            options: [
+                { t: "Po zaaplikowaniu ustawień GPO jednostki organizacyjnej i wszystkich kontenerów nadrzędnych względem konta logującego się użytkownika i komputera, na którym ma miejsce logowanie", c: false },
+                { t: "Po zaaplikowaniu ustawień wszystkich GPO dotyczących komputera, na którym loguje się użytkownik", c: false },
+                { t: "Po zaaplikowaniu ustawień GPO wszystkich kontenerów nadrzędnych względem konta logującego się użytkownika i komputera, na którym loguje się użytkownik", c: false },
+                { t: "Po zaaplikowaniu ustawień GPO jednostki organizacyjnej i wszystkich kontenerów nadrzędnych względem konta logującego się użytkownika", c: true }
+            ]
+        },
+        {
+            id: 306, text: "Postanowiono usunąć oprogramowanie zainstalowane z wykorzystaniem zasad grupy. Wykonanie tej czynności również z wykorzystaniem zasad grupy oznacza",
+            options: [
+                { t: "Wymuszenie bezwzględnego usunięcia oprogramowania lub zostawienie decyzji do uznania użytkownikom", c: false },
+                { t: "Jedynie zostawienie decyzji do uznania użytkownikom", c: false },
+                { t: "Jedynie bezwzględne usunięcie oprogramowania, bez uwzględniania woli użytkowników", c: true }
+            ]
+        },
+        {
+            id: 307, text: "W lesie domen składającym się z trzech domen A, B, C mamy 9 kontrolerów (po 3 w każdej domenie). Na ilu kontrolerach umieszczona jest partycja schematu?",
+            options: [
+                { t: "1", c: false },
+                { t: "3", c: true },
+                { t: "9", c: false },
+                { t: "6", c: false }
+            ]
+        },
+        {
+            id: 308, text: "Wektor, którego pozycje zawierają dwie wartości: <GUID, USN> służy do",
+            options: [
+                { t: "rozstrzygania konfliktów wartości atrybutów", c: false },
+                { t: "identyfikowania obiektów Active Directory", c: false },
+                { t: "zapobiegania wielokrotnemu pobieraniu tej samej poprawki (modyfikacji) bazy kontrolera", c: true },
+                { t: "synchronizowania zegarów kontrolerów domen", c: false }
+            ]
+        },
+        {
+            id: 309, text: "Do przeglądania i ręcznego definiowania topologii replikacji oraz jej wymuszania można wykorzystać program",
+            options: [
+                { t: "REPUTIL", c: false },
+                { t: "NTDSUTIL", c: false },
+                { t: "DCDIAG", c: false },
+                { t: "REPADMIN", c: true }
+            ]
+        },
+        {
+            id: 310, text: "W przypadku gdy chcemy przywrócić do działania wcześniej uszkodzony kontroler domeny, powinniśmy zastosować:",
+            options: [
+                { t: "Odtwarzanie nieautorytatywne (normalne)", c: true },
+                { t: "Odtwarzanie autorytatywne", c: false },
+                { t: "Replikację bazy Active Directory", c: false }
+            ]
+        },
+        {
+            id: 311, text: "Automatyczne składowanie bazy serwera DHCP:",
+            options: [
+                { t: "nie jest realizowane (składowanie musi zostać wymuszone przez administratora)", c: false },
+                { t: "jest standardowo realizowane przy zatrzymywaniu serwera DHCP (lub systemu, na którym został uruchomiony serwer DHCP)", c: false },
+                { t: "jest standardowo realizowane po każdej zmianie w bazie", c: false },
+                { t: "jest standardowo realizowane według zadanego harmonogramu czasowego", c: true }
+            ]
+        },
+        {
+            id: 312, text: "Pierwsza próba odnowienia dzierżawy adresu IP jest realizowana:",
+            options: [
+                { t: "po upływie 87,5% czasu dzierżawy", c: false },
+                { t: "po upływie całego czasu dzierżawy", c: false },
+                { t: "po upływie 37,5% czasu dzierżawy", c: false },
+                { t: "po upływie 50% czasu dzierżawy", c: true }
+            ]
+        },
+        {
+            id: 313, text: "Czy w buforze klienta DNS (resolvera) przechowywane są wpisy negatywne, tzn. informacje dotyczące nierozpoznanych nazw?",
+            options: [
+                { t: "jest to zależne od konfiguracji serwerów, z którymi współpracuje bezpośrednio klient", c: false },
+                { t: "jest to zależne od konfiguracji klienta (resolvera)", c: false },
+                { t: "nie", c: true },
+                { t: "tak", c: false }
+            ]
+        },
+        {
+            id: 314, text: "Procedura automatycznej aktualizacji rekordu zasobu DNS dotyczącego stcji której interfejs sieciowy został skonfigurowany statycznie:",
+            options: [
+                { t: "nie jest realizowana, gdyż dotyczy tylko stacji konfigurowanych dynamicznie (z użyciem DHCP)", c: true },
+                { t: "jest inicjowane przez serwer DNS, którego adres został zdefiniowany w parametrach interfejsu sieciowego tej stacji", c: false },
+                { t: "jest inicjowane przez klienta DHCP pracującego na tej stacji", c: false },
+                { t: "jest inicjowane przez klienta DNS (resolver) pracującego na tej stacji", c: false }
+            ]
+        },
+        {
+            id: 315, text: "Funkcja zdalnego dostępu, która umożliwia zdalnym użytkownikom podłączanie sie bez wykorzystania tradycyjnego klienta VPN, to:",
+            options: [
+                { t: "NPS", c: false },
+                { t: "Direct Access", c: true },
+                { t: "RRAS", c: false },
+                { t: "PAP", c: false }
+            ]
+        },
+        {
+            id: 316, text: "Proces upoważniania serwerów DHCP dotyczy:",
+            options: [
+                { t: "serwerów DHCP funkcjonujących na kontrolerach domeny", c: false },
+                { t: "wszystkich serwerów DHCP w fizycznym segmencie sieci", c: false },
+                { t: "wszystkich serwerów DHCP w domenie", c: true },
+                { t: "wszystkich serwerów DHCP w sieci korporacyjnej", c: false }
+            ]
+        },
+        {
+            id: 317, text: "Mechanizm \"Failover-Hot Standby\":",
+            options: [
+                { t: "To mechanizm polegający na podzieleniu konkretnych zakresów pomiędzy dwa serwery DHCP. Serwer zapasowy, sprawdza okresowo, czy serwer podstawowy jest sprawny. W razie awarii podstawowego zaczyna przydzielać klientom parametry konfiguracyjne.", c: true },
+                { t: "To mechanizm wykorzystujący klaster serwerów DHCP pracujących na tej samej logicznej kopii bazy (kopie fizyczne są replikowane pomiędzy serwerami). Serwery aktualizują na bieżąco swoje bazy. Żądania klientów są tak kierowane aby zapewnić rozkład obciążenia serwerów zgodnie ze zdefiniowanym wcześniej podziałem.", c: false },
+                { t: "To mechanizm wykorzystujący klaster serwerów DHCP pracujących na tej samej logicznej kopii bazy (kopie fizyczne są replikowane pomiędzy serwerami). Serwer zapasowy, sprawdza okresowo, czy serwer podstawowy jest sprawny. W razie awarii podstawowego zaczyna przydzielać klientom parametry konfiguracyjne.", c: false },
+                { t: "To mechanizm polegający na podzieleniu konkretnych zakresów pomiędzy dwa serwery DHCP. Serwer zapasowy, podobnie jak podstawowy cały czas odpowiada na żądania klientów, ale z opóźnieniem.", c: false }
+            ]
+        },
+        {
+            id: 318, text: "Strefy skrótowe",
+            options: [
+                { t: "przechwują wszystkie rodzaje rekordów", c: false },
+                { t: "nie przechwują żadnych rekordów", c: true },
+                { t: "przechwują przede wszystkim rekordy NS", c: false },
+                { t: "przechwują przede wszystkim rekordy A, PTR i CNAME", c: false }
+            ]
+        },
+        {
+            id: 319, text: "Która z wymienionych odpowiedzi nie może pojawić się jako reakcja serwera DNS na przesłaną do niego kwerendę rekursywną?",
+            options: [
+                { t: "Komunikat o błędzie z informacją, ze dane żądanego typu nie istnieją", c: false },
+                { t: "Odpowiedź zawierająca adres IP odpowiadający nazwie, której dotyczyła kwerenda", c: false },
+                { t: "Odpowiedź z informacją, ze podana nazwa domeny nie istnieje", c: false },
+                { t: "wskazanie serwera DNS, do którego należy się zwrócić po odpowiedź", c: true }
+            ]
+        },
+        {
+            id: 320, text: "Konfigurowania i analizy zasad zabezpieczeń z poziomu wiersza poleceń można dokonać przy pomocy programu:",
+            options: [
+                { t: "seccomp", c: false },
+                { t: "gpupdate", c: false },
+                { t: "secedit", c: true },
+                { t: "polcomp", c: false }
+            ]
         }
     ];
 
