@@ -116,317 +116,6 @@
 </head>
 <body>
 
-<div class="container">
-    <h1>Egzamin Administratora Linux</h1>
-    <div id="quiz-area"></div>
-</div>
-<div id="streszczenie-wykladow">
-    
-    <h2>Wykład 1: Wprowadzenie do Administracji Systemami Operacyjnymi Linux/Unix</h2>
-    <p>Wykład ten stanowi fundament wiedzy dla administratora, definiując podstawowe pojęcia bezpieczeństwa, przegląd systemów oraz rolę administratora.</p>
-    
-    <h3>1. Podstawy bezpieczeństwa (Triada CIA)</h3>
-    <p>Fundamentem bezpieczeństwa są trzy elementy:</p>
-    <ul>
-        <li><strong>Poufność (Confidentiality):</strong> Ochrona danych przed dostępem osób niepowołanych.</li>
-        <li><strong>Integralność (Integrity):</strong> Gwarancja, że dane nie zostały zmienione w sposób nieautoryzowany.</li>
-        <li><strong>Dostępność (Availability):</strong> Zapewnienie dostępu do systemów dla uprawnionych użytkowników.</li>
-    </ul>
-
-    <h3>2. Wektory ataku i środki zapobiegawcze</h3>
-    <ul>
-        <li><strong>Socjotechnika:</strong> Użytkownicy są najsłabszym ogniwem; wymagane są regularne szkolenia.</li>
-        <li><strong>Podatności oprogramowania:</strong> Błędy w kodzie umożliwiające przejęcie kontroli. Należy ograniczać uprawnienia aplikacji i stosować systemy kontroli dostępu jak SELinux czy AppArmor.</li>
-        <li><strong>DDoS:</strong> Ataki na dostępność, wymagające mitygacji na poziomie infrastruktury sieciowej i WAF.</li>
-        <li><strong>Zagrożenia wewnętrzne:</strong> Trudne do wykrycia działania osób z legalnym dostępem.</li>
-    </ul>
-    <p>Środki bezpieczeństwa:</p>
-    <ul>
-        <li><strong>Minimalizacja powierzchni ataku:</strong> Wyłączanie zbędnych usług (narzędzia: ss -tulpn, lsof -nP -i:22).</li>
-        <li><strong>Zdalne logowanie:</strong> Centralizacja logów (Syslog, ELK) w celu korelacji incydentów.</li>
-        <li><strong>Ochrona warstwowa:</strong> Od firewalli sieciowych po WAF aplikacyjne.</li>
-    </ul>
-
-    <h3>3. Przegląd dystrybucji Linuxa</h3>
-    <p>Wszystkie dystrybucje dzielą to samo jądro, ale różnią się pakietami i przeznaczeniem:</p>
-    <ul>
-        <li><strong>Debian:</strong> Stabilny, baza dla Ubuntu/Kali, mocny nacisk na wolne oprogramowanie.</li>
-        <li><strong>RHEL:</strong> Komercyjny standard korporacyjny, stabilny z długim wsparciem.</li>
-        <li><strong>Arch Linux:</strong> Minimalistyczny, pełna kontrola użytkownika, model rolling-release.</li>
-        <li><strong>Alpine Linux:</strong> Lekki, idealny pod kontenery Docker.</li>
-        <li><strong>Kali Linux:</strong> Specjalistyczna dystrybucja do pentestów.</li>
-        <li><strong>Immutable OS:</strong> Nowe podejście (np. Fedora CoreOS, Talos), gdzie system jest niemutowalny, zoptymalizowany pod Kubernetes.</li>
-    </ul>
-
-    <h3>4. Obowiązki i środowiska pracy administratora</h3>
-    <ul>
-        [cite_start]<li><strong>Zadania:</strong> Zarządzanie użytkownikami, kopiami zapasowymi, monitoring, automatyzacja (skrypty), konfiguracja sprzętu i polityk bezpieczeństwa [cite: 37-47].</li>
-    </ul>
-    <p>Środowiska:</p>
-    <ul>
-        <li><strong>Data Center:</strong> Praca ze sprzętem fizycznym, zasilaniem, chłodzeniem.</li>
-        <li><strong>Chmura (AWS/Azure):</strong> Skalowanie, IaC (Infrastructure as Code), zarządzanie kosztami.</li>
-        <li><strong>Praca zdalna:</strong> Wymaga biegłości w SSH, VPN i zarządzaniu rozproszonymi zasobami.</li>
-    </ul>
-
-    <h3>5. Narzędzia administratora</h3>
-    <ul>
-        <li><strong>Edytory:</strong> vim (standard wszechstronny), nano.</li>
-        <li><strong>Automatyzacja:</strong> Ansible, Puppet, Chef do zarządzania konfiguracją na dużą skalę.</li>
-        [cite_start]<li><strong>Dokumentacja:</strong> Markdown (prosty), LaTeX (zaawansowany), Man pages (podstawowe źródło wiedzy o poleceniach) [cite: 114-120].</li>
-    </ul>
-
-    <hr>
-
-    <h2>Wykład 2: Proces rozruchu i łańcuch zaufania</h2>
-    <p>Szczegółowa analiza techniczna startu systemu, ze szczególnym naciskiem na bezpieczeństwo (Secure Boot).</p>
-
-    <h3>1. Etapy rozruchu</h3>
-    <ol>
-        <li><strong>Firmware (UEFI/BIOS):</strong> Inicjalizacja sprzętu (POST).</li>
-        <li><strong>Bootloader:</strong> Ładuje kernel i initramfs (weryfikacja przy Secure Boot).</li>
-        <li><strong>Kernel + Initramfs:</strong> Start jądra, montaż rootfs, uruchomienie PID 1 (systemd).</li>
-        <li><strong>Userspace:</strong> Start usług systemowych.</li>
-    </ol>
-
-    <h3>2. Secure Boot i kryptografia</h3>
-    <p>Hierarchia kluczy:</p>
-    <ul>
-        <li><strong>PK (Platform Key):</strong> Korzeń zaufania.</li>
-        <li><strong>KEK (Key Exchange Key):</strong> Do aktualizacji baz kluczy.</li>
-        <li><strong>db (Allowed):</strong> Baza zaufanych certyfikatów/hashy.</li>
-        <li><strong>dbx (Forbidden):</strong> Baza unieważnionych certyfikatów (np. skompromitowanych).</li>
-        <li><strong>MOK (Machine Owner Key):</strong> Klucz użytkownika/admina zarządzany przez shim, pozwalający na uruchamianie własnych jąder/modułów.</li>
-        <li><strong>Kernel Lockdown:</strong> W trybie Secure Boot jądro blokuje dostęp do funkcji mogących naruszyć jego integralność; moduły muszą być podpisane.</li>
-    </ul>
-
-    <h3>3. MBR vs GPT</h3>
-    <ul>
-        <li><strong>MBR:</strong> Limit 2 TiB, 4 partycje podstawowe, kod rozruchowy w LBA 0.</li>
-        [cite_start]<li><strong>GPT:</strong> Limit ~8 ZiB, brak limitu partycji, redundancja (kopia tablicy na końcu dysku), wymagane przez UEFI [cite: 154-156].</li>
-    </ul>
-
-    <h3>4. UKI (Unified Kernel Image)</h3>
-    <p>Nowoczesne podejście, gdzie kernel, initramfs i cmdline są spakowane w jeden plik PE/COFF i podpisane jako całość. Zapobiega to manipulacji parametrami startowymi jądra.</p>
-
-    <h3>5. Praktyka administracyjna</h3>
-    <ul>
-        <li><strong>Podpisywanie modułów (DKMS):</strong> Wymaga stworzenia hooka (skryptu), który automatycznie podpisuje nowe moduły kluczem MOK przy aktualizacji jądra.</li>
-        <li><strong>Zabezpieczenie GRUB:</strong> Należy ustawić hasło (PBKDF2), aby zablokować edycję wpisów (np. dopisanie init=/bin/bash).</li>
-        <li><strong>Initramfs:</strong> Można go analizować (lsinitramfs) i modyfikować (update-initramfs). [cite_start]Zawiera niezbędne moduły (np. do obsługi LUKS/LVM) [cite: 179-183].</li>
-    </ul>
-
-    <hr>
-
-    <h2>Wykład 3: Zarządzanie usługami w systemie Linux (Systemd)</h2>
-    <p>Wykład poświęcony architekturze i konfiguracji systemd – domyślnego menedżera systemu.</p>
-
-    <h3>1. Podstawowe pojęcia i ścieżki</h3>
-    <p>systemd jest procesem PID 1, zarządza usługami, logami (journald) i zasobami (cgroups).</p>
-    <p>Lokalizacja plików:</p>
-    <ul>
-        <li><strong>/lib/systemd/system:</strong> Domyślne pliki z pakietów (nie edytować!).</li>
-        <li><strong>/etc/systemd/system:</strong> Konfiguracja administratora (nadrzędna).</li>
-        <li><strong>/run/systemd/system:</strong> Jednostki dynamiczne.</li>
-    </ul>
-    <p>Nadpisywanie: Używamy systemctl edit &lt;unit&gt;, co tworzy plik override.conf – bezpieczna metoda modyfikacji.</p>
-
-    <h3>2. Typy jednostek (Units)</h3>
-    <ul>
-        <li><strong>Service:</strong> Usługa (proces).</li>
-        <li><strong>Socket:</strong> Aktywacja usługi na żądanie (np. przy połączeniu na port).</li>
-        <li><strong>Target:</strong> Grupowanie jednostek (odpowiednik runleveli), np. multi-user.target.</li>
-        <li><strong>Timer:</strong> Harmonogram (zastępstwo crona).</li>
-        <li><strong>Mount/Automount:</strong> Zarządzanie punktami montowania.</li>
-    </ul>
-
-    <h3>3. Szablony i instancje</h3>
-    <p>Jednostki z @ w nazwie (np. sshd@.service) to szablony.</p>
-    <ul>
-        <li><strong>%i:</strong> Parametr instancji (uproszczony).</li>
-        <li><strong>%I:</strong> Parametr instancji (pełny, np. ścieżka).</li>
-    </ul>
-    [cite_start]<p>Pozwala to na uruchamianie wielu wersji usługi z jednego pliku konfiguracyjnego [cite: 218-219].</p>
-
-    <h3>4. Zależności i analiza rozruchu</h3>
-    <ul>
-        <li><strong>Requires:</strong> Silna zależność (błąd A zatrzymuje start B).</li>
-        <li><strong>Wants:</strong> Słaba zależność (start B nastąpi nawet przy błędzie A).</li>
-        [cite_start]<li><strong>After/Before:</strong> Tylko kolejność, nie wymusza startu [cite: 221-222].</li>
-        [cite_start]<li><strong>Analiza:</strong> systemd-analyze blame (czas startu usług), critical-chain (wąskie gardło procesu startu) [cite: 223-224].</li>
-    </ul>
-
-    <h3>5. Bezpieczeństwo (Hardening)</h3>
-    [cite_start]<p>Systemd pozwala izolować usługi bez dodatkowego oprogramowania [cite: 227-228]:</p>
-    <ul>
-        <li><strong>NoNewPrivileges:</strong> Blokada eskalacji uprawnień.</li>
-        <li><strong>PrivateTmp:</strong> Własny /tmp dla usługi.</li>
-        <li><strong>ProtectSystem/ProtectHome:</strong> Ograniczenie dostępu do plików systemowych/użytkownika.</li>
-        <li><strong>DynamicUser:</strong> Uruchamianie usługi jako tymczasowy użytkownik bez dostępu do reszty systemu.</li>
-    </ul>
-
-    <hr>
-
-    <h2>Wykład 4: Środowisko wykonawcze (Procesy, Wątki, Sygnały)</h2>
-    <p>Techniczne spojrzenie na działanie programów w systemie oraz ich monitorowanie.</p>
-
-    <h3>1. Definicje</h3>
-    <ul>
-        <li><strong>Proces:</strong> Egzemplarz programu z własną przestrzenią adresową i zasobami.</li>
-        <li><strong>Wątek:</strong> Jednostka wykonawcza wewnątrz procesu, współdzieli pamięć i pliki (lżejsza od procesu).</li>
-        <li><strong>Zasoby:</strong> CPU, pamięć, deskryptory plików.</li>
-    </ul>
-
-    <h3>2. Cykl życia i typy procesów</h3>
-    <ul>
-        <li><strong>Hierarchia:</strong> Drzewiasta struktura z systemd (PID 1) jako korzeniem.</li>
-        <li><strong>Zombie:</strong> Proces zakończony, którego statusu nie odebrał rodzic (widoczny jako defunct). [cite_start]Nie można go zabić, trzeba naprawić rodzica [cite: 249-251].</li>
-        <li><strong>Daemon:</strong> Proces działający w tle, bez terminala (TTY).</li>
-    </ul>
-
-    <h3>3. System plików /proc</h3>
-    <p>Wirtualny system plików generowany przez jądro w locie.</p>
-    <ul>
-        <li><strong>/proc/PID/cmdline:</strong> Komenda uruchomieniowa.</li>
-        <li><strong>/proc/PID/fd/:</strong> Otwarte pliki (deskryptory).</li>
-        <li><strong>/proc/PID/environ:</strong> Zmienne środowiskowe (często wrażliwe dane!).</li>
-    </ul>
-    <p>Różnica: /proc dotyczy procesów, /sys dotyczy sprzętu i sterowników.</p>
-
-    <h3>4. Narzędzia i sygnały</h3>
-    <ul>
-        <li><strong>Sygnały:</strong> SIGKILL (wymuszone zabicie, nieprzechwytywalne), SIGTERM (prośba o zakończenie), SIGSEGV (błąd pamięci).</li>
-        [cite_start]<li><strong>Narzędzia:</strong> ps, top/htop (monitoring), strace (śledzenie syscalli – kluczowe przy debugowaniu), lsof (otwarte pliki/porty) [cite: 278-280].</li>
-    </ul>
-
-    <h3>5. eBPF (Extended Berkeley Packet Filter)</h3>
-    <p>Nowoczesna technologia pozwalająca bezpiecznie uruchamiać kod w jądrze w celu monitorowania (bez modułów jądra). Narzędzia: bpftrace, bcc-tools. [cite_start]Używane do wykrywania anomalii i zaawansowanego debugowania wydajności [cite: 282-285].</p>
-
-    <h3>6. Procedura reakcji na incydent</h3>
-    [cite_start]<p>Identyfikacja (PID) -> Izolacja (odcięcie sieci) -> Zabezpieczenie dowodów (zrzut pamięci, brak modyfikacji plików) -> Analiza (statyczna/dynamiczna) -> Naprawa [cite: 317-322].</p>
-
-    <hr>
-
-    <h2>Wykład 5: Zarządzanie i ochrona danych (Storage)</h2>
-    <p>Wykład omawia warstwy pamięci masowej, od sprzętu po systemy plików i backup.</p>
-
-    <h3>1. Warstwy pamięci masowej</h3>
-    <ul>
-        <li><strong>Sprzęt:</strong> HDD, SSD/NVMe (wymagają TRIM), macierze RAID.</li>
-        [cite_start]<li><strong>Partycjonowanie:</strong> Zalecane GPT (UUID/PARTUUID jako stabilne identyfikatory w /etc/fstab) [cite: 344-347].</li>
-    </ul>
-
-    <h3>2. LVM (Logical Volume Manager)</h3>
-    <p>Warstwa abstrakcji pozwalająca na elastyczne zarządzanie dyskami.</p>
-    <ul>
-        <li><strong>PV (Physical Volume):</strong> Fizyczny dysk/partycja.</li>
-        <li><strong>VG (Volume Group):</strong> Pula przestrzeni z wielu PV.</li>
-        <li><strong>LV (Logical Volume):</strong> Partycja logiczna widoczna dla systemu.</li>
-    </ul>
-    [cite_start]<p>Funkcje: Snapshoty, Thin Provisioning, zmiana rozmiaru online [cite: 353-356].</p>
-
-    <h3>3. Szyfrowanie LUKS</h3>
-    <p>Szyfrowanie blokowe (pod systemem plików).</p>
-    <p><strong>Kluczowe:</strong> Backup nagłówka LUKS – jego uszkodzenie oznacza utratę wszystkich danych, nawet przy znajomości hasła.</p>
-
-    <h3>4. Struktura katalogów (FHS)</h3>
-    <ul>
-        [cite_start]<li><strong>/var:</strong> Dane zmienne (logi), zalecane montowanie z nosuid, nodev [cite: 371-373].</li>
-        <li><strong>/home:</strong> Dane użytkowników, nosuid, nodev.</li>
-        <li><strong>/usr:</strong> Oprogramowanie, można montować jako ro (read-only) dla bezpieczeństwa.</li>
-    </ul>
-
-    <h3>5. Systemy plików</h3>
-    <ul>
-        <li><strong>Tradycyjne (Ext4, XFS):</strong> Dojrzałe, z journalingiem, ale brak wbudowanych snapshotów i sum kontrolnych danych (tylko metadane).</li>
-        <li><strong>Nowoczesne (ZFS, Btrfs):</strong></li>
-    </ul>
-    <ul>
-        <li><strong>CoW (Copy-on-Write):</strong> Dane nie są nadpisywane, lecz pisane w nowe miejsce – gwarancja spójności.</li>
-        [cite_start]<li><strong>Cechy:</strong> Wbudowany RAID, snapshoty, kompresja, deduplikacja, ochrona przed "bit rot" (sumy kontrolne bloków danych) [cite: 432-436].</li>
-    </ul>
-
-    <h3>6. Kopie zapasowe</h3>
-    <ul>
-        [cite_start]<li><strong>Reguła 3-2-1-1-0:</strong> 3 kopie, 2 nośniki, 1 poza firmą, 1 offline (ochrona przed ransomware), 0 błędów odzyskiwania [cite: 478-480].</li>
-        <li><strong>RPO (Recovery Point Objective):</strong> Ile danych możemy stracić (czas wstecz).</li>
-        [cite_start]<li><strong>RTO (Recovery Time Objective):</strong> Jak szybko musimy wstać po awarii [cite: 458-460].</li>
-    </ul>
-
-    <hr>
-
-    <h2>Wykład 6: Podstawy sieci w systemach Unix/Linux</h2>
-    <p>Kompleksowe omówienie konfiguracji sieci, routingu i bezpieczeństwa sieciowego.</p>
-
-    <h3>1. Konfiguracja sieci</h3>
-    <ul>
-        <li><strong>Model:</strong> W Linuxie stos TCP/IP jest w jądrze, komunikacja z userspace przez gniazda Netlink (AF_NETLINK).</li>
-    </ul>
-    <p>Narzędzia:</p>
-    <ul>
-        <li><strong>iproute2 (ip addr, ip link):</strong> Nowoczesny standard zastępujący ifconfig.</li>
-        <li><strong>NetworkManager:</strong> Domyślny w desktopach/RHEL (nmcli).</li>
-        <li><strong>Netplan:</strong> Konfiguracja YAML (Ubuntu).</li>
-        <li><strong>systemd-networkd:</strong> Lekki, idealny do chmury/serwerów.</li>
-    </ul>
-
-    <h3>2. Routing</h3>
-    <ul>
-        <li><strong>Statyczny:</strong> Prosty, ręcznie definiowany (ip route add).</li>
-        [cite_start]<li><strong>Dynamiczny:</strong> Protokoły OSPF/BGP (np. daemon bird), automatyczna reakcja na awarie [cite: 532-533].</li>
-        <li><strong>Policy Routing:</strong> Kierowanie ruchem na podstawie reguł (np. adresu źródłowego), nie tylko celu. [cite_start]Używa wielu tablic routingu [cite: 535-539].</li>
-    </ul>
-
-    <h3>3. Wirtualizacja sieci</h3>
-    <ul>
-        <li><strong>Network Namespaces:</strong> Izolowane stosy sieciowe (własne interfejsy, routing). Podstawa działania Docker/K8s. [cite_start]Łączone parami veth [cite: 564-573].</li>
-        <li><strong>Open vSwitch (OVS):</strong> Zaawansowany wirtualny switch, obsługuje VLAN, VXLAN, OpenFlow, QoS. [cite_start]Używany w wirtualizacji na dużą skalę [cite: 577-584].</li>
-    </ul>
-
-    <h3>4. Bezpieczeństwo i diagnostyka</h3>
-    <ul>
-        <li><strong>Firewall:</strong> iptables (klasyczny) oraz nftables (wydajniejszy następca). [cite_start]Filtrowanie w łańcuchach (INPUT, FORWARD, OUTPUT) [cite: 590-592].</li>
-    </ul>
-    <p>Diagnostyka:</p>
-    <ul>
-        <li><strong>ss:</strong> Następca netstat (szybszy, pobiera info z jądra).</li>
-        <li><strong>tcpdump/wireshark:</strong> Analiza pakietów.</li>
-        <li><strong>mtr:</strong> Ping + traceroute w jednym.</li>
-    </ul>
-
-    <hr>
-
-    <h2>Wykład 7: Kontrola dostępu i uprawnień</h2>
-    <p>Zarządzanie użytkownikami, modelami uprawnień i eskalacją przywilejów.</p>
-
-    <h3>1. Modele kontroli dostępu</h3>
-    <ul>
-        <li><strong>DAC (Discretionary):</strong> Właściciel decyduje o prawach (rwx).</li>
-        <li><strong>MAC (Mandatory):</strong> System wymusza polityki (SELinux, AppArmor). Chroni system nawet gdy root/aplikacja zostanie skompromitowana.</li>
-        <li><strong>RBAC:</strong> Uprawnienia oparte na rolach.</li>
-    </ul>
-
-    <h3>2. Zarządzanie uprawnieniami</h3>
-    <ul>
-        <li><strong>Podstawowe:</strong> chmod (prawa), chown (właściciel).</li>
-        [cite_start]<li><strong>ACL (Access Control Lists):</strong> Rozszerzone uprawnienia (setfacl), pozwalają nadać prawa konkretnemu użytkownikowi do pliku bez zmiany grupy właściciela [cite: 614-615].</li>
-        <li><strong>SUID/SGID:</strong> Bity specjalne. Program uruchamia się z uprawnieniami właściciela pliku (niebezpieczne, jeśli właścicielem jest root).</li>
-    </ul>
-
-    <h3>3. Linux Capabilities</h3>
-    <p>Bezpieczna alternatywa dla SUID. Zamiast dawać pełnego roota, dajemy procesowi tylko jedną "zdolność", np. cap_net_raw dla ping (otwieranie surowych gniazd) lub cap_net_bind_service (bindowanie niskich portów).</p>
-
-    <h3>4. Sudo i bezpieczeństwo</h3>
-    <ul>
-        <li>sudo pozwala na granulację uprawnień.</li>
-        <li><strong>Zasada:</strong> Używać visudo do edycji /etc/sudoers. Unikać ALL=(ALL) ALL. Precyzować ścieżki do komend, aby uniknąć podstawienia złośliwego binarium.</li>
-    </ul>
-
-    <h3>5. PAM (Pluggable Authentication Modules)</h3>
-    <p>Modułowy system logowania. Pozwala np. dodać uwierzytelnianie dwuskładnikowe (Google Authenticator) czy limity zasobów (pam_limits) do SSH lub logowania lokalnego bez rekompilacji programów.</p>
-    
-    <p>Czy chciałbyś, abym teraz przygotował zestaw pytań kontrolnych lub scenariusz laboratoryjny oparty na tej wiedzy?</p>
-</div>
 <script>
     // --- BAZA DANYCH PYTAŃ (ZGODNA Z TREŚCIĄ ZADANIA) ---
     // Wszystkie pytania są traktowane jako "Wybierz wszystkie poprawne" (multi)
@@ -434,453 +123,2093 @@
     
     const rawQuestions = [
         {
-            id: 1, text: "Jakie skutki może mieć zamontowanie systemu plików z opcją noexec?",
+            id: 1, text: "Wskaż poprawne zdania:",
             options: [
-                { t: "Wpływa na prawa odczytu plików.", c: false },
-                { t: "Uniemożliwia wykonywanie plików binarnych.", c: true },
-                { t: "Ogranicza możliwość uruchamiania złośliwego kodu.", c: true },
-                { t: "Powoduje błędy zapisu danych.", c: false }
+                { t: "Jeśli dostęp do pliku odbywa się za pośrednictwem udziału sieciowego, używane są jedynie uprawnienia udziału, a uprawnienia NTFS są ignorowane.", c: false },
+                { t: "Uprawnienia przypisane bezpośrednio do określonego pliku lub foldera mają pierwszeństwo przed uprawnieniami odziedziczonymi z foldera nadrzędnego.", c: true },
+                { t: "Jeśli dostęp do pliku odbywa się lokalnie, do określenia poziomu dostępu użytkownika używane są tylko uprawnienia NTFS.", c: true },
+                { t: "Jeśli dostęp do pliku odbywa się za pośrednictwem udziału sieciowego, używane są uprawnienia NTFS i udziału, a zastosowanie mają najbardziej restrykcyjne.", c: true }
             ]
         },
         {
-            id: 2, text: "Które zadania należą do obowiązków administratora systemu Linux/Unix?",
+            id: 2, text: "Dziedziczenie uprawnień NTFS:",
             options: [
-                { t: "Tworzenie aplikacji użytkowych.", c: false },
-                { t: "Zarządzanie kontami użytkowników.", c: true },
-                { t: "Konfiguracja usług systemowych.", c: true },
-                { t: "Kompilacja jądra przy każdej aktualizacji.", c: false }
+                { t: "jest domyślnie włączone w systemie Windows Server", c: true },
+                { t: "jest domyślnie wyłączone w systemie Windows Server", c: false }
             ]
         },
         {
-            id: 3, text: "Które elementy są niezbędne do podstawowej komunikacji sieciowej hosta?",
+            id: 3, text: ". W przypadku braku otrzymania oferty adresu od serwera DHCP, klientowi zostanie ustawiony adres IP z podsieci:",
             options: [
-                { t: "Interfejs sieciowy.", c: true },
-                { t: "Brama domyślna.", c: true },
-                { t: "System plików.", c: false },
-                { t: "Adres IP.", c: true }
+                { t: "nie zostanie ustawiony żaden adres IP", c: false },
+                { t: "10.10.0.0/16", c: false },
+                { t: "192.168.0.0/16", c: false },
+                { t: "169.254.255.0/16", c: true }
             ]
         },
         {
-            id: 4, text: "Jakie ryzyka niesie za sobą ręczna modyfikacja plików konfiguracyjnych bez dokumentowania zmian?",
+            id: 4, text: "W DHCP, licznik skoków (Hop Count) jest parametrem używanym do:",
             options: [
-                { t: "Utrudnioną diagnostykę błędów.", c: true },
-                { t: "Zwiększenie czytelności konfiguracji.", c: false },
-                { t: "Problemy podczas aktualizacji lub migracji systemu.", c: true },
-                { t: "Trudności w odtworzeniu konfiguracji systemu.", c: true }
+                { t: "O określenia maksymalnej ilości routerów, przez które może zostać przekazane do serwera DHCP, żądanie dzierżawy DHCP, zanim zostanie odrzucone", c: true },
+                { t: "O liczby routerów, które uczestniczyły w przekazywaniu do serwera DHCP, konkretnego żądania dzierżawy DHCP (parametr zapisywany w logu serwera DHCP)", c: false },
+                { t: "O określenia maksymalnej ilości agentów przekazywania, które mogą być zaangażowane w przekazywanie do serwera DHCP, żądania dzierżawy DHCP", c: false },
+                { t: "O określenia maksymalnej ilości routerów, przez które może zostać przekazane do agenta DHCP, żądanie dzierżawy DHCP, zanim zostanie odrzucone", c: false }
             ]
         },
         {
-            id: 5, text: "Dlaczego błędy w pliku /etc/fstab są szczególnie niebezpieczne?",
+            id: 5, text: "Pomocnicza strefa DNS:",
             options: [
-                { t: "Mogą powodować długie opóźnienia startu systemu (timeout montowania).", c: true },
-                { t: "Mogą uniemożliwić poprawne uruchomienie systemu.", c: true },
-                { t: "Powodują automatyczną i nieodwracalną utratę danych.", c: false },
-                { t: "Uniemożliwiają aktualizację jądra systemu.", c: false }
+                { t: "jest strefą tylko do odczytu – nie można modyfikować jej rekordów", c: true },
+                { t: "jest pełnoprawną strefą – można modyfikować jej rekordy", c: false }
             ]
         },
         {
-            id: 6, text: "Dlaczego zasada najmniejszych uprawnień jest fundamentem bezpieczeństwa systemów Linux?",
+            id: 6, text: "Nazwa NetBIOS:",
             options: [
-                { t: "Ogranicza skutki błędów użytkowników i usług.", c: true },
-                { t: "Upraszcza zarządzanie pakietami systemowymi.", c: false },
-                { t: "Zmniejsza zakres potencjalnych wektorów ataku.", c: true },
-                { t: "Wspiera wielowarstwowy model ochrony systemu.", c: true }
+                { t: "nie musi być taka sama jak nazwa hosta", c: true },
+                { t: "musi być taka sama jak nazwa hosta", c: false }
             ]
         },
         {
-            id: 7, text: "Jakie mogą być skutki błędnej konfiguracji zależności między jednostkami systemd?",
+            id: 7, text: "NPS (Network Policy Server) to implementacja:",
             options: [
-                { t: "System może przejść w tryb awaryjny.", c: true },
-                { t: "Może dojść do niedostępności kluczowych usług.", c: true },
-                { t: "Zawsze następuje automatyczny restart systemu.", c: false },
-                { t: "Usługi mogą uruchamiać się w niewłaściwej kolejności.", c: true }
+                { t: "serwera proxy", c: false },
+                { t: "zapory sieciowej", c: false },
+                { t: "serwera RADIUS (Remote Authentication Dial-in User Service)", c: true },
+                { t: "systemu IDS", c: false }
             ]
         },
         {
-            id: 8, text: "Które elementy wpływają na możliwość nawiązywania połączeń sieciowych przez proces?",
+            id: 8, text: "Która z poniższych nazw rozróżnialnych jest poprawnie zapisana, gdy użytkownik Jan TESTOWY należy do OU EGZAMIN w ramach domeny „example.com”",
             options: [
-                { t: "Konfiguracja sieci systemu.", c: true },
-                { t: "Uprawnienia użytkownika, z którym działa proces.", c: true },
-                { t: "Konfiguracja zapory sieciowej.", c: true },
-                { t: "Typ systemu plików.", c: false }
+                { t: "CN=Jan TESTOWY,OU=EGZAMIN,DC=example DC=com", c: false },
+                { t: "CN=Jan TESTOWY,OU=EGZAMIN,DC=example.,DC=com", c: false },
+                { t: "CN=Jan TESTOWY,OU=EGZAMIN,DC=example,DC=com", c: true },
+                { t: ".CN=Jan TESTOWY,OU=EGZAMIN,DC=example,DC=com", c: false }
             ]
         },
         {
-            id: 9, text: "Dlaczego system logów jest kluczowym elementem administracji systemem Linux?",
+            id: 9, text: "Wskaż poprawne zdanie:",
             options: [
-                { t: "Umożliwia analizę przyczyn awarii i incydentów.", c: true },
-                { t: "Eliminuje potrzebę testowania zmian.", c: false },
-                { t: "Zastępuje narzędzia monitorujące.", c: false },
-                { t: "Pozwala śledzić działania użytkowników i usług.", c: true }
+                { t: "Każda domena Active Directory musi być zarządzana przez co najmniej jeden kontroler domeny", c: true },
+                { t: "Domena Active Directory nie musi być zarządzana przez kontroler domeny", c: false },
+                { t: "Każda domena Active Directory musi być zarządzana przez dokładnie jeden kontroler domeny", c: false }
             ]
         },
         {
-            id: 10, text: "W systemie Debian 13 zmiana konfiguracji usługi nie przynosi efektu. Co należy sprawdzić w pierwszej kolejności?",
+            id: 10, text: "Active Directory to usługa katalogowa będąca implementacją protokołu:",
             options: [
-                { t: "Czy usługa została ponownie uruchomiona.", c: true },
-                { t: "Czy system został zaktualizowany.", c: false },
-                { t: "Czy użytkownik posiada konto w systemie.", c: false },
-                { t: "Czy zmiany zapisano w odpowiednim pliku konfiguracyjnym.", c: true }
+                { t: "TCP/IP", c: false },
+                { t: "SOAP", c: false },
+                { t: "UDP", c: false },
+                { t: "LDAP", c: true }
             ]
         },
         {
-            id: 11, text: "Które stwierdzenia dotyczące katalogu głównego / są prawdziwe?",
+            id: 11, text: "Zdarzenia związane z funkcjonowaniem podsystemu inspekcji są zapisywane w:",
             options: [
-                { t: "Jest najwyższym poziomem hierarchii systemu plików.", c: true },
-                { t: "Jest punktem montowania innych systemów plików.", c: true },
-                { t: "Zawiera pliki konfiguracyjne użytkownika.", c: false },
-                { t: "Może zostać usunięty po zamontowaniu /home.", c: false }
+                { t: "dzienniki aplikacji", c: false },
+                { t: "dzienniku zabezpieczeń", c: true },
+                { t: "dzienniku systemowym", c: false },
+                { t: "dzienniku domeny", c: false }
             ]
         },
         {
-            id: 12, text: "Jaką rolę pełni mechanizm sudo?",
+            id: 12, text: "Wskaż poprawne zdania związane z profilem mobilnym:",
             options: [
-                { t: "Umożliwia czasowe podniesienie uprawnień.", c: true },
-                { t: "Pozwala wykonywać polecenia z uprawnieniami administratora.", c: true },
-                { t: "Zastępuje konto root.", c: false },
-                { t: "Działa bez wcześniejszej konfiguracji.", c: false }
+                { t: "jest zapamiętywany na komputerze kontrolera domeny", c: true },
+                { t: "jest tworzony podczas pierwszego logowania użytkownika na stacji roboczej", c: true },
+                { t: "jest domyślnie ustawianym typem profilu użytkownika w AD", c: false },
+                { t: "zmiany wprowadzone w tym profilu podczas pracy użytkownika nie są zapamiętywane", c: false }
             ]
         },
         {
-            id: 13, text: "Które stwierdzenia dotyczące jądra systemu operacyjnego są prawdziwe?",
+            id: 13, text: "Żądanie odświeżenia ustawień zasad grupy można wywołać z wykorzystaniem narzędzia:",
             options: [
-                { t: "Jest uruchamiane jako zwykły proces użytkownika.", c: false },
-                { t: "Zarządza dostępem do zasobów sprzętowych.", c: true },
-                { t: "Odpowiada za interfejs graficzny użytkownika.", c: false },
-                { t: "Pośredniczy w dostępie procesów do pamięci.", c: true }
+                { t: "gpconf", c: false },
+                { t: "odświeżenie zasad grupy nie może zostać wymuszone", c: false },
+                { t: "updategp", c: false },
+                { t: "gpupdate", c: true }
             ]
         },
         {
-            id: 14, text: "Które elementy składają się na model uprawnień DAC w systemie Linux?",
+            id: 14, text: "Filtry WMI umożliwiają:",
             options: [
-                { t: "Właściciel pliku.", c: true },
-                { t: "Kontekst bezpieczeństwa SELinux.", c: false },
-                { t: "Prawa dostępu.", c: true },
-                { t: "Grupa pliku.", c: true }
+                { t: "określenie na podstawie kwerendy, czy przyłączyć dany obiekt GPO do jednostki organizacyjnej", c: false },
+                { t: "określenie na podstawie kwerendy, czy dany obiekt GPO zostanie zastosowany", c: true }
             ]
         },
         {
-            id: 15, text: "Które funkcje pełni system plików w systemie Linux?",
+            id: 15, text: "Który z wymienionych etapów nie należy do cyklu życia oprogramowania:",
             options: [
-                { t: "Organizuje dane na nośnikach pamięci.", c: true },
-                { t: "Umożliwia hierarchiczną strukturę katalogów.", c: true },
-                { t: "Odpowiada za planowanie procesów.", c: false },
-                { t: "Zapewnia mechanizmy kontroli dostępu do plików.", c: true }
+                { t: "Usuwanie", c: false },
+                { t: "Wdrażanie", c: false },
+                { t: "Modelowanie", c: true },
+                { t: "Przygotowanie", c: false }
             ]
         },
         {
-            id: 16, text: "Dlaczego wykonywanie kopii zapasowych konfiguracji jest istotne w administracji systemami Linux?",
+            id: 16, text: "Szablony zabezpieczeń przechowywane są w plikach o rozszerzeniu:",
             options: [
-                { t: "Pozwala cofnąć nieudane zmiany konfiguracyjne.", c: true },
-                { t: "Umożliwia szybkie odtworzenie systemu po awarii.", c: true },
-                { t: "Wspiera ciągłość działania usług.", c: true },
-                { t: "Eliminuje potrzebę testowania zmian.", c: false }
+                { t: "MSI", c: false },
+                { t: "TMP", c: false },
+                { t: "WMI", c: false },
+                { t: "INF", c: true }
             ]
         },
         {
-            id: 17, text: "Jaką funkcję pełni system DNS?",
+            id: 17, text: "Szablony administracyjne w kategorii „Sieć” można konfigurować:",
             options: [
-                { t: "Tłumaczy nazwy domenowe na adresy IP.", c: true },
-                { t: "Zarządza routingiem pakietów.", c: false },
-                { t: "Zapewnia szyfrowanie połączeń.", c: false },
-                { t: "Umożliwia wskazanie hosta lub usługi na podstawie nazwy.", c: true }
+                { t: "tylko na poziomie komputerów", c: false },
+                { t: "zarówno na poziomie użytkowników jak i komputerów", c: true },
+                { t: "tylko na poziomie użytkowników", c: false }
             ]
         },
         {
-            id: 18, text: "Dlaczego uruchamianie usług sieciowych z uprawnieniami root jest uznawane za ryzykowne?",
+            id: 18, text: "Zarządcę nazw domen ustalisz z wykorzystaniem przystawki:",
             options: [
-                { t: "Zmniejsza wydajność systemu.", c: false },
-                { t: "Kompromitacja usługi może prowadzić do pełnego przejęcia systemu.", c: true },
-                { t: "Zwiększa potencjalne skutki błędów konfiguracji.", c: true },
-                { t: "Narusza zasadę najmniejszych uprawnień.", c: true }
+                { t: "Active Directory Users and Computers", c: false },
+                { t: "Active Directory Schema", c: false },
+                { t: "Nie ma takiej roli zarządcy", c: false },
+                { t: "Active Directory Domains and Trusts", c: true }
             ]
         },
         {
-            id: 19, text: "Które konsekwencje może mieć błędny wpis w pliku /etc/fstab?",
+            id: 19, text: "Zasady inspekcji (Audit policy) można konfigurować w celu:",
             options: [
-                { t: "System plików może zostać zamontowany w trybie tylko do odczytu.", c: true },
-                { t: "Jądro zostanie automatycznie zaktualizowane.", c: false },
-                { t: "Usługi sieciowe przestaną działać.", c: false },
-                { t: "System może nie uruchomić się poprawnie.", c: true }
+                { t: "śledzenia zdarzeń kończących się pomyślnie lub niepomyślnie", c: true },
+                { t: "wyłącznie śledzenia zdarzeń kończących się pomyślnie", c: false },
+                { t: "wyłącznie śledzenia zdarzeń kończących się niepomyślnie", c: false },
+                { t: "Minimalizowania nieautoryzowanego użycia zasobów", c: true }
             ]
         },
         {
-            id: 20, text: "Dlaczego w systemach Linux proces potomny dziedziczy deskryptory plików po procesie rodzicu?",
+            id: 20, text: "Przypisanie (Assigning) oprogramowania w kontenerze użytkownika skutkuje:",
             options: [
-                { t: "Umożliwia to przekazywanie strumieni danych między procesami.", c: true },
-                { t: "Jest wymagane przez system plików.", c: false },
-                { t: "Zapobiega wyciekom pamięci.", c: false },
-                { t: "Pozwala na dalsze korzystanie z już otwartych zasobów.", c: true }
+                { t: "pełną instalacją oprogramowania w momencie najbliższego uruchomienia komputera", c: false },
+                { t: "częściową instalacją oprogramowania (utworzeniem skrótów, przypisaniem rozszerzeń) w momencie najbliższego uruchomienia komputera (pełna instalacja wykonywana jest w momencie pierwszego uruchomienia programu)", c: false },
+                { t: "częściową instalacją oprogramowania (utworzeniem skrótów, przypisaniem rozszerzeń) w momencie najbliższego logowania użytkownika (pełna instalacja wykonywana jest w momencie pierwszego uruchomienia programu)", c: true },
+                { t: "pełną instalacją oprogramowania w momencie najbliższego logowania użytkownika", c: false }
             ]
         },
         {
-            id: 21, text: "Które stwierdzenia poprawnie opisują różnicę między enabled a active w systemd?",
+            id: 21, text: "Kiedy odświeżane są zasady grupy dotyczące użytkowników?",
             options: [
-                { t: "Usługa aktywna zawsze jest włączona.", c: false },
-                { t: "enabled określa, czy usługa uruchamia się przy starcie systemu.", c: true },
-                { t: "Usługa włączona zawsze jest aktywna.", c: false },
-                { t: "active oznacza, że usługa aktualnie działa.", c: true }
+                { t: "Podczas logowania użytkownika", c: true },
+                { t: "Podczas startu systemu", c: false },
+                { t: "Tylko na żądanie administratora domeny", c: false }
             ]
         },
         {
-            id: 22, text: "Dlaczego restart pojedynczej usługi jest często preferowany zamiast restartu całego systemu?",
+            id: 22, text: "Nazwa użytkownika zapisana w postaci „CN=jankowalski, DC=example, DC=com” to:",
             options: [
-                { t: "Ogranicza wpływ zmian do konkretnego komponentu.", c: true },
-                { t: "Minimalizuje przerwę w dostępności usług.", c: true },
-                { t: "Eliminuje potrzebę analizy logów.", c: false },
-                { t: "Zawsze rozwiązuje wszystkie problemy systemowe.", c: false }
+                { t: "nazwa logowania używana w systemach starszych niż Windows 2000", c: false },
+                { t: "względna nazwa rozróżnialna użytkownika", c: true },
+                { t: "nazwa logowania użytkownika", c: false },
+                { t: "główna nazwa logowania użytkownika", c: false }
             ]
         },
         {
-            id: 23, text: "Dlaczego mechanizmy MAC są stosowane równolegle z DAC w systemach Linux?",
+            id: 23, text: "W celu skonfigurowania profilu obligatoryjnego należy:",
             options: [
-                { t: "Zastępują klasyczne prawa plików.", c: false },
-                { t: "Upraszczają konfigurację systemu.", c: false },
-                { t: "Ograniczają skutki przejęcia kont użytkowników lub usług.", c: true },
-                { t: "Zapewniają dodatkową, niezależną warstwę kontroli dostępu.", c: true }
+                { t: "zmienić rozszerzenie pliku PROFILE.OBL na PROFILE.DAT", c: false },
+                { t: "zmienić rozszerzenie pliku PROFILE.MAN na PROFILE.DAT", c: false },
+                { t: "zmienić rozszerzenie pliku NTUSER.DAT na NTUSER.MAN", c: true },
+                { t: "zmienić rozszerzenie pliku NTUSER.OBL na NTUSER.DAT", c: false }
             ]
         },
         {
-            id: 24, text: "Dlaczego monitorowanie systemu jest istotnym elementem administracji?",
+            id: 24, text: "Ustawienia wynikające z tzw. preferencji:",
             options: [
-                { t: "Eliminuje potrzebę dokumentowania zmian.", c: false },
-                { t: "Zastępuje mechanizmy kopii zapasowych.", c: false },
-                { t: "Pozwala analizować długoterminowe trendy obciążenia.", c: true },
-                { t: "Umożliwia wykrywanie problemów zanim wpłyną na użytkowników.", c: true }
+                { t: "mogą być zmieniane przez użytkownika, tak jak ustawienia wynikające z zasad grupy", c: false },
+                { t: "nie mogą być zmieniane przez użytkownika, w przeciwieństwie do ustawień wynikających z zasad grupy", c: false },
+                { t: "mogą być zmieniane przez użytkownika, w przeciwieństwie do ustawień wynikających z zasad grupy", c: true },
+                { t: "nie mogą być zmieniane przez użytkownika, tak jak ustawienia wynikające z zasad grupy", c: false }
             ]
         },
         {
-            id: 25, text: "Dlaczego wydzielenie katalogu /home do osobnego systemu plików jest dobrą praktyką administracyjną?",
+            id: 25, text: "NTFS to akronim od nazwy:",
             options: [
-                { t: "Ułatwia reinstalację systemu bez utraty danych użytkowników.", c: true },
-                { t: "Zwiększa szybkość działania aplikacji użytkownika.", c: false },
-                { t: "Pozwala stosować inne opcje montowania niż dla systemu głównego.", c: true },
-                { t: "Eliminuje potrzebę wykonywania kopii zapasowych.", c: false }
+                { t: "New Technology File System", c: true },
+                { t: "New Transparent File System", c: false },
+                { t: "Network Transport File System", c: false },
+                { t: "Network Technology File System", c: false }
             ]
         },
         {
-            id: 26, text: "Dlaczego regularne aktualizacje systemu są kluczowe z punktu widzenia bezpieczeństwa?",
+            id: 26, text: "DFS to akronim od:",
             options: [
-                { t: "Usuwają znane podatności bezpieczeństwa.", c: true },
-                { t: "Zmniejszają ryzyko wykorzystania znanych exploitów.", c: true },
-                { t: "Eliminują potrzebę tworzenia kopii zapasowych.", c: false },
-                { t: "Mogą wprowadzać poprawki w mechanizmach ochrony systemu.", c: true }
+                { t: "Driver File System", c: false },
+                { t: "Distributed File System", c: true },
+                { t: "Discovery File System", c: false },
+                { t: "Delimited File System", c: false }
             ]
         },
         {
-            id: 27, text: "Dlaczego w systemach Linux zaleca się korzystanie z sudo zamiast bezpośredniego logowania na konto root?",
+            id: 27, text: "Klient DHCP wykorzystujący tzw. rezerwację adresu:",
             options: [
-                { t: "Eliminuje potrzebę istnienia konta root.", c: false },
-                { t: "Umożliwia rejestrowanie i audyt wykonywanych poleceń.", c: true },
-                { t: "Ogranicza czas trwania podwyższonych uprawnień.", c: true },
-                { t: "Upraszcza konfigurację kont użytkowników.", c: false }
+                { t: "nie musi odnawiać dzierżawy zarezerwowanego adresu", c: false },
+                { t: "musi odnawiać dzierżawę zarezerwowanego adresu", c: true }
             ]
         },
         {
-            id: 28, text: "Które problemy mogą wystąpić przy błędnej konfiguracji jednostki typu service?",
+            id: 28, text: "Automatyczne składowanie bazy serwera DHCP:",
             options: [
-                { t: "Usługa nie uruchomi się po starcie systemu.", c: true },
-                { t: "System może przejść w tryb awaryjny.", c: true },
-                { t: "Usługa zawsze zostanie automatycznie zrestartowana.", c: false },
-                { t: "Konfiguracja interfejsów sieciowych przestanie działać.", c: false }
+                { t: "jest standardowo realizowane po każdej zmianie w bazie", c: false },
+                { t: "jest standardowo realizowane według zadanego harmonogramu czasowego", c: false },
+                { t: "jest standardowo realizowane przy zatrzymywaniu serwera DHCP (lub systemu, na którym został uruchomiony serwer DHCP)", c: true },
+                { t: "nie jest realizowane (składanie musi zostać wymuszone przez administratora)", c: false }
             ]
         },
         {
-            id: 29, text: "Które stwierdzenia dotyczące konta root są prawdziwe?",
+            id: 29, text: "Zdarzenia wygenerowane przez aplikacje i programy są zapisywane w:",
             options: [
-                { t: "Nie może być zastąpione przez mechanizm sudo.", c: false },
-                { t: "Może być bezpiecznie używane do codziennej pracy.", c: false },
-                { t: "Posiada nieograniczone uprawnienia w systemie.", c: true },
-                { t: "Jest przeznaczone do administracji systemem.", c: true }
+                { t: "dzienniku zabezpieczeń", c: false },
+                { t: "dzienniku systemowym", c: false },
+                { t: "dzienniku domeny", c: false },
+                { t: "dzienniku aplikacji", c: true }
             ]
         },
         {
-            id: 30, text: "Które cechy charakteryzują wątki w systemach Unix/Linux?",
+            id: 30, text: "Nazwa NetBIOS składa się z:",
             options: [
-                { t: "Wątki są planowane przez jądro systemu.", c: true },
-                { t: "Wątki umożliwiają równoległe wykonywanie zadań.", c: true },
-                { t: "Każdy wątek posiada niezależną przestrzeń adresową.", c: false },
-                { t: "Wątki współdzielą przestrzeń adresową procesu.", c: true }
+                { t: "15 bajtów nazwy właściwej i 1 bajtu przyrostka (suffix)", c: true },
+                { t: "1 bajtu przedrostka (prefix) i 15 bajtów nazwy właściwej", c: false },
+                { t: "1 bajtu przedrostka (prefix), 14 bajtów nazwy właściwej i 1 bajtu przyrostka (suffix)", c: false }
             ]
         },
         {
-            id: 31, text: "Za co odpowiada planista (scheduler) w systemie Linux?",
+            id: 31, text: "Wskaż zdanie poprawne:",
             options: [
-                { t: "Zarządza strukturą systemu plików.", c: false },
-                { t: "Przydziela czas procesora procesom.", c: true },
-                { t: "Decyduje o kolejności wykonywania procesów.", c: true },
-                { t: "Odpowiada za ładowanie modułów jądra.", c: false }
+                { t: "Drzewo Active Directory nie może istnieć bez lasu Active Directory", c: true },
+                { t: "Drzewo Active Directory może istnieć bez lasu Active Directory", c: false }
             ]
         },
         {
-            id: 32, text: "Jakie korzyści daje stosowanie mechanizmów MAC (np. SELinux) w systemach Linux?",
+            id: 32, text: "LDAP to akronim od:",
             options: [
-                { t: "Zastępuje klasyczne prawa dostępu do plików.", c: false },
-                { t: "Upraszcza zarządzanie użytkownikami.", c: false },
-                { t: "Wprowadza politykę bezpieczeństwa niezależną od modelu DAC.", c: true },
-                { t: "Ogranicza skutki przejęcia konta lub usługi.", c: true }
+                { t: "Lightweight Driver Access Protocol", c: false },
+                { t: "Lightweight Directory Access Protocol", c: true },
+                { t: "Low Directory Assign Protocol", c: false },
+                { t: "Low Directory Access Protocol", c: false }
             ]
         },
         {
-            id: 33, text: "Które elementy powinny być uwzględnione przy projektowaniu bezpiecznego systemu Linux?",
+            id: 33, text: "Skrót OU pochodzi oznacza:",
             options: [
-                { t: "Minimalizacja liczby uruchomionych usług.", c: true },
-                { t: "Regularne aktualizacje systemu.", c: true },
-                { t: "Użycie jednego wspólnego konta administracyjnego.", c: false },
-                { t: "Stosowanie zasady najmniejszych uprawnień.", c: true }
+                { t: "Organizational Unit", c: true },
+                { t: "Open Unit", c: false },
+                { t: "Overwrited Unit", c: false },
+                { t: "Organizational User", c: false }
             ]
         },
         {
-            id: 34, text: "Które elementy świadczą o dojrzałym podejściu do administracji systemem Linux?",
+            id: 34, text: "Import kont użytkowników z pliku o rozszerzeniu CSV wykonasz z wykorzystaniem narzędzia:",
             options: [
-                { t: "Świadome i systematyczne zarządzanie bezpieczeństwem.", c: true },
-                { t: "Monitorowanie oraz dokumentowanie zmian.", c: true },
-                { t: "Ręczna konfiguracja każdego elementu systemu.", c: false },
-                { t: "Automatyzacja powtarzalnych zadań administracyjnych.", c: true }
+                { t: "LDIFDE", c: false },
+                { t: "CSVDE", c: true },
+                { t: "CSVADD", c: false },
+                { t: "LDIIMP", c: false }
             ]
         },
         {
-            id: 35, text: "Po restarcie systemu Debian 13 usługa nie uruchamia się automatycznie. Które przyczyny są możliwe?",
+            id: 35, text: "W przypadku równoczesnego włączenia opcji blokowania dziedziczenia zasad grupy oraz wymuszania dziedziczenia zasad grupy, wyższy priorytet ma:",
             options: [
-                { t: "Usługa jest jednostką typu static.", c: false },
-                { t: "Usługa nie została włączona do startu systemu.", c: true },
-                { t: "Brak połączenia z Internetem.", c: false },
-                { t: "Jednostka systemd zawiera błędną konfigurację.", c: true }
+                { t: "blokowanie dziedziczenia", c: true },
+                { t: "wymuszanie dziedziczenia", c: false },
+                { t: "wdrożenie dwóch konfliktowych ustawień dziedziczenia nie jest możliwe", c: false }
             ]
         },
         {
-            id: 36, text: "Które elementy wpływają na bezpieczeństwo systemu Linux?",
+            id: 36, text: "Szablony administracyjne są przechowywane w plikach:",
             options: [
-                { t: "Konfiguracja usług.", c: true },
-                { t: "Model uprawnień.", c: true },
-                { t: "Wyłącznie hasła użytkowników.", c: false },
-                { t: "Wyłącznie zapora sieciowa.", c: false }
+                { t: "Registry.bat", c: false },
+                { t: "Policy.reg", c: false },
+                { t: "Registry.pol", c: true },
+                { t: "Policy.bat", c: false }
             ]
         },
         {
-            id: 37, text: "Które stwierdzenia dotyczące systemd są prawdziwe?",
+            id: 37, text: "Wskaż właściwy porządek wdrażania zasad grupy:",
             options: [
-                { t: "Zarządza usługami systemowymi.", c: true },
-                { t: "Umożliwia definiowanie zależności między jednostkami.", c: true },
-                { t: "Odpowiada za kompilację jądra.", c: false },
-                { t: "Jest systemem init.", c: true }
+                { t: "Zasady lokalne -> Zasady dotyczące lokacji -> Zasady dotyczące domeny -> Zasady dotyczące jednostek organizacyjnych", c: true },
+                { t: "Zasady dotyczące jednostek organizacyjnych -> Zasady dotyczące domeny -> Zasady dotyczące lokacji -> Zasady lokalne", c: false },
+                { t: "Zasady dotyczące jednostek organizacyjnych -> Zasady dotyczące lokacji -> Zasady dotyczące domeny -> Zasady lokalne", c: false },
+                { t: "Zasady dotyczące lokacji -> Zasady lokalne -> Zasady dotyczące domeny -> Zasady dotyczące jednostek organizacyjnych", c: false }
             ]
         },
         {
-            id: 38, text: "Jakie zagrożenia może powodować niekontrolowane uruchamianie usług przy starcie systemu?",
+            id: 38, text: "Zasadami grupy można zarządzać z wykorzystaniem:",
             options: [
-                { t: "Zwiększenie przepustowości sieci.", c: false },
-                { t: "Wydłużenie czasu uruchamiania systemu.", c: true },
-                { t: "Utrudnioną diagnostykę problemów systemowych.", c: true },
-                { t: "Zwiększenie powierzchni ataku systemu.", c: true }
+                { t: "przystawki Group Policy Management", c: true },
+                { t: "przystawki Active Directory Sites and Services", c: false },
+                { t: "przystawki Group Policy Objects", c: false },
+                { t: "przystawki Active Directory Users and Computers", c: false }
             ]
         },
         {
-            id: 39, text: "Które czynniki należy uwzględnić przy aktualizacji systemu Debian 13 na serwerze produkcyjnym?",
+            id: 39, text: "Wskaż poprawne zdanie:",
             options: [
-                { t: "Konieczność restartu usług lub systemu.", c: true },
-                { t: "Możliwość przerwy w dostępności usług.", c: true },
-                { t: "Zgodność konfiguracji po aktualizacji.", c: true },
-                { t: "Aktualną temperaturę procesora.", c: false }
+                { t: "Podmioty zabezpieczeń muszą być zdefiniowane na komputerze lokalnym", c: false },
+                { t: "Podmioty zabezpieczeń muszą być zdefiniowane w bazie usługi Active Directory", c: false },
+                { t: "Podmioty zabezpieczeń mogą być zdefiniowane w bazie usługi Active Directory", c: true }
             ]
         },
         {
-            id: 40, text: "Dlaczego usługi sieciowe często działają na dedykowanych kontach systemowych?",
+            id: 40, text: "Czy w buforze klienta DNS (resolvera) przechowywane są wpisy negatywne, tzn. informacje dotyczące nierozpoznanych nazw?",
             options: [
-                { t: "Zmniejsza skutki ewentualnego przejęcia usługi.", c: true },
-                { t: "Upraszcza konfigurację systemu DNS.", c: false },
-                { t: "Zwiększa wydajność sieci.", c: false },
-                { t: "Ogranicza to ich uprawnienia.", c: true }
+                { t: "jest to zależne od konfiguracji klienta (resolvera)", c: false },
+                { t: "jest to zależne od konfiguracji serwerów, z którymi współpracuje bezpośrednio klient", c: false },
+                { t: "nie - gromadzi nazwy hostów, które ostatnio były rozwiązywane oraz nazwy załadowane z pliku Hos", c: true },
+                { t: "tak", c: false }
             ]
         },
         {
-            id: 41, text: "Jakie konsekwencje może mieć brak monitorowania usług na serwerze produkcyjnym?",
+            id: 41, text: "Udział sieciowy stanowiący punkt dystrybucyjny oprogramowania:",
             options: [
-                { t: "Trudności w ocenie stabilności systemu.", c: true },
-                { t: "Opóźnione wykrycie awarii.", c: true },
-                { t: "Brak danych do analizy incydentów.", c: true },
-                { t: "Zwiększenie dostępności systemu.", c: false }
+                { t: "musi mieć ustawione uprawnienia Read dla użytkowników", c: true },
+                { t: "musi mieć ustawione uprawnienia Full Control dla użytkowników", c: false },
+                { t: "musi mieć ustawione uprawnienia Write dla użytkowników", c: false },
+                { t: "nie musi mieć przypisanych żadnych uprawnień dla użytkowników", c: false }
             ]
         },
         {
-            id: 42, text: "Do czego służy katalog /etc w systemie Linux?",
+            id: 42, text: "Analiza ustawień GPO z wykorzystaniem szablonu zabezpieczeń swoim zakresem obejmuje:",
             options: [
-                { t: "Przechowuje pliki konfiguracyjne systemu.", c: true },
-                { t: "Przechowuje pliki binarne programów.", c: false },
-                { t: "Jest wykorzystywany do konfiguracji usług.", c: true },
-                { t: "Zawiera dane użytkowników.", c: false }
+                { t: "wszystkie ustawienia zasad grupy", c: true },
+                { t: "tylko ustawienia, które są wdrożone w ramach analizowanego obiektu zasad grupy", c: false },
+                { t: "tylko ustawienia, które są wdrożone w ramach szablonu zabezpieczeń", c: false }
             ]
         },
         {
-            id: 43, text: "Jaką rolę pełnią jednostki typu target w systemd?",
+            id: 43, text: "Szablony administracyjne są przechowywane w plikach:",
             options: [
-                { t: "Grupują inne jednostki logicznie.", c: true },
-                { t: "Zastępują klasyczne runlevele.", c: true },
-                { t: "Odpowiadają za konfigurację sieci.", c: false },
-                { t: "Są wykonywane jako procesy.", c: false }
+                { t: "Registry.bat", c: false },
+                { t: "Policy.reg", c: false },
+                { t: "Registry.pol", c: true },
+                { t: "Policy.bat", c: false }
             ]
         },
         {
-            id: 44, text: "Które stwierdzenia dotyczące usług sieciowych są prawdziwe?",
+            id: 44, text: "Wskaż nieistniejącą partycję katalogu Active Directory:",
             options: [
-                { t: "Są zawsze uruchamiane z uprawnieniami root.", c: false },
-                { t: "Usługi sieciowe działają jako procesy.", c: true },
-                { t: "Mogą być zarządzane przez systemd.", c: true },
-                { t: "Nie wymagają konfiguracji.", c: false }
+                { t: "Konfiguracja", c: false },
+                { t: "Domena", c: false },
+                { t: "Użytkownicy", c: true },
+                { t: "Aplikacja", c: false }
             ]
         },
         {
-            id: 45, text: "Które skutki może mieć błędna konfiguracja zapory sieciowej na serwerze?",
+            id: 45, text: "Zdarzenia wygenerowane przez aplikacje i programy są zapisywane w:",
             options: [
-                { t: "Narażenie systemu na ataki z sieci.", c: true },
-                { t: "Utrudnienia w zdalnym zarządzaniu systemem.", c: true },
-                { t: "Utrata dostępu do świadczonych usług.", c: true },
-                { t: "Zwiększenie wydajności systemu.", c: false }
+                { t: "dzienniku zabezpieczeń", c: false },
+                { t: "dzienniku domeny", c: false },
+                { t: "dzienniku systemowym", c: false },
+                { t: "dzienniku aplikacji", c: true }
             ]
         },
         {
-            id: 46, text: "Które stwierdzenia poprawnie opisują proces w systemie Linux?",
+            id: 46, text: "Zarządcę SID ustalisz z wykorzystaniem przystawki:",
             options: [
-                { t: "Proces jest instancją uruchomionego programu.", c: true },
-                { t: "Proces nie posiada własnej przestrzeni adresowej.", c: false },
-                { t: "Każdy proces posiada unikalny identyfikator PID.", c: true },
-                { t: "Proces zawsze składa się z jednego wątku.", c: false }
+                { t: "Active Directory Schema", c: false },
+                { t: "Active Directory Users and Computers", c: false },
+                { t: "Nie ma takiej roli zarządcy", c: true },
+                { t: "Active Directory Domains and Trusts", c: false }
             ]
         },
         {
-            id: 47, text: "Które konsekwencje może mieć uruchomienie usługi systemowej z uprawnieniami root?",
+            id: 47, text: "Wskaż poprawne nazwy zarządców operacji, które występują w Active Directory:",
             options: [
-                { t: "Poprawę wydajności usługi.", c: false },
-                { t: "Brak konieczności zarządzania uprawnieniami.", c: false },
-                { t: "Dostęp usługi do wszystkich zasobów systemowych.", c: true },
-                { t: "Zwiększenie potencjalnych skutków podatności w usłudze.", c: true }
+                { t: "Zarządca Infrastruktury", c: true },
+                { t: "Emulator POC", c: false },
+                { t: "Zarządca RID", c: true },
+                { t: "Zarządca nazw domen", c: true }
             ]
         },
         {
-            id: 48, text: "Które informacje są kluczowe przy analizie procesu zużywającego nadmierne zasoby systemowe?",
+            id: 48, text: "Szyfrowanie plików z wykorzystaniem EFS odbywa się:",
             options: [
-                { t: "Nazwa systemu plików.", c: false },
-                { t: "Zużycie pamięci.", c: true },
-                { t: "Stan procesu.", c: true },
-                { t: "Zużycie procesora.", c: true }
+                { t: "w momencie zamykania pliku", c: true },
+                { t: "cyklicznie w trakcie pracy na otwartym pliku", c: false },
+                { t: "w momencie otwierania pliku", c: false }
             ]
         },
         {
-            id: 49, text: "Które prawa dostępu są definiowane dla plików w systemie Linux?",
+            id: 49, text: "DHCP to akronim od:",
             options: [
-                { t: "Zapis.", c: true },
-                { t: "Wykonanie.", c: true },
-                { t: "Dziedziczenie.", c: false },
-                { t: "Odczyt.", c: true }
+                { t: "Distributed Host Creation Protocol", c: false },
+                { t: "Dynamic Host Creation Protocol", c: false },
+                { t: "Distributed Host Configuration Protocol", c: false },
+                { t: "Dynamic Host Configuration Protocol", c: true }
             ]
         },
         {
-            id: 50, text: "Dlaczego systemd wykorzystuje zależności między jednostkami?",
+            id: 50, text: "W celu zwolnienia dzierżawy adresu IP, klient wysyła pakiet:",
             options: [
-                { t: "Aby zastąpić mechanizm kontroli dostępu DAC.", c: false },
-                { t: "Aby kontrolować kolejność uruchamiania usług.", c: true },
-                { t: "Aby ograniczyć zużycie pamięci.", c: false },
-                { t: "Aby zapewnić dostępność wymaganych zasobów", c: true }
+                { t: "DHCPRELEASE", c: true },
+                { t: "DHCPNACK", c: false },
+                { t: "DHCPRENEW", c: false },
+                { t: "DHCPCANCEL", c: false }
+            ]
+        },
+        {
+            id: 51, text: "Funkcja zdalnego dostępu, która umożliwia zdalnym użytkownikom podłączanie się bez wykorzystania tradycyjnego klienta VPN, to:",
+            options: [
+                { t: "Direct Access", c: true },
+                { t: "RRAS", c: false },
+                { t: "PAP", c: false },
+                { t: "NPS", c: false }
+            ]
+        },
+        {
+            id: 52, text: "Która z poniższych nazw normalizowanych jest poprawnie zapisana, gdy użytkownik jan TESTOWY należy do OU=EGZAMIN w ramach domeny example.com?",
+            options: [
+                { t: "CN=jan TESTOWY,OU=EGZAMIN,DC=example,DC=com", c: true },
+                { t: ".CN=jan TESTOWY,OU=EGZAMIN,DC=example,DC=com", c: false },
+                { t: "CN=jan TESTOWY.OU=EGZAMIN.DC=example.DC=com", c: false },
+                { t: ".CN=jan TESTOWY.OU=EGZAMIN.DC=example.com", c: false }
+            ]
+        },
+        {
+            id: 53, text: "Wskaż poprawne zdania związane z profilem obligatoryjnym.",
+            options: [
+                { t: "Jest zapamiętywany na komputerze lokalnym.", c: false },
+                { t: "Jest tworzony podczas pierwszego logowania użytkownika na stacji roboczej.", c: false },
+                { t: "Jest zapamiętywany na komputerze kontrolera domeny.", c: true },
+                { t: "Zmiany wprowadzone w tym profilu podczas pracy użytkownika nie są zapamiętywane.", c: true }
+            ]
+        },
+        {
+            id: 54, text: "W celu wykonania raportu wdrożenia zasad grupy, wykorzystasz narzędzie:",
+            options: [
+                { t: "Group Policy Results", c: true },
+                { t: "Group Policy Modeling", c: false },
+                { t: "Group Policy Simulator", c: false }
+            ]
+        },
+        {
+            id: 55, text: "Do struktury fizycznej Active Directory należą:",
+            options: [
+                { t: "Kontrolery domeny", c: true },
+                { t: "Lasy", c: false },
+                { t: "Łącza WAN", c: true },
+                { t: "Drzewa", c: false }
+            ]
+        },
+        {
+            id: 56, text: "Transfer roli zarządcy operacji, to procedura w której:",
+            options: [
+                { t: "wymagana jest obecność i uczestniczenie tylko nowego kontrolera (zarządcy operacji)", c: false },
+                { t: "wymagana jest obecność i uczestniczenie nowego i starego kontrolera (zarządcy operacji)", c: true },
+                { t: "wymagana jest obecność dowolnego jednego kontrolera domeny", c: false },
+                { t: "wymagana jest obecność i uczestniczenie tylko starego kontrolera (zarządcy operacji)", c: false }
+            ]
+        },
+        {
+            id: 57, text: "Nazwa użytkownika zapisana w postaci „CN=jankowalski, DC=example, DC=com” to:",
+            options: [
+                { t: "względna nazwa rozróżnialna użytkownika", c: true },
+                { t: "nazwa logowania użytkownika", c: false },
+                { t: "główna nazwa logowania użytkownika", c: false },
+                { t: "nazwa logowania używana w systemach starszych niż Windows 2000", c: false }
+            ]
+        },
+        {
+            id: 58, text: "W przypadku wystąpienia konfliktu wdrażania zasad grupy:",
+            options: [
+                { t: "aplikowane są ustawienia przetwarzane jako pierwsze", c: false },
+                { t: "aplikowane są ustawienia przetwarzane jako ostatnie", c: true },
+                { t: "wszystkie ustawienia są aplikowane, jeśli nie są w konflikcie z innymi", c: true },
+                { t: "nie są aplikowane żadne zasady, a administrator musi rozwiązać konflikt", c: false }
+            ]
+        },
+        {
+            id: 59, text: "Żądanie odświeżenia ustawień zasad grupy można wywołać z wykorzystaniem narzędzia:",
+            options: [
+                { t: "updategp", c: false },
+                { t: "gpconf", c: false },
+                { t: "gpupdate", c: true },
+                { t: "odświeżenie zasad grupy nie może zostać wymuszone", c: false }
+            ]
+        },
+        {
+            id: 60, text: "Do zarządzania zasadami inspekcji można wykorzystać narzędzie:",
+            options: [
+                { t: "auditool", c: false },
+                { t: "auditpol", c: true },
+                { t: "gpaudit", c: false },
+                { t: "gpresult", c: false }
+            ]
+        },
+        {
+            id: 61, text: "Ustawienia dotyczące komputerów, określone w szablonach administracyjnych, modyfikują zapisy w poddrzewie rejestru:",
+            options: [
+                { t: "HKEY_CURRENT_CONFIG", c: false },
+                { t: "HKEY_CURRENT_USER", c: false },
+                { t: "HKEY_LOCAL_MACHINE", c: true },
+                { t: "HKEY_USERS", c: false }
+            ]
+        },
+        {
+            id: 62, text: "Replikacja Active Directory odbywa się w trybie:",
+            options: [
+                { t: "żadne z wymienionych", c: false },
+                { t: "singlemaster", c: false },
+                { t: "multimaster", c: true }
+            ]
+        },
+        {
+            id: 63, text: "Synchronizacją czasu w domenie steruje:",
+            options: [
+                { t: "Zarządca RID", c: false },
+                { t: "Emulator PDC", c: true },
+                { t: "Emulator POC", c: false },
+                { t: "Zarządca SID", c: false }
+            ]
+        },
+        {
+            id: 64, text: "Do struktury fizycznej Active Directory należą:",
+            options: [
+                { t: "Liście", c: false },
+                { t: "Lokacje", c: true },
+                { t: "Drzewa", c: false },
+                { t: "Łącza WAN", c: true }
+            ]
+        },
+        {
+            id: 65, text: "Zarządcę nazw domen ustalisz z wykorzystaniem przystawki:",
+            options: [
+                { t: "Nie ma takiej roli zarządcy", c: false },
+                { t: "Active Directory Users and Computers", c: false },
+                { t: "Active Directory Domains and Trusts", c: true },
+                { t: "Active Directory Schema", c: false }
+            ]
+        },
+        {
+            id: 66, text: "Wskaż poprawne zdania:",
+            options: [
+                { t: "Gdy pliki skompresowane są przenoszone w obrębie tej samej partycji NTFS, atrybut kompresji jest ustawiany zależnie od ustawień foldera docelowego", c: false },
+                { t: "Gdy pliki skompresowane są kopiowane w obrębie tej samej partycji NTFS, atrybut kompresji są zachowywane zarówno względem pliku źródłowego i docelowego", c: false },
+                { t: "Gdy pliki skompresowane są przenoszone pomiędzy dwiema partycjami NTFS, atrybut kompresji jest zachowywany", c: false },
+                { t: "Gdy pliki skompresowane są przenoszone w obrębie tej samej partycji NTFS, atrybut kompresji jest zachowywany", c: true }
+            ]
+        },
+        {
+            id: 67, text: "Dzierżawa adresu IP powinna być odnowiona:",
+            options: [
+                { t: "przez serwer DHCP przed zakończeniem czasu dzierżawy", c: false },
+                { t: "przez klienta DHCP przed zakończeniem czasu dzierżawy", c: true },
+                { t: "przez serwer DHCP po zakończeniu czasu dzierżawy", c: false },
+                { t: "przez klienta DHCP po zakończeniu czasu dzierżawy", c: false }
+            ]
+        },
+        {
+            id: 68, text: "Plik Hosts związany z DNS jest przechowywany:",
+            options: [
+                { t: "na komputerze pełniącym rolę klienta DNS", c: true },
+                { t: "na komputerze pełniącym rolę serwera DNS", c: false }
+            ]
+        },
+        {
+            id: 69, text: "VPN jest wykorzystywany w celu:",
+            options: [
+                { t: "zapewnienia dostępu do sieci publicznej, za pomocą sieci prywatnej", c: false },
+                { t: "zapewnienia dostępu do sieci prywatnej, za pomocą sieci publicznej", c: true },
+                { t: "żadna z odpowiedzi nie jest poprawna", c: false }
+            ]
+        },
+        {
+            id: 70, text: "Wskaż zdanie poprawne",
+            options: [
+                { t: "Drzewo Active Directory nie może istnieć bez lasu Active Directory", c: true },
+                { t: "Drzewo Active Directory może istnieć bez lasu Active Directory", c: false }
+            ]
+        },
+        {
+            id: 71, text: "Wskaż poprawne zdanie",
+            options: [
+                { t: "Każda domena Active Directory musi być zarządzana przez co najmniej jeden kontroler domeny", c: true },
+                { t: "Domena Active Directory nie musi być zarządzana przez kontroler domeny", c: false },
+                { t: "Każda domena Active Directory musi być zarządzana przez dokładnie jeden kontroler domeny", c: false }
+            ]
+        },
+        {
+            id: 72, text: "LDAP to akronim od:",
+            options: [
+                { t: "Lightweight Driver Access Protocol", c: false },
+                { t: "Lightweight Directory Access Protocol", c: true },
+                { t: "Low Directory Assign Protocol", c: false },
+                { t: "Low Directory Access Protocol", c: false }
+            ]
+        },
+        {
+            id: 73, text: "Zdarzenia wygenerowane przez komponenty systemu operacyjnego są zapisywane w:",
+            options: [
+                { t: "dzienniku systemowym", c: true },
+                { t: "dzienniku zabezpieczeń", c: false },
+                { t: "dzienniku domeny", c: false },
+                { t: "dzienniku aplikacji", c: false }
+            ]
+        },
+        {
+            id: 74, text: "W celu skonfigurowania profilu obligatoryjnego należy:",
+            options: [
+                { t: "zmienić rozszerzenie pliku PROFILE.MAN na PROFILE.DAT", c: false },
+                { t: "zmienić rozszerzenie pliku PROFILE.DAT na PROFILE.MAN", c: false },
+                { t: "zmienić rozszerzenie pliku NTUSER.DAT na NTUSER.MAN", c: true },
+                { t: "zmienić rozszerzenie pliku NTUSER.MAN na NTUSER.DAT", c: false }
+            ]
+        },
+        {
+            id: 75, text: "Nazwa użytkownika zapisana w postaci \"jankowalski@example.com\" to:",
+            options: [
+                { t: "nazwa logowania użytkownika", c: true },
+                { t: "względna nazwa rozróżnialna użytkownika", c: false },
+                { t: "główna nazwa logowania użytkownika", c: false },
+                { t: "nazwa logowania używana w systemach starszych niż Windows 2000", c: false }
+            ]
+        },
+        {
+            id: 76, text: "W celu wykonania raportu wdrożenia zasad grupy, wykorzystasz narzędzie:",
+            options: [
+                { t: "Group Policy Results", c: true },
+                { t: "Group Policy Modeling", c: false },
+                { t: "Group Policy Simulator", c: false }
+            ]
+        },
+        {
+            id: 77, text: "Udział sieciowy stanowiący punkt dystrybucyjny oprogramowania:",
+            options: [
+                { t: "Nie musi mieć przypisanych żadnych uprawnień dla użytkowników", c: false },
+                { t: "Musi mieć ustawione uprawnienia Full Control dla użytkowników", c: false },
+                { t: "Musi mieć ustawione uprawnienia Read dla użytkowników", c: true },
+                { t: "Musi mieć ustawione uprawnienia Write dla użytkowników", c: false }
+            ]
+        },
+        {
+            id: 78, text: "Szablony administracyjne w kategorii „Menu Start i pasek zadań” można konfigurować:",
+            options: [
+                { t: "Tylko na poziomie komputerów", c: false },
+                { t: "Zarówno na poziomie użytkowników, jak i komputerów", c: false },
+                { t: "Tylko na poziomie użytkowników", c: true }
+            ]
+        },
+        {
+            id: 79, text: "Transfer roli zarządcy operacji to procedura, w której:",
+            options: [
+                { t: "Wymagana jest obecność i uczestniczenie tylko nowego kontrolera (zarządcy operacji)", c: false },
+                { t: "Wymagana jest obecność i uczestniczenie nowego i starego kontrolera (zarządcy operacji)", c: true },
+                { t: "Wymagana jest obecność i uczestniczenie tylko starego kontrolera (zarządcy operacji)", c: false },
+                { t: "Wymagana jest obecność i uczestniczenie dowolnego jednego kontrolera domeny", c: false }
+            ]
+        },
+        {
+            id: 80, text: "Baza danych serwera DHCP jest przechowywana w pliku:",
+            options: [
+                { t: "J50.log", c: true },
+                { t: "DHCP.log", c: false },
+                { t: "DHCP.mdb", c: true },
+                { t: "DHCP.tmp", c: true }
+            ]
+        },
+        {
+            id: 81, text: "Wskaż poprawne zdania związane z profilem obowiązkowym.",
+            options: [
+                { t: "Zmiany wprowadzone w tym profilu podczas pracy użytkownika nie są zapamiętywane", c: false },
+                { t: "Jest domyślnie ustawianym typem profilu użytkownika w AD", c: false },
+                { t: "Nie istnieje taki typ profilu", c: true },
+                { t: "Jest zapamiętywany na komputerze kontrolera domeny", c: false }
+            ]
+        },
+        {
+            id: 82, text: "Zadanie odświeżenia ustawień zasad grupy można wywołać z wykorzystaniem narzędzia:",
+            options: [
+                { t: "updategp", c: false },
+                { t: "gpupdate", c: true },
+                { t: "odświeżenie zasad grupy nie może zostać wymuszone", c: false },
+                { t: "gpconf", c: false }
+            ]
+        },
+        {
+            id: 83, text: "Przypisanie (Assigning) oprogramowania w kontenerze użytkownika skutkuje:",
+            options: [
+                { t: "instalacją oprogramowania na żądanie użytkownika (poprzez przystawkę Dodaj/Usuń Programy)", c: false },
+                { t: "częściową instalacją oprogramowania (utworzeniem skrótów, przypisaniem rozszerzeń) w momencie najbliższego uruchomienia komputera (pełna instalacja wykonywana jest w momencie pierwszego uruchomienia programu)", c: false },
+                { t: "pełną instalacją oprogramowania w momencie najbliższego logowania użytkownika", c: false },
+                { t: "częściową instalacją oprogramowania (utworzeniem skrótów, przypisaniem rozszerzeń) w momencie najbliższego logowania użytkownika (pełna instalacja wykonywana jest w momencie pierwszego uruchomienia programu)", c: true }
+            ]
+        },
+        {
+            id: 84, text: "Wskaż poprawne przykłady uprawnień użytkownika w systemie:",
+            options: [
+                { t: "odczyt folderu", c: true },
+                { t: "modyfikacja pliku", c: true },
+                { t: "zmiana czasu systemowego", c: false },
+                { t: "dostęp do Panelu sterowania", c: false }
+            ]
+        },
+        {
+            id: 85, text: "Szablony administracyjne są przechowywane w plikach:",
+            options: [
+                { t: "Policy.reg", c: false },
+                { t: "Registry.bat", c: false },
+                { t: "Registry.pol", c: true },
+                { t: "Policy.bat", c: false }
+            ]
+        },
+        {
+            id: 86, text: "Replikacji pilnej podlegają:",
+            options: [
+                { t: "Zmiana hasła LSA (Local Security Authority)", c: true },
+                { t: "Modyfikacje szablonów zabezpieczeń", c: false },
+                { t: "Modyfikacje zasad blokowania kont", c: true },
+                { t: "Zmiany haseł użytkowników", c: false }
+            ]
+        },
+        {
+            id: 87, text: "Wskaż poprawne zdania związane z profilem mobilnym.",
+            options: [
+                { t: "Zmiany wprowadzone w tym profilu podczas pracy użytkownika nie są zapamiętywane.", c: false },
+                { t: "Jest domyślnie ustawianym typem profilu użytkownika w AD.", c: false },
+                { t: "Nie istnieje taki typ profilu.", c: false },
+                { t: "Jest zapamiętywany na komputerze kontrolera domeny.", c: true }
+            ]
+        },
+        {
+            id: 88, text: "Podczas instalowania pierwszego kontrolera domeny w istniejącej już strukturze lasu domen",
+            options: [
+                { t: "przypisywane są mu jedynie role zarządcy RID, emulatora PDC i zarządcy infrastruktury", c: true },
+                { t: "przypisywane są mu jedynie role zarządcy schematu i zarządcy nazw domen", c: false },
+                { t: "przypisywane są mu jedynie role zarządcy RID i emulatora PDC", c: false },
+                { t: "przypisywane są mu wszystkie role zarządców operacji", c: false }
+            ]
+        },
+        {
+            id: 89, text: "Termin – replikacja pilna (urgent replication) dotyczy:",
+            options: [
+                { t: "zmian mających wpływ na bezpieczeństwo systemu", c: true },
+                { t: "replikacji wymuszanej ręcznie", c: false },
+                { t: "zmian wprowadzonych w partycji schematu", c: false },
+                { t: "zmian wprowadzanych przez administratora korporacyjnego (Enterprise Administrator)", c: false }
+            ]
+        },
+        {
+            id: 90, text: "Wartości ustawień szablonów administracyjnych (Administrative Templates) umieszczone są na kontrolerze domeny w plikach",
+            options: [
+                { t: "REGISTRY.POL", c: true },
+                { t: "USER.GPT i COMPUTER.GP", c: false },
+                { t: "REGISTRY.GPT", c: false },
+                { t: "USER.POL i COMPUTER.POL", c: false }
+            ]
+        },
+        {
+            id: 91, text: "Kompresja replikowanych danych jest stosowana",
+            options: [
+                { t: "automatycznie, tylko w przypadku replikacji pomiędzy lokacjami", c: true },
+                { t: "automatycznie, zarówno dla replikacji wewnątrz lokacji jak i pomiędzy lokacjami", c: false },
+                { t: "automatycznie, tylko w przypadku wykorzystywania protokołu RPC", c: false },
+                { t: ") automatycznie, tylko w przypadku replikacji wewnątrz lokacji", c: false }
+            ]
+        },
+        {
+            id: 92, text: "Klucze, wykorzystywane do szyfrowania pliku, są zapisane w:",
+            options: [
+                { t: "nagłówku pliku", c: true },
+                { t: "w nagłówku foldera zawierającego plik", c: false },
+                { t: "atrybutach konta użytkownika, w lokalnej bazie kont", c: false },
+                { t: "w Active Directory", c: false }
+            ]
+        },
+        {
+            id: 93, text: "Jeżeli w trakcie replikacji bazy usługi katalogowej zaistnieje konflikt działania w usuniętym kontenerze, to",
+            options: [
+                { t: "kontener jest kasowany, a obiekt, który miał się w nim znajdować, umieszczany jest w specjalnym kontenerze LostAndFound", c: true },
+                { t: "anulowana zostaje operacja kasowania kontenera i będzie się w nim znajdował konfliktowy obiekt", c: false },
+                { t: "anulowana zostaje operacja kasowania kontenera ale konfliktowego obiektu w nim nie będzie", c: false },
+                { t: "zarówno kontener jak i obiekt, który miał się w nim znajdować są kasowane", c: false }
+            ]
+        },
+        {
+            id: 94, text: "W lesie domen składającym się z trzech domen (A, B, C) mamy 9 kontrolerów (po 3 w każdej domenie). Ile kontrolerów powinno znajdować się w schemacie topologii replikacji partycji konfiguracji?",
+            options: [
+                { t: "3", c: true },
+                { t: "1", c: false },
+                { t: "9", c: false },
+                { t: "6", c: false }
+            ]
+        },
+        {
+            id: 95, text: "Minimalny rozmiar dziennika zdarzeń to:",
+            options: [
+                { t: "64 kB", c: true },
+                { t: "1 MB", c: false },
+                { t: "512 kB", c: false },
+                { t: "128 kB", c: false }
+            ]
+        },
+        {
+            id: 96, text: "Pliki zawierające wartości ustawień szablonów administracyjnych (Administrative Templates) pobierane z kontrolera domeny, umieszczone są na kontrolerze domeny w:",
+            options: [
+                { t: "zasobie SYSVOL", c: true },
+                { t: "zasobie IPC$", c: false },
+                { t: "zasobie ADMIN$", c: false },
+                { t: "folderze %SYSTEMROOT%\\REPL", c: false }
+            ]
+        },
+        {
+            id: 97, text: "Do obsługi komunikacji pomiędzy klientem i serwerem usługi terminalowej wykorzystywany jest protokół",
+            options: [
+                { t: "RDP", c: true },
+                { t: "PPTP", c: false },
+                { t: "L2TP", c: false },
+                { t: "IPSec", c: false }
+            ]
+        },
+        {
+            id: 98, text: "Który z wymienionych obiektów jest elementem struktury fizycznej Active Directory?",
+            options: [
+                { t: "kontroler domeny (domain controller)", c: true },
+                { t: "katalog globalny (global catalog)", c: false },
+                { t: "jednostka organizacyjna (organizational unit)", c: false },
+                { t: "domena (domain)", c: false }
+            ]
+        },
+        {
+            id: 99, text: "Które z przedstawionych zdań jest prawdziwe?",
+            options: [
+                { t: "Domeny wyznaczają granicę dziedziczenia GPO. Nie są stosowane ustawienia z domen nadrzędnych ani podrzędnych", c: true },
+                { t: "Granice dziedziczenia GPO wynikają z trybu pracy domeny (rodzimy, mieszany)", c: false },
+                { t: "Lasy domen wyznaczają granicę dziedziczenia GPO. Dla danej domeny stosowane są również ustawienia z domen nadrzędnych w lesie", c: false },
+                { t: "Drzewa domen wyznaczają granicę dziedziczenia GPO. Dla danej domeny stosowane są również ustawienia z domen nadrzędnych w drzewie", c: false }
+            ]
+        },
+        {
+            id: 100, text: "Wolumin tworzony przez miejsce dostępne na kilku dyskach fizycznych to",
+            options: [
+                { t: "wolumin rozłożony", c: false },
+                { t: "wolumin podstawowy", c: false },
+                { t: "wolumin dublowany", c: false },
+                { t: "wolumin łączony", c: true }
+            ]
+        },
+        {
+            id: 101, text: "Protokołem usługi katalogowej jest",
+            options: [
+                { t: "TCP/IP", c: false },
+                { t: "SMB", c: false },
+                { t: "LDAP", c: true },
+                { t: "NetBEUI", c: false }
+            ]
+        },
+        {
+            id: 102, text: "Serwer przyczółkowy (Bridgehead) jest wykorzystywany:",
+            options: [
+                { t: "podczas przenoszenia funkcji emulatora PDC", c: false },
+                { t: "tylko podczas replikacji pomiędzy lokacjami", c: true },
+                { t: "tylko podczas replikacji wewnątrz lokacji", c: false },
+                { t: "podczas przenoszenia funkcji zarządcy infrastruktury", c: false }
+            ]
+        },
+        {
+            id: 103, text: "Przed zmianami konfiguracji drukarki, chcemy przełączyć ją w tryb offline, tak aby zadania przesyłane do drukarki pozostały w kolejce. Jak przełączyć drukarkę w tryb offline?",
+            options: [
+                { t: "Użyć konsoli Active Directory Users and Computers", c: false },
+                { t: "Wybrać pozycję Properties w menu podręcznym drukarki, w oknie PRINTERS", c: false },
+                { t: "Wyłączyć urządzenie drukujące", c: false },
+                { t: "Wybrać funkcję przełączenia w menu podręcznym drukarki w oknie PRINTERS", c: true }
+            ]
+        },
+        {
+            id: 104, text: "Do portu LPT1 komputera o nazwie KOMPUTER podłączono urządzenie drukujące HP DESKJET 540 i udostępniono pod nazwą DRUKARKA. Jak powinna wyglądać składnia polecenia umożliwiającego użytkownikowi na stacji klienckiej podłączenie do tej drukarki?",
+            options: [
+                { t: "Net print Lpt1: \\KOMPUTER\\DRUKARKA", c: false },
+                { t: "Net use Lpt1: \\KOMPUTER\\DRUKARKA", c: true },
+                { t: "Net print Lpt1: \\HP DESK JET 540\\KOMPUTER", c: false },
+                { t: "Net use Lpt1: \\HP DESK JET 540\\KOMPUTER", c: false }
+            ]
+        },
+        {
+            id: 105, text: "Liczniki wykorzystywane przez program System Monitor",
+            options: [
+                { t: "standardowo są wszystkie wyłączone, ale można włączyć zbieranie w nich danych", c: false },
+                { t: "standardowo są wszystkie włączone, ale można wyłączyć zbieranie w nich danych", c: false },
+                { t: "pracują cały czas i nie można wyłączyć zbierania w nich danych", c: false },
+                { t: "Niektóre z nich są włączone i można swobodnie je włączać i wyłączać", c: true }
+            ]
+        },
+        {
+            id: 106, text: "Domena korzeniowa (rootdomain) jest to",
+            options: [
+                { t: "pierwsza domena tworzona w nowym drzewie domen", c: false },
+                { t: "domena zawierająca najważniejsze zasoby sieciowe", c: false },
+                { t: "pierwsza domena tworzona w nowym lesie domen", c: true },
+                { t: "pierwsza domena tworzona w nowej lokacji (site)", c: false }
+            ]
+        },
+        {
+            id: 107, text: "Jesteś zalogowany/a jako użytkownik niebędący administratorem. Aby utworzyć konto grupy należy otworzyć konsolę Active Directory Users and Computers. Jak to zrobić bez wylogowania się?",
+            options: [
+                { t: "Na kontrolerze domeny utworzyć zdalną sesję i zalogować się jako administrator", c: false },
+                { t: "Użyć narzędzia wiersza poleceń NLTEST.EXE", c: false },
+                { t: "Użyć opcji Run As i jako administrator otworzyć konsolę", c: true },
+                { t: "Tymczasowo przydzielić kontu użytkownika, który nie jest administratorem, uprawnienia do konsoli Active Directory Users and Computers", c: false }
+            ]
+        },
+        {
+            id: 108, text: "Skonstruowano wolumin RAID1. Na każdym dysku wydzielono do tego celu 10 GB. Jaka sumaryczna pojemność może zostać wykorzystana do zapisu danych użytkowników na tym woluminie?",
+            options: [
+                { t: " 10 GB", c: true },
+                { t: "Aby odpowiedzieć na to pytanie: potrzebna jest informacja o ilości użytych dysków", c: false },
+                { t: "15 GB", c: false },
+                { t: "20 GB", c: false }
+            ]
+        },
+        {
+            id: 109, text: "Którego z poniższych działań nie realizuje proces odśmiecania bazy (garbage collection process)?",
+            options: [
+                { t: "defragmentacja off-line bazy Active Directory", c: true },
+                { t: "ocena (ewaluacja) obiektów typu TOMBSTONE", c: false },
+                { t: "usuwanie obiektów typu TOMBSTONE", c: false },
+                { t: "defragmentacja on-line bazy Active Directory", c: false }
+            ]
+        },
+        {
+            id: 110, text: "Na dysku podstawowym może się znajdować",
+            options: [
+                { t: "Najwyżej jedna partycja podstawowa i jedna rozszerzona", c: false },
+                { t: "Najwyżej dwie partycje podstawowe i dwie rozszerzone", c: false },
+                { t: "Najwyżej dwie partycje podstawowe i jedna rozszerzona", c: false },
+                { t: "Do czterech partycji", c: true }
+            ]
+        },
+        {
+            id: 111, text: "EDB.LOG to",
+            options: [
+                { t: "plik bazy Active Directory", c: false },
+                { t: "plik punktów kontrolnych Active Directory", c: false },
+                { t: "plik archiwalny kronik transakcji Active Directory", c: false },
+                { t: "plik kroniki transakcji Active Directory", c: true }
+            ]
+        },
+        {
+            id: 112, text: "Folder ALFA został udostępniony w sieci. Podczas konfigurowania dla tego foldera trybu offline wybrano opcję buforowania ręcznego. Po odłączeniu komputera od sieci, jego użytkownik będzie miał dostęp:",
+            options: [
+                { t: " do plików w folderze ALFA, które otworzył podczas pracy w sieci", c: false },
+                { t: "do plików w folderze ALFA, dla których w czasie pracy w sieci wybrał w ich menu podręcznym opcję „Make Available Offline”", c: true },
+                { t: "do plików w folderze ALFA, dla których podczas pracy w sieci ustawił atrybut ARCHIVE", c: false },
+                { t: "do wszystkich plików w folderze ALFA", c: false }
+            ]
+        },
+        {
+            id: 113, text: "Folder ALFA został udostępniony w sieci. Podczas konfigurowania dla tego foldera trybu offline wybrano opcję buforowania automatycznego. Po odłączeniu komputera od sieci, jego użytkownik będzie miał dostęp:",
+            options: [
+                { t: "do plików w folderze ALFA, które otworzył podczas pracy w sieci", c: false },
+                { t: "do plików w folderze ALFA, dla których podczas pracy w sieci ustawił atrybut ARCHIVE", c: false },
+                { t: "do wszystkich plików w folderze ALFA", c: true },
+                { t: "do plików w folderze ALFA, dla których w czasie pracy w sieci wybrał w ich menu podręcznym opcję „Make Available Offline”", c: false }
+            ]
+        },
+        {
+            id: 114, text: "Który z wymienionych niżej wariantów pokazuje składowe znacznika wykorzystywanego podczas replikacji uszeregowane od najbardziej do najmniej znaczącego?",
+            options: [
+                { t: "wersja, czas powstania, kontroler modyfikujący", c: true },
+                { t: "wersja, kontroler modyfikujący, czas powstania", c: false },
+                { t: "czas powstania, wersja, kontroler modyfikujący", c: false },
+                { t: "kontroler modyfikujący, czas powstania, wersja", c: false }
+            ]
+        },
+        {
+            id: 115, text: "Który z wymienionych niżej programów umożliwia założenie lub modyfikację grupy kont użytkowników na podstawie informacji o atrybutach tych kont zapisanych w pliku tekstowym?",
+            options: [
+                { t: "LDIFDE", c: true },
+                { t: "CSVDE", c: false },
+                { t: "LDAP", c: false },
+                { t: "ACCOUNT", c: false }
+            ]
+        },
+        {
+            id: 116, text: "EDB.CHK to",
+            options: [
+                { t: "plik punktów kontrolnych Active Directory", c: true },
+                { t: "plik kroniki transakcji Active Directory", c: false },
+                { t: "plik archiwalny kronik transakcji Active Directory", c: false },
+                { t: "plik bazy Active Directory", c: false }
+            ]
+        },
+        {
+            id: 117, text: "Podczas tworzenia pierwszego kontrolera domeny w nowo tworzonej strukturze lasu domen",
+            options: [
+                { t: "przypisywane są mu wszystkie role zarządców operacji", c: true },
+                { t: "przypisywane są mu jedynie role zarządcy schematu i zarządcy nazw domen", c: false },
+                { t: "przypisywana jest mu jedynie rola zarządcy schematu", c: false },
+                { t: "przypisywana jest mu jedynie rola zarządcy nazw domen", c: false }
+            ]
+        },
+        {
+            id: 118, text: "Jeżeli w trakcie replikacji bazy usługi katalogowej zaistnieje konflikt \"siostrzanych nazw\" (sibling names), to:",
+            options: [
+                { t: "obiekt z mniejszym znacznikiem czasowym zachowuje nazwę, a dla drugiego nazwa jest tworzona przez kontroler domeny", c: false },
+                { t: "obiekt z mniejszym znacznikiem czasowym zachowuje nazwę, a drugi jest umieszczany pod nazwą CNF_nazwa_pierwotna w kontenerze LostAndFound", c: false },
+                { t: " obiekt z większym znacznikiem czasowym zachowuje nazwę, a dla drugiego nazwa jest tworzona przez kontroler domeny", c: false },
+                { t: "obiekt z większym znacznikiem czasowym zachowuje nazwę, a drugi jest umieszczany pod nazwą CNF_nazwa_pierwotna w kontenerze LostAndFound", c: true }
+            ]
+        },
+        {
+            id: 119, text: "Zarządca schematu",
+            options: [
+                { t: "wykonuje dodawanie i usuwanie domeny ze struktury lasu", c: false },
+                { t: "steruje wszystkimi operacjami aktualizacji schematu Active Directory", c: true },
+                { t: "jest jedynym kontrolerem, na którym rezyduje partycja schematu", c: false },
+                { t: "sprawdza uprawnienia hostów, które próbują uzyskać dostęp do definicji schematu Active Directory", c: false }
+            ]
+        },
+        {
+            id: 120, text: "Podstawowym programem umożliwiającym realizację czynności konserwacyjnych na bazie Active Directory jest:",
+            options: [
+                { t: "NTDSDIT", c: false },
+                { t: "SYSVOL", c: false },
+                { t: "NTDSUTIL", c: true },
+                { t: "REPADMIN", c: false }
+            ]
+        },
+        {
+            id: 121, text: "Opcja blokowania dziedziczenia ustawień zasad grupowych dla danego obiektu Active Directory:",
+            options: [
+                { t: "dotyczy wybranych ustawień, w wybranych obiektach zasad grupowych związanych z obiektami nadrzędnymi danego obiektu", c: false },
+                { t: "dotyczy wszystkich ustawień, w wybranych obiektach zasad grupowych związanych z obiektami nadrzędnymi danego obiektu", c: false },
+                { t: "dotyczy wybranych ustawień, we wszystkich obiektach zasad grupowych związanych z obiektami nadrzędnymi danego obiektu", c: false },
+                { t: "dotyczy wszystkich ustawień, we wszystkich obiektach zasad grupowych związanych z obiektami nadrzędnymi danego obiektu", c: true }
+            ]
+        },
+        {
+            id: 122, text: "Po pewnym czasie od zainstalowania (z wykorzystaniem zasad grupowych) pewnego oprogramowania, pojawiła się jego nowa wersja. Poprzez modyfikację zastosowanego uprzednio GPO, administrator:",
+            options: [
+                { t: "może wymusić zainstalowanie nowej wersji na komputerach lub może udostępnić nową wersję i użytkownicy będą decydować, z której skorzystać", c: true },
+                { t: "można jedynie wymusić automatyczne zainstalowanie na komputerach nowej wersji, z jednoczesnym usunięciem starej", c: false },
+                { t: "może jedynie udostępnić nową wersję i użytkownicy będą decydować, z której skorzystać", c: false },
+                { t: "nie może zrealizować funkcji wprowadzania nowej wersji. Musi w tym celu skasować GPO wykorzystany podczas instalacji i zdefiniować nowy GPO – określający modyfikacje", c: false }
+            ]
+        },
+        {
+            id: 123, text: "W domenie funkcjonowały dwa kontrolery. Jeden z nich uległ trwałemu uszkodzeniu, a nośnik zawierający składowanie został ukradziony. Aby w domenie ponownie funkcjonowały dwa kontrolery i nie trzeba było ponownie definiować kont, należy:",
+            options: [
+                { t: "zrealizować procedurę odtwarzania nieautorytatywnego", c: true },
+                { t: "utworzyć od nowa domenę instalując system i Active Directory na dwóch nowych komputerach", c: false },
+                { t: "zainstalować system i Active Directory na nowym komputerze włączając go do istniejącej już domeny", c: false },
+                { t: "zrealizować procedurę odtwarzania autorytatywnego", c: false }
+            ]
+        },
+        {
+            id: 124, text: "Co jaki czas (domyślnie) uruchamia się odśmiecanie (garbage collection process)",
+            options: [
+                { t: "12 godz.", c: true },
+                { t: "1 godz.", c: false },
+                { t: "12 dni", c: false },
+                { t: "6 godzin", c: false }
+            ]
+        },
+        {
+            id: 125, text: "Mamy RAID-5 na 4 dyskach po 10 GB – ile dostępnej powierzchni ma użytkownik:",
+            options: [
+                { t: "30 GB", c: true },
+                { t: "20 GB", c: false },
+                { t: "10 GB", c: false },
+                { t: "40 GB", c: false }
+            ]
+        },
+        {
+            id: 126, text: "W przypadku utworzenia w domenie dwóch kontrolerów domeny pracujących pod kontrolą systemu Windows 2003:",
+            options: [
+                { t: "oba są równoważne", c: true },
+                { t: "pierwszy zainstalowany pełni rolę nadrzędną w stosunku do zainstalowanego później", c: false },
+                { t: "pierwszy zainstalowany pełni rolę podrzędną w stosunku do zainstalowanego później", c: false },
+                { t: "administrator ma możliwość określania, który z nich ma pełnić rolę nadrzędną", c: false }
+            ]
+        },
+        {
+            id: 127, text: "W lesie domen składającym się z 3 domen (A, B, C) mamy 9 kontrolerów (po 3 w każdej domenie). Na ilu kontrolerach umieszczona jest partycja domeny A?",
+            options: [
+                { t: "1", c: false },
+                { t: "3", c: true },
+                { t: "6", c: false },
+                { t: "9", c: false }
+            ]
+        },
+        {
+            id: 128, text: "Jeżeli tryb LOOPBACK jest włączony, to podczas logowania użytkownika na komputerze znajdującym się w jednostce organizacyjnej A Active Directory, na konto umiejscowione w jednostce organizacyjnej B:",
+            options: [
+                { t: "aplikowane są ustawienia z sekcji User Configuration w obiektach zasad grupowych powiązanych z jednostką organizacyjną A", c: true },
+                { t: "aplikowane są ustawienia z sekcji Computer Configuration w obiektach zasad grupowych powiązanych z jednostką organizacyjną A", c: false },
+                { t: "aplikowane są ustawienia z sekcji User Configuration w obiektach zasad grupowych powiązanych z jednostką organizacyjną B", c: false },
+                { t: "aplikowane są ustawienia z sekcji Computer Configuration w obiektach zasad grupowych powiązanych z jednostką organizacyjną B", c: false }
+            ]
+        },
+        {
+            id: 129, text: "Podczas logowania użytkownika na komputerze znajdującym się w jednostce organizacyjnej A Active Directory, na konto umiejscowione w jednostce organizacyjnej B:",
+            options: [
+                { t: "aplikowane są ustawienia z sekcji Computer Configuration w obiektach zasad grupowych powiązanych z jednostką organizacyjną A", c: false },
+                { t: "aplikowane są ustawienia z sekcji User Configuration w obiektach zasad grupowych powiązanych z jednostką organizacyjną B", c: true },
+                { t: "aplikowane są ustawienia z sekcji Computer Configuration w obiektach zasad grupowych powiązanych z jednostką organizacyjną B", c: false },
+                { t: "aplikowane są ustawienia z sekcji User Configuration w obiektach zasad grupowych powiązanych z jednostką organizacyjną A", c: false }
+            ]
+        },
+        {
+            id: 130, text: "Program KCC generujący schemat połączeń dla potrzeb replikacji zapewnia, że maksymalna liczba skoków niezbędnych dla replikacji nie będzie przekraczac:",
+            options: [
+                { t: "1", c: false },
+                { t: "2", c: false },
+                { t: "3", c: true },
+                { t: "6", c: false }
+            ]
+        },
+        {
+            id: 131, text: "Narzędzie do zarządzania dyskami działające w trybie tekstowym:",
+            options: [
+                { t: "PARTDISK", c: false },
+                { t: "PARTITION", c: false },
+                { t: "DISKPART", c: true },
+                { t: "DISKPARTS", c: false }
+            ]
+        },
+        {
+            id: 132, text: "Macierze obsługiwane przez Windows Server 2003:",
+            options: [
+                { t: " RAID 0, RAID 1, RAID 5", c: true },
+                { t: "RAID 0, RAID 1, RAID 3", c: false },
+                { t: "RAID 0, RAID 1, RAID 2", c: false },
+                { t: "RAID 1, RAID 3, RAID 5", c: false }
+            ]
+        },
+        {
+            id: 133, text: "Który z wymienionych niżej elementów nie wchodzi w skład deskryptora bezpieczeństwa:",
+            options: [
+                { t: "nazwa użytkownika (właściciela)", c: true },
+                { t: " SID użytkownika (właściciela)", c: false },
+                { t: "DACL (Discretionary and System Access Control List)", c: false },
+                { t: "SACL (System Access Control List)", c: false }
+            ]
+        },
+        {
+            id: 134, text: "Jeżeli w ustawieniach zasad grupowych (Group Policy) dochodzi do kolizji między ustawieniami komputera (Group Policy Settings for Computers) a użytkownika (Group Policy Settings for Users), to:",
+            options: [
+                { t: "wyższy priorytet mają ustawienia komputera", c: true },
+                { t: "wyższy priorytet mają ustawienia użytkownika", c: false },
+                { t: "wyższy priorytet mają ustawienia zdefiniowane później", c: false },
+                { t: "wyższy priorytet mają ustawienia zdefiniowane wcześniej", c: false }
+            ]
+        },
+        {
+            id: 135, text: "Podczas uruchamiania systemu informacje zawarte w GPO kopiowane są i umieszczane w:",
+            options: [
+                { t: "HKEY_LOCAL_MACHINE (dla ustawień komputera)", c: true },
+                { t: "HKEY_CURRENT_USER (dla ustawień użytkownika)", c: false },
+                { t: "HKEY_LOCAL_COMPUTER (dla ustawień komputera)", c: false },
+                { t: "HKEY_CURRENT_USERS (dla ustawień użytkownika)", c: false }
+            ]
+        },
+        {
+            id: 136, text: "Podczas logowania do systemu informacje zawarte w GPO kopiowane są i umieszczane w:",
+            options: [
+                { t: "HKEY_CURRENT_USER (dla ustawień użytkownika)", c: true },
+                { t: "HKEY_LOCAL_MACHINE (dla ustawień komputera)", c: false },
+                { t: "HKEY_CURRENT_USERS (dla ustawień użytkownika)", c: false },
+                { t: "HKEY_LOCAL_COMPUTER (dla ustawień komputera)", c: false }
+            ]
+        },
+        {
+            id: 137, text: "Jaką funkcję pełni silnik ESE bazy Active Directory?",
+            options: [
+                { t: "działa offline na bazie danych, gdy jest czas", c: false },
+                { t: "działa podczas replikacji", c: false },
+                { t: "działa na domenie", c: false },
+                { t: "działa bezpośrednio na bazie AD", c: true }
+            ]
+        },
+        {
+            id: 138, text: "Odwzorowaniem elementów Active Directory jest?",
+            options: [
+                { t: "katalog globalny", c: true },
+                { t: "root", c: false },
+                { t: "Domain controller", c: false },
+                { t: "Jednostka organizacyjna", c: false }
+            ]
+        },
+        {
+            id: 139, text: "Zarządca nazw domen odpowiada za:",
+            options: [
+                { t: "dodawanie/usuwanie domen", c: true },
+                { t: "aktualizacje na domenie", c: false },
+                { t: "konfigurację domen", c: false },
+                { t: "(brak sprecyzowanej odpowiedzi)", c: false }
+            ]
+        },
+        {
+            id: 140, text: "Zasada, wg której tworzymy lokacje (sites) to:",
+            options: [
+                { t: "szerokość pasma", c: false },
+                { t: "opóźnienie", c: false },
+                { t: "przepustowość łączy", c: true },
+                { t: "odległość", c: false }
+            ]
+        },
+        {
+            id: 141, text: "Co to jest katalog globalny?",
+            options: [
+                { t: "domena", c: false },
+                { t: "jednostka organizacyjna", c: false },
+                { t: "(brak sprecyzowanej odpowiedzi)", c: false },
+                { t: "repozytorium – częściowa replika wszystkich obiektów w lesie", c: true }
+            ]
+        },
+        {
+            id: 142, text: "Co nie znajduje się w topologii logicznej lasu?",
+            options: [
+                { t: "usługa/serwer", c: false },
+                { t: "domena", c: false },
+                { t: "lokacja", c: true },
+                { t: "organizacja", c: false }
+            ]
+        },
+        {
+            id: 143, text: "Co nie jest częścią logiczną Active Directory?",
+            options: [
+                { t: "lokacja", c: true },
+                { t: "domena", c: false },
+                { t: "kontroler domeny", c: true },
+                { t: "serwer", c: true }
+            ]
+        },
+        {
+            id: 144, text: "Kolejność uwierzytelniania zasad grup (przetwarzania GPO):",
+            options: [
+                { t: "GPO lokalny, GPO domeny, GPO lokacji, GPO jednostek organizacyjnych", c: false },
+                { t: "GPO lokacji, GPO lokalny, GPO domeny, GPO jednostek organizacyjnych", c: false },
+                { t: "GPO lokalny, GPO lokacji, GPO domeny, GPO jednostek organizacyjnych", c: true },
+                { t: "GPO jednostek organizacyjnych, GPO lokalny, GPO lokacji, GPO domeny", c: false }
+            ]
+        },
+        {
+            id: 145, text: "Co przechowują pliki ntds.dit?",
+            options: [
+                { t: "plik serwisowy AD", c: false },
+                { t: "plik konfiguracyjny AD", c: false },
+                { t: "plik bazy danych AD", c: true },
+                { t: "plik startowy AD", c: false }
+            ]
+        },
+        {
+            id: 146, text: "Jaki plik umożliwia instalację elementów Office 2000:",
+            options: [
+                { t: " SHUTDOWN", c: false },
+                { t: "*.msi", c: true },
+                { t: "*.mst", c: false },
+                { t: "SETUP", c: false }
+            ]
+        },
+        {
+            id: 147, text: "Schemat obejmuje elementy w:",
+            options: [
+                { t: "(brak sprecyzowanej odpowiedzi)", c: false },
+                { t: "całej domenie", c: false },
+                { t: "całej Active Directory", c: false },
+                { t: "całym lesie", c: true }
+            ]
+        },
+        {
+            id: 148, text: "Czym łączy się GPO z domeną?",
+            options: [
+                { t: "AD Users & Computers", c: true },
+                { t: "Lokacje i Usługi AD – wybrać kontener Sites", c: false },
+                { t: "AD Domain & Computers", c: false },
+                { t: "(brak sprecyzowanej odpowiedzi)", c: false }
+            ]
+        },
+        {
+            id: 149, text: "Czym łączy się GPO do lokacji?",
+            options: [
+                { t: "AD Users & Computers", c: false },
+                { t: "Lokacje i Usługi AD – wybrać kontener Sites", c: true },
+                { t: "AD Domain & Computers", c: false },
+                { t: "(brak sprecyzowanej odpowiedzi)", c: false }
+            ]
+        },
+        {
+            id: 150, text: "Gdzie są przechowywane atrybuty obiektów Active Directory?",
+            options: [
+                { t: "katalog globalny", c: false },
+                { t: "katalog root", c: false },
+                { t: "w domenie", c: false },
+                { t: "w kontrolerze domeny", c: true }
+            ]
+        },
+        {
+            id: 151, text: "Za co odpowiada kontroler domeny?",
+            options: [
+                { t: "uczestniczy w replikacji, pełni funkcję zarządcy operacji w domenie", c: true },
+                { t: "uczestniczy w replikacji, pełni funkcję zarządcy schematu w domenie", c: false },
+                { t: "uczestniczy w replikacji, pełni funkcję administratora domeny", c: false },
+                { t: "uczestniczy w replikacji, pełni funkcję administratora lokalnego", c: false }
+            ]
+        },
+        {
+            id: 152, text: "Którego folderu nie można przenosić (zmieniać lokalizacji)?",
+            options: [
+                { t: "Desktop", c: false },
+                { t: "Homedirectory", c: true },
+                { t: "Document and Settings", c: false },
+                { t: "Application Data", c: false }
+            ]
+        },
+        {
+            id: 153, text: "Co musi być spełnione, żeby użytkownik mógł się zalogować zdalnie?",
+            options: [
+                { t: "na serwerze musi być zainstalowany trojan", c: false },
+                { t: "konto musi zawierać atrybut LogonDonned", c: false },
+                { t: "konto na serwerze terminali i pozwolenie na zdalne logowanie", c: true },
+                { t: "musi mieć opłacone twarzowe", c: false }
+            ]
+        },
+        {
+            id: 154, text: "Jak NIE można udostępnić konsoli MMC?",
+            options: [
+                { t: "grupa użytkowników", c: true },
+                { t: "grupa komputerów", c: false },
+                { t: "domena", c: false },
+                { t: "mostek (bridgehead)", c: false }
+            ]
+        },
+        {
+            id: 155, text: "Do weryfikacji poprawności procesu instalacji Active Directory nie można wykorzystać:",
+            options: [
+                { t: "zasobów SYSVOL", c: false },
+                { t: "Admin$", c: true },
+                { t: "Garbage", c: false },
+                { t: "(brak sprecyzowanej odpowiedzi)", c: false }
+            ]
+        },
+        {
+            id: 156, text: "Znajdują się trzy domeny A, B, C. W każdej z domen są po 3 kontrolery domen. Ile będzie partycji schematu lasu?",
+            options: [
+                { t: "1", c: true },
+                { t: "3", c: false },
+                { t: "6", c: false },
+                { t: "9", c: false }
+            ]
+        },
+        {
+            id: 157, text: "Co należy zrobić, gdy po instalacji usługi Active Directory nie występują pozycje msdcs, sites, _tcp lub brakuje rekordów SRV:",
+            options: [
+                { t: "należy zrestartować usługę netlogon", c: true },
+                { t: "należy zresetować usługę netlogin", c: false },
+                { t: "należy zresetować usługę iplogon", c: false },
+                { t: "należy zresetować usługę iplogin", c: false }
+            ]
+        },
+        {
+            id: 158, text: "Co to jest Active Directory:",
+            options: [
+                { t: "jednostka organizacyjna w Windows 2000", c: false },
+                { t: "usługa katalogowa w Windows 2000", c: true },
+                { t: "domena w Windows 2000", c: false }
+            ]
+        },
+        {
+            id: 159, text: "Gdzie się zmienia zarządców operacji?",
+            options: [
+                { t: "Ntdsutit", c: false },
+                { t: "$Admin", c: false },
+                { t: "Ntdsutil", c: true },
+                { t: "Ntdsitdil", c: false }
+            ]
+        },
+        {
+            id: 160, text: "Jaki program umożliwia delegowanie praw?",
+            options: [
+                { t: "GPMC", c: true },
+                { t: "Admin$", c: false },
+                { t: "Ntdsutil", c: false }
+            ]
+        },
+        {
+            id: 161, text: "Który z formatów nie występuje w dzienniku?",
+            options: [
+                { t: "doc", c: false },
+                { t: "txt", c: false },
+                { t: "xlc lub xmr", c: false },
+                { t: "xls lub xml", c: true }
+            ]
+        },
+        {
+            id: 162, text: "Jakie prawo musi być ustawione, by użytkownik mógł zaaplikować prawa z GPO?",
+            options: [
+                { t: "read, apply group policy", c: true },
+                { t: " read, write, apply group policy", c: false },
+                { t: "read", c: false },
+                { t: "apply group policy", c: false }
+            ]
+        },
+        {
+            id: 163, text: "Który typ zdarzeń nie występuje w dzienniku?",
+            options: [
+                { t: "monitor", c: false },
+                { t: "sygnał", c: false },
+                { t: "alarm", c: true },
+                { t: "budzik", c: false }
+            ]
+        },
+        {
+            id: 164, text: "By użytkownik miał możliwość usunięcia programu, należy oprogramowanie:",
+            options: [
+                { t: "przypisać na poziomie użytkownika", c: false },
+                { t: "publikować na poziomie użytkownika", c: true },
+                { t: "przypisać na poziomie komputera", c: false },
+                { t: "publikować na poziomie komputera", c: false }
+            ]
+        },
+        {
+            id: 165, text: "Jakie są typy dziennika?",
+            options: [
+                { t: "aplikacji, zabezpieczeń, systemu, usługi katalogowej, usługi replikacji plików, serwera DNS", c: false },
+                { t: "aplikacji, zabezpieczeń, systemu, usługi katalogowej, usługi replikacji plików", c: false },
+                { t: "aplikacji, zabezpieczeń, systemu, usługi replikacji plików, serwera DNS", c: true },
+                { t: "aplikacji, zabezpieczeń, systemu, usługi replikacji folderów, usługi replikacji plików, serwera DNS", c: false }
+            ]
+        },
+        {
+            id: 166, text: "Kiedy w przypadku publikowania zostanie zainstalowany program na komputerze klienta?",
+            options: [
+                { t: " Kiedy sam go sobie zainstaluje za pomocą PowerShell", c: false },
+                { t: "Kiedy sam go sobie zainstaluje za pomocą Dodaj/Usuń programy", c: true },
+                { t: "Kiedy sam go sobie zainstaluje z płyty lub innego nośnika danych", c: false },
+                { t: "Kiedy administrator udostępni możliwość instalacji", c: false }
+            ]
+        },
+        {
+            id: 167, text: "Prawa na partycji NTFS są dziedziczone/kopiowane",
+            options: [
+                { t: "Zachowywane są tylko w momencie przenoszenia wewnątrz partycji – w innych przypadkach dziedziczone z lokalizacji docelowej", c: true },
+                { t: "Zachowywane w momencie przenoszenia między partycjami", c: false },
+                { t: "Dziedziczone z lokalizacji docelowej w każdym przypadku", c: false }
+            ]
+        },
+        {
+            id: 168, text: "Przekierować można foldery:",
+            options: [
+                { t: "My Documents, Download, Application Data, Desktop, Start Menu", c: false },
+                { t: "My Documents, Download, Desktop, Start Menu", c: false },
+                { t: "My Documents, Application Data, Desktop, Start Menu", c: true }
+            ]
+        },
+        {
+            id: 169, text: "Podczas składowania systemu – składowaniu nie podlega:",
+            options: [
+                { t: "pliki startowe, pliki katalogu SYSVOL, rejestr", c: true },
+                { t: "pliki startowe, pliki konfiguracyjne, rejestr", c: false },
+                { t: "pliki startowe, pliki konfiguracyjne, pliki katalogu SYSVOL", c: false }
+            ]
+        },
+        {
+            id: 170, text: "Gdzie można ustalić zasady inspekcji dotyczące drukarki?",
+            options: [
+                { t: "we właściwościach urządzeń", c: false },
+                { t: "we właściwościach drukarki/inspekcja", c: true },
+                { t: "we właściwościach drukarki/kontrola", c: false }
+            ]
+        },
+        {
+            id: 171, text: "W celu zdefiniowania własnego szablonu zabezpieczeń, jaką przystawkę należy dodać do konsoli MMC?",
+            options: [
+                { t: "Przystawkę autonomiczną szablony zabezpieczeń", c: true },
+                { t: "Przystawkę konfiguracyjną szablony zabezpieczeń", c: false },
+                { t: "Przystawkę nieautonomiczną szablony zabezpieczeń", c: false },
+                { t: "Przystawkę podstawową szablony zabezpieczeń", c: false }
+            ]
+        },
+        {
+            id: 172, text: "Gdzie się zmienia priorytety aplikacji?",
+            options: [
+                { t: "Task Manager / Processes", c: false },
+                { t: "Control Panel / Priority", c: false },
+                { t: "Control Panel / Processes", c: false },
+                { t: "Task Manager / Priority", c: true }
+            ]
+        },
+        {
+            id: 173, text: "Gdzie w systemie można monitorować wydajność?",
+            options: [
+                { t: "User & Computer AD → System Monitor", c: false },
+                { t: "Performance → System Monitor", c: true },
+                { t: "Performance → Monitor", c: false },
+                { t: "User & Computer AD → Monitor", c: false }
+            ]
+        },
+        {
+            id: 174, text: "Kto może domyślnie udostępniać foldery na stacji wolnostojącej oraz serwerze członkowskim?",
+            options: [
+                { t: "grupa Owners oraz Power Users", c: false },
+                { t: "grupa Owners oraz System Users", c: false },
+                { t: " grupa Administrators oraz Power Users", c: true },
+                { t: "grupa Administrators oraz System Users", c: false }
+            ]
+        },
+        {
+            id: 175, text: "Program służący do aktualizacji ustawień grupowych:",
+            options: [
+                { t: "gpupdate", c: true },
+                { t: "Ntdsutil", c: false },
+                { t: "SYSVOL", c: false },
+                { t: "$Admin", c: false }
+            ]
+        },
+        {
+            id: 176, text: "Jednostka organizacyjna to:",
+            options: [
+                { t: "jedna lub kilka domen korzystających z ciągłej przestrzeni nazw", c: false },
+                { t: "podgrupa w domenie, zazwyczaj odpowiadająca elementowi struktury funkcjonalnej organizacji", c: true },
+                { t: "grupa komputerów współdzielących wspólną bazę katalogową", c: false },
+                { t: "kilka drzew dzielących wspólnie informacje katalogowe", c: false }
+            ]
+        },
+        {
+            id: 177, text: "Domena to:",
+            options: [
+                { t: "podgrupa w domenie, zazwyczaj odpowiadająca elementowi struktury funkcjonalnej organizacji", c: false },
+                { t: "grupa komputerów współdzielących wspólną bazę katalogową", c: true },
+                { t: "jedna lub kilka domen korzystających z ciągłej przestrzeni nazw", c: false },
+                { t: "kilka drzew dzielących wspólnie informacje katalogowe", c: false }
+            ]
+        },
+        {
+            id: 178, text: "Drzewo domen to:",
+            options: [
+                { t: "grupa komputerów współdzielących wspólną bazę katalogową", c: false },
+                { t: "podgrupa w domenie, zazwyczaj odpowiadająca elementowi struktury funkcjonalnej organizacji", c: false },
+                { t: "jedna lub kilka domen korzystających z ciągłej przestrzeni nazw", c: true },
+                { t: "kilka drzew dzielących wspólnie informacje katalogowe", c: false }
+            ]
+        },
+        {
+            id: 179, text: "Las domen to:",
+            options: [
+                { t: "podgrupa w domenie, zazwyczaj odpowiadająca elementowi struktury funkcjonalnej organizacji", c: false },
+                { t: "grupa komputerów współdzielących wspólną bazę katalogową", c: false },
+                { t: "jedna lub kilka domen korzystających z ciągłej przestrzeni nazw", c: false },
+                { t: "kilka drzew dzielących wspólnie informacje katalogowe", c: true }
+            ]
+        },
+        {
+            id: 180, text: "W folderze \\PDC\\USERS\\OLO chcesz utworzyć ścieżkę domową dla użytkownika OLO. Folder OLO musisz:",
+            options: [
+                { t: "zawsze będzie tam utworzony (automatycznie)", c: false },
+                { t: "utworzyć ręcznie i udostępnić w sieci, a potem utworzyć użytkownika", c: false },
+                { t: "utworzyć ręcznie i udostępnić w sieci", c: true },
+                { t: "stworzyć folder ręcznie i nie udostępniać", c: false }
+            ]
+        },
+        {
+            id: 181, text: "Jeśli chcemy zmienić użytkownikowi uprawnienia do plików, to w zakładce konta należy wybrać zakładkę:",
+            options: [
+                { t: "inna niż podane", c: true },
+                { t: "profile", c: false },
+                { t: "account", c: false },
+                { t: "general", c: false }
+            ]
+        },
+        {
+            id: 182, text: "EDBRESxxx.LOG",
+            options: [
+                { t: "zapasowy plik transakcji DC", c: false },
+                { t: "zapasowy plik transakcji AD", c: true }
+            ]
+        },
+        {
+            id: 183, text: "Czego nie można wykonać:",
+            options: [
+                { t: "publikowanie dla użytkownika", c: false },
+                { t: "publikowanie dla komputera", c: true },
+                { t: "przypisanie dla użytkownika", c: false },
+                { t: "przypisanie dla komputera", c: false }
+            ]
+        },
+        {
+            id: 184, text: "Przy przekazaniu roli zarządcy operacji muszą uczestniczyć:",
+            options: [
+                { t: "tylko stary zarządca", c: false },
+                { t: "tylko nowy zarządca", c: false },
+                { t: "stary i nowy zarządca", c: true },
+                { t: "nikt", c: false }
+            ]
+        },
+        {
+            id: 185, text: "Kompresja podczas przenoszenia pomiędzy woluminami NTFS:",
+            options: [
+                { t: "dziedziczy z rejestru jakichś ustawień", c: false },
+                { t: "jest taka jak w nowym folderze (odziedzicza się ustawienia)", c: true },
+                { t: "dziedziczy (ustawienia) COMPR", c: false }
+            ]
+        },
+        {
+            id: 186, text: "SECEDIT:",
+            options: [
+                { t: "Configures and analyzes system security by comparing your current configuration to specified security templates", c: true },
+                { t: "Brak innych odpowiedzi hehe xD", c: false }
+            ]
+        },
+        {
+            id: 187, text: "Usługa katalogowa:",
+            options: [
+                { t: "repozytorium informacji (o ludziach i zasobach)", c: true },
+                { t: "repozytorium informacji o organizacji", c: false }
+            ]
+        },
+        {
+            id: 188, text: "Pole DDF - data decrytpion file:",
+            options: [
+                { t: "szyfrowanie kluczem publicznym właściciela pliku", c: true },
+                { t: "szyfrowanie kluczem prywatnym właściciela pliku", c: false },
+                { t: "szyfrowanie kluczem symetrycznym właściciela pliku", c: false },
+                { t: "szyfrowanie kluczem publicznym agenta odzyskiwania", c: false }
+            ]
+        },
+        {
+            id: 189, text: "Co powinno się zrobić, gdy użytkownik zapomni hasła:",
+            options: [
+                { t: "administrator zresetuje hasło", c: true },
+                { t: "użytkownik utworzy nowe hasło", c: false },
+                { t: "użytkownik zresetuje hasło", c: false },
+                { t: "administrator ustawi nowe hasło", c: false }
+            ]
+        },
+        {
+            id: 190, text: "Konto użytkownika lokalnego, gdzie jest przechowywane:",
+            options: [
+                { t: "na komputerze lokalnym", c: true },
+                { t: "na serwerze", c: false }
+            ]
+        },
+        {
+            id: 191, text: "Czym się różni domena od grupy roboczej:",
+            options: [
+                { t: "bazą danych użytkowników (składowaniem jej)", c: true },
+                { t: "przepustowością", c: false },
+                { t: "ilością kont administratorów", c: false }
+            ]
+        },
+        {
+            id: 192, text: "Protokół SMTP służy do replikacji:",
+            options: [
+                { t: "między serwerami przyczółkowymi w różnych domenach", c: false },
+                { t: "tylko pomiędzy lokacjami w tej samej domenie", c: false },
+                { t: "tylko pomiędzy serwerami przyczółkowymi", c: false },
+                { t: "pomiędzy lokacjami obsługiwanymi przez kontrolery z różnych domen", c: true }
+            ]
+        },
+        {
+            id: 193, text: "Jeśli po starcie systemu nie chcemy mieć katalogów z pulpitu, należy zastosować:",
+            options: [
+                { t: "coś z serwerem", c: false },
+                { t: "udostępnić pliki", c: false },
+                { t: "profil lokalny", c: true },
+                { t: "profil mobilny", c: false }
+            ]
+        },
+        {
+            id: 194, text: "Jeśli coś z redeploying:",
+            options: [
+                { t: "coś było z odnawianiem usuniętego oprogramowania", c: true },
+                { t: "coś było z archiwizowaniem usuniętego oprogramowania", c: false },
+                { t: "coś było z przechowywaniem usuniętego oprogramowania", c: false },
+                { t: "coś było z przekazywaniem usuniętego oprogramowania", c: false }
+            ]
+        },
+        {
+            id: 195, text: "Co nie jest obiektem Active Directory:",
+            options: [
+                { t: "usługa", c: true },
+                { t: "drukarka", c: false },
+                { t: "użytkownik", c: false },
+                { t: "komputer", c: false }
+            ]
+        },
+        {
+            id: 196, text: "Co oznacza zapis w postaci abc@cos:",
+            options: [
+                { t: "userPrincipalName", c: true },
+                { t: "distinguishName", c: false },
+                { t: "displayName", c: false },
+                { t: "userAccount", c: false }
+            ]
+        },
+        {
+            id: 197, text: "Klucz szyfrowania pliku umieszczony w nagłówku jest:",
+            options: [
+                { t: "symetryczny", c: true },
+                { t: "dyskretny", c: false },
+                { t: "publiczny", c: false },
+                { t: "odzyskany", c: false }
+            ]
+        },
+        {
+            id: 198, text: "Aby ustawić, że użytkownik nie może zmienić hasła – jaką opcję należy zaznaczyć:",
+            options: [
+                { t: "użytkownik nie może zmienić hasła", c: true },
+                { t: "konto wyłączone", c: false },
+                { t: "wymuś zmianę hasła przy najbliższym logowaniu", c: false }
+            ]
+        },
+        {
+            id: 199, text: "Schemat struktury AD znajduje się:",
+            options: [
+                { t: "w partycji konfiguracji", c: true },
+                { t: "w partycji domeny", c: false },
+                { t: "w partycji struktury", c: false }
+            ]
+        },
+        {
+            id: 200, text: "Domyślne opóźnienie zgłoszenia zmian pierwszemu partnerowi wewnątrz lokacji to:",
+            options: [
+                { t: "3 s", c: true },
+                { t: "15 s", c: false },
+                { t: "30 s", c: false },
+                { t: "60 s", c: false }
+            ]
+        },
+        {
+            id: 201, text: "Obiekt tombstone podlega replikacji, jest utrzymywany w bazie przez określony czas, jaki:",
+            options: [
+                { t: "90 dni", c: false },
+                { t: "100 dni", c: false },
+                { t: "150 dni", c: false },
+                { t: "180 dni", c: true }
+            ]
+        },
+        {
+            id: 202, text: "Protokół RPC służy do replikacji:",
+            options: [
+                { t: "dla replikacji wewnątrz oraz pomiędzy lokacjami", c: true },
+                { t: "dla replikacji wewnątrz lokacji", c: false },
+                { t: "dla replikacji pomiędzy lokacjami", c: false },
+                { t: "dla replikacji w domenie", c: false }
+            ]
+        },
+        {
+            id: 203, text: "GUID, USN służą do:",
+            options: [
+                { t: " optymalizacji replikacji", c: true },
+                { t: "brak innej odp", c: false }
+            ]
+        },
+        {
+            id: 204, text: "Las domen składający się z 3 domen (9 kontrolerów) – schemat topologii, ilu kontrolerów powinno się na nim znajdować:",
+            options: [
+                { t: "2", c: false },
+                { t: "3", c: false },
+                { t: "6", c: false },
+                { t: "9", c: true }
+            ]
+        },
+        {
+            id: 205, text: "Jakie minimalne prawa musi mieć folder dystrybucyjny:",
+            options: [
+                { t: "Odczyt i zapis", c: false },
+                { t: "Odczyt", c: true },
+                { t: "Full control", c: false },
+                { t: "Odczyt i modyfikacja", c: false }
+            ]
+        },
+        {
+            id: 206, text: "Wskaż zdanie nieprawdziwe:",
+            options: [
+                { t: "Konto komputera zostanie przypisane tylko do jednostki organizacyjnej", c: true },
+                { t: "Konto komputera zostaje dodane do kontenera Computers", c: false },
+                { t: "Administrator może wybrać kontener, do którego trafi konto komputera", c: false },
+                { t: "Konta komputerów można przenosić między kontenerami", c: false }
+            ]
+        },
+        {
+            id: 207, text: "Jeżeli po starcie systemu nie chcemy mieć katalogów z pulpitu, należy zastosować:",
+            options: [
+                { t: "coś z serwerem", c: false },
+                { t: "profil lokalny", c: true },
+                { t: "profil mobilny", c: false },
+                { t: "udostępnić pliki", c: false }
+            ]
+        },
+        {
+            id: 208, text: "Do czego służy polecenie SECEDIT:",
+            options: [
+                { t: "Konfiguracji oraz analizy zabezpieczeń systemu poprzez porównanie bieżącej konfiguracji z szablonem", c: true },
+                { t: " Tworzenia szablonu zabezpieczeń systemu", c: false },
+                { t: "Edycji szablonu zabezpieczeń systemu", c: false },
+                { t: "Analizy zabezpieczeń systemu", c: false }
+            ]
+        },
+        {
+            id: 209, text: "Folder ALFA został udostępniony w sieci. Podczas konfigurowania dla tego foldera trybu offline wybrano opcję buforowania automatycznego. Po odłączeniu komputera od sieci, jego użytkownik będzie miał dostęp:",
+            options: [
+                { t: "do plików w folderze ALFA, które otworzył podczas pracy w sieci", c: false },
+                { t: "do plików w folderze ALFA, dla których w czasie pracy w sieci wybrał w ich menu podręcznym opcję „Make Available Offline”", c: false },
+                { t: "do plików w folderze ALFA, dla których podczas pracy w sieci ustawił atrybut ARCHIVE", c: false },
+                { t: "do wszystkich plików w folderze ALFA", c: true }
+            ]
+        },
+        {
+            id: 210, text: "Co jaki czas jest realizowana replikacja między lokacjami:",
+            options: [
+                { t: "Co 15 minut", c: false },
+                { t: "3x podczas godziny", c: false },
+                { t: "Co 3 godziny", c: true },
+                { t: "Ustawia to osoba odpowiedzialna ", c: false }
+            ]
+        },
+        {
+            id: 211, text: "Co się dzieje, gdy rezygnujemy z GPO:",
+            options: [
+                { t: "Trzeba stworzyć nowe GPO", c: false },
+                { t: "Nie ma możliwości tworzenia nowych GPO", c: false },
+                { t: "Musi zostać ono usunięte przez dodatek do AD", c: false },
+                { t: "Nie ma możliwości rezygnacji z wdrożonego GPO", c: true }
+            ]
+        },
+        {
+            id: 212, text: "Gdy funkcjonuje tylko jeden kontroler i odtwarzamy (mamy backup), jakie odtwarzanie zastosujemy:",
+            options: [
+                { t: "Odtwarzanie normalne", c: false },
+                { t: "Odtwarzanie pierwotne", c: false },
+                { t: "Odtwarzanie autorytarne", c: true },
+                { t: "Odtwarzanie nieautorytarne", c: false }
+            ]
+        },
+        {
+            id: 213, text: "Która z wymienionych konstrukcji (pytanie poglądowe) może być interpretowana jako element AD, np. jednostka organizacyjna wykorzystywana dla ustawień user configuration:",
+            options: [
+                { t: "Jednostka organizacyjna – tak, gdy jest dedykowanym kontenerem dla konfiguracji użytkownika", c: true },
+                { t: "Odtwarzanie pierwotne", c: false },
+                { t: "Odtwarzanie autorytarne", c: false },
+                { t: "Odtwarzanie nieautorytarne", c: false }
+            ]
+        },
+        {
+            id: 214, text: "Opcja i sposób wymuszenia aplikowania zasad dla grupy:",
+            options: [
+                { t: "Odnosi się do linku GPO obejmującego wszystkie komputery i użytkowników", c: true },
+                { t: "Odnosi się do GPO i obiektu, z którym dane GPO jest łączone", c: false },
+                { t: "Odnosi się do samego GPO", c: false },
+                { t: "Odnosi się do obiektu", c: false }
+            ]
+        },
+        {
+            id: 215, text: "Którego z wymienionych działań nie mieści się w ramach udzielania pełnomocnictw nad obiektami zasad grup? (Czego nie można zrobić poprzez udzielenie pełnomocnictwa)",
+            options: [
+                { t: "[POPRAWNA – zgodnie z materiałem źródłowym przyjmujemy tę opcję] takie coś było w bazce chuj wie", c: true },
+                { t: "zarządzanie wiązaniami obiektu", c: false }
+            ]
+        },
+        {
+            id: 216, text: "Jeżeli podczas tworzenia konta użytkownika określamy, że jego katalog domowy będzie się znajdował w komputerze o nazwie TJB – dla użytkownika OLO należy:",
+            options: [
+                { t: "zawsze będzie tam utworzony", c: false },
+                { t: "utworzyć ręcznie i udostępnić w sieci, a potem utworzyć użytkownika", c: true },
+                { t: "zawsze będzie tam utworzony", c: false },
+                { t: "stworzyć folder ręcznie i nie udostępniać", c: false }
+            ]
+        },
+        {
+            id: 217, text: "Jeśli chcemy zmienić użytkownikowi uprawnienia do plików, to w zakładce konta należy wybrać zakładkę:",
+            options: [
+                { t: "inna niż podane", c: true },
+                { t: "profile", c: false },
+                { t: "account", c: false },
+                { t: "general", c: false }
+            ]
+        },
+        {
+            id: 218, text: "Polecenie tekstowe do edycji/modyfikacji parametrów i konfiguracji replikacji:",
+            options: [
+                { t: "repadmin", c: true },
+                { t: "paladmin", c: false },
+                { t: "ntdsutil", c: false }
+            ]
+        },
+        {
+            id: 219, text: "Dzięki czemu można przejąć rolę administratora (seizing FSMO):",
+            options: [
+                { t: "ntdsutil", c: true },
+                { t: "repadmin", c: false }
+            ]
+        },
+        {
+            id: 220, text: "Jak zezwolić na dostęp do użytkownika (odnośnie ACE i DSACLS):",
+            options: [
+                { t: "acldiag – wyświetla wpisy ACE, dsacls – zmienia wpisy ACE, czyli dostęp dla danego użytkownika", c: true },
+                { t: "repadmin", c: false }
+            ]
+        },
+        {
+            id: 221, text: "Za co odpowiada Zarządca RID:",
+            options: [
+                { t: "Zapobiega powstawaniu duplikatów obiektów (przydzielanie unikalnych identyfikatorów)", c: true },
+                { t: "brak innych odp w bzce hehe", c: false }
+            ]
+        },
+        {
+            id: 222, text: "Za co odpowiada synchronizacja czasu:",
+            options: [
+                { t: "emulator PDC", c: true },
+                { t: "kontroler domeny", c: false },
+                { t: "zarządca RID", c: false },
+                { t: "zarządca infrastruktury", c: false }
+            ]
+        },
+        {
+            id: 223, text: "Czym można wymusić replikację:",
+            options: [
+                { t: "repadmin", c: true },
+                { t: "repsutil", c: false },
+                { t: "ntdsutil", c: false }
+            ]
+        },
+        {
+            id: 224, text: "Wyższe GPO ma uprawnienia, a niższe blokuje. Jaki będzie skutek po zastosowaniu \"enforce\" na wyższym GPO:",
+            options: [
+                { t: "Niższe przetwarzane są jako pierwsze, a następnie zastępowane przez wyższe – ustawienia wyższego GPO będą używane", c: true },
+                { t: "ntdsutil", c: false }
+            ]
+        },
+        {
+            id: 225, text: "Co jest ładowane przed pojawieniem się okna logowania:",
+            options: [
+                { t: "tylko ustawienia komputera", c: true },
+                { t: "tylko ustawienia użytkownika", c: false },
+                { t: "ustawienia komputera i użytkownika", c: false }
+            ]
+        },
+        {
+            id: 226, text: "Gdzie można zmienić user rights:",
+            options: [
+                { t: "MMC – przystawka GPO", c: false },
+                { t: "Zasady zabezpieczeń lokalnych", c: true },
+                { t: "File Explorer", c: false },
+                { t: "Przystawka MMC do zabezpieczeń", c: false }
+            ]
+        },
+        {
+            id: 227, text: "Pole DRF:",
+            options: [
+                { t: "szyfrowane kluczem publicznym agenta odzyskiwania", c: true },
+                { t: "szyfrowane kluczem prywatnym agenta odzyskiwania", c: false },
+                { t: "szyfrowane kluczem publicznym właściciela pliku", c: false },
+                { t: "szyfrowane kluczem prywatnym właściciela pliku", c: false }
+            ]
+        },
+        {
+            id: 228, text: "Czas działania skryptów przy logowaniu:",
+            options: [
+                { t: "nie można zmienić (jeśli nie ma takiej opcji, domyślnie 10 minut)", c: false },
+                { t: "5 min", c: false },
+                { t: "10 min (jeśli nie ma takiej opcji, to nie można zmienić)", c: false },
+                { t: "można zmienić", c: true }
+            ]
+        },
+        {
+            id: 229, text: "W lesie (1 las z 3 domenami) – liczba zarządców nazw domen wynosi:",
+            options: [
+                { t: "1", c: true },
+                { t: "3", c: false },
+                { t: "6", c: false },
+                { t: "9", c: false }
+            ]
+        },
+        {
+            id: 230, text: "Maksymalny czas trwania procesu w GPO wynosi:",
+            options: [
+                { t: "30 min", c: false },
+                { t: "60 min", c: false },
+                { t: "90 min", c: false },
+                { t: "120 min", c: true }
+            ]
+        },
+        {
+            id: 231, text: "Główny protokół replikacji to:",
+            options: [
+                { t: "RPC", c: true },
+                { t: "SMTP", c: false },
+                { t: "HTTPS", c: false },
+                { t: "HTTP", c: false }
+            ]
+        },
+        {
+            id: 232, text: "Gdy usuniemy przekierowany folder My Documents, to:",
+            options: [
+                { t: "wróci do starej lokalizacji", c: false },
+                { t: "zostanie całkowicie usunięty", c: false },
+                { t: "będzie tylko na serwerze", c: true }
+            ]
+        },
+        {
+            id: 233, text: "NTFS - New Technology File System zapewnia",
+            options: [
+                { t: "Zwiększony poziom niezawodności​", c: true },
+                { t: "Zwiększoną szybkość pracy z wieloma plikami​", c: true },
+                { t: "Obsługę dysków o dużej pojemności​", c: true },
+                { t: "Kontrolę dostępu na poziomie plików i folderów​", c: true }
+            ]
+        },
+        {
+            id: 234, text: "gdy pliki i foldery są kopiowane to (ACL - Access control lists):",
+            options: [
+                { t: "dziedziczą ACL z foldera docelowego​", c: true },
+                { t: "zachowują swoje ACL​", c: false }
+            ]
+        },
+        {
+            id: 235, text: "Gdy pliki i foldery są przenoszone w obrębie tej samej partycji to (ACL - Access control lists):",
+            options: [
+                { t: "dziedziczą ACL z foldera docelowego​", c: false },
+                { t: "zachowują swoje ACL", c: true }
+            ]
+        },
+        {
+            id: 236, text: "Gdy pliki i foldery są przenoszone do innej partycji to (ACL - Access Control List):​",
+            options: [
+                { t: "zachowują swoje ACL​", c: false },
+                { t: "dziedziczą ACL z foldera docelowego​", c: true }
+            ]
+        },
+        {
+            id: 237, text: "Za co odpowiadają Przydziały dyskowe (Disk Quotas)​:",
+            options: [
+                { t: "Przeliczenia dostępnych zasobów, oparte się na własnościach plików i folderów​", c: true },
+                { t: "Ignorowanie kompresji przy przeliczaniu zasobów​", c: true },
+                { t: "Wolne miejsce dla aplikacji, oparte na limicie przydziału dyskowego​", c: true },
+                { t: "Śledzenie przydziałów dyskowych niezależnie dla każdej partycji NTFS​", c: true }
+            ]
+        },
+        {
+            id: 238, text: "EFS to:",
+            options: [
+                { t: "Extanded File System", c: false },
+                { t: "Encrypt File System", c: false },
+                { t: "Encrypted File System", c: true },
+                { t: "Encrypted File Synchronisation", c: false }
+            ]
+        },
+        {
+            id: 239, text: "Pole DRF:",
+            options: [
+                { t: "jest szyfrowane kluczem publicznym właściciela pliku", c: false },
+                { t: "jest szyfrowane kluczem prywatnym właściciela pliku", c: false },
+                { t: "jest szyfrowane kluczem publicznym agenta odzyskiwania", c: true },
+                { t: "jest szyfrowane kluczem prywatnym agenta odzyskiwania", c: false }
+            ]
+        },
+        {
+            id: 240, text: "EFK - lista kluczy jest przechowywana w polach:",
+            options: [
+                { t: "Data Decryption Field", c: true },
+                { t: "Data Encrytpion Field", c: false },
+                { t: "Data Recovery Field", c: true },
+                { t: "Data Results Field", c: false }
             ]
         }
     ];
