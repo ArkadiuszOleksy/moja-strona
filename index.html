@@ -126,8 +126,8 @@
         items: [
             { t: "A. Testy z udziałem rzeczywistych użytkowników", cat: 0 },
             { t: "B. Ocena przez ekspertów", cat: 1 },
-            { t: "C. Testy oprogramowania front office", cat: 0 },
-            { t: "D. Ocena przez użytkowników", cat: 0 }
+            { t: "C. Testy oprogramowania front office", cat: null },
+            { t: "D. Ocena przez użytkowników", cat: null }
         ]
     },
     {
@@ -482,16 +482,18 @@
             { t: "d. Naprawianiu błędów w istniejących systemach po ich wdrożeniu.", c: false }
         ]
     },
-    {
+{
         id: 43, type: "drag_cat",
-        text: "Dopasuj wymienione poniżej zasady do odpowiednich cech dobrego UI:",
+        text: "Dopasuj, wymienione poniżej zasady do odpowiednich cech dobrego UI:",
         categories: ["Użyteczność", "Konsekwencja", "Zrozumiałość", "Dostępność", "Estetyka"],
         items: [
-            { t: "Intuicyjność", cat: 0 },
-            { t: "Spójność", cat: 1 },
-            { t: "Łatwość rozumienia", cat: 2 },
-            { t: "Dostosowanie do różnych potrzeb", cat: 3 },
-            { t: "Atrakcyjny wygląd", cat: 4 }
+            { t: "Intuicyjność", cat: 0 },                      // Pasuje do: Użyteczność
+            { t: "Spójność", cat: 1 },                          // Pasuje do: Konsekwencja
+            { t: "Łatwość rozumienia", cat: 2 },                // Pasuje do: Zrozumiałość
+            { t: "Dostosowanie do różnych potrzeb", cat: 3 },   // Pasuje do: Dostępność
+            { t: "Atrakcyjny wygląd", cat: 4 },                 // Pasuje do: Estetyka
+            { t: "Niezawodność", cat: null },                   // Opcja niepoprawna (dystraktor)
+            { t: "Konfigurowalność", cat: null }                // Opcja niepoprawna (dystraktor)
         ]
     }
 ];
@@ -811,4 +813,5 @@
 
 </body>
 </html>
+
 
