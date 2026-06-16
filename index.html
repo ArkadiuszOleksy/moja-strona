@@ -3,1207 +3,642 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MPH – Quiz</title>
+<title>Test - Międzynarodowe Prawo Humanitarne Konfliktów Zbrojnych</title>
 <style>
-  :root {
-    --bg: #0f1117;
-    --surface: #1a1e2a;
-    --surface2: #222738;
-    --border: #2e3450;
-    --accent: #4f7cff;
-    --accent2: #7c5cff;
-    --green: #22c55e;
-    --green-bg: #0d2b1a;
-    --green-border: #16612e;
-    --red: #ef4444;
-    --red-bg: #2b0d0d;
-    --red-border: #7f1d1d;
-    --text: #e2e8f0;
-    --text-dim: #94a3b8;
-    --text-dimmer: #64748b;
-    --radius: 10px;
-    --radius-sm: 6px;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 16px; scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    min-height: 100vh;
-    padding: 0 0 60px;
-  }
-
-  /* HEADER */
-  header {
-    background: linear-gradient(135deg, #1a1e2a 0%, #0f1117 100%);
-    border-bottom: 1px solid var(--border);
-    padding: 18px 20px 14px;
-    position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  }
-  .header-title {
-    display: flex; align-items: center; gap: 10px;
-  }
-  .shield {
-    width: 32px; height: 32px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border-radius: 6px 6px 10px 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px; flex-shrink: 0;
-  }
-  header h1 { font-size: 1.1rem; font-weight: 700; letter-spacing: .03em; }
-  header h1 span { color: var(--accent); }
-  .header-meta { font-size: .75rem; color: var(--text-dimmer); margin-top: 1px; }
-  .btn-shuffle {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border: none; border-radius: var(--radius-sm);
-    color: #fff; font-size: .8rem; font-weight: 600;
-    padding: 8px 14px; cursor: pointer;
-    transition: opacity .15s, transform .1s;
-    white-space: nowrap; flex-shrink: 0;
-  }
-  .btn-shuffle:hover { opacity: .88; transform: translateY(-1px); }
-  .btn-shuffle:active { transform: translateY(0); }
-
-  /* PROGRESS BAR */
-  .progress-bar-wrap {
-    background: var(--border); height: 3px;
-  }
-  .progress-bar-fill {
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    transition: width .3s;
-  }
-
-  /* MAIN */
-  main {
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 24px 16px 0;
-    display: flex; flex-direction: column; gap: 28px;
-  }
-
-  /* QUESTION CARD */
-  .q-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    transition: border-color .2s;
-  }
-  .q-card.all-correct { border-color: var(--green-border); }
-
-  .q-header {
-    display: flex; align-items: flex-start; gap: 12px;
-    padding: 16px 16px 12px;
-    border-bottom: 1px solid var(--border);
-  }
-  .q-num {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border-radius: 6px;
-    color: #fff; font-size: .7rem; font-weight: 700;
-    padding: 3px 7px; white-space: nowrap; flex-shrink: 0;
-    margin-top: 2px;
-  }
-  .q-text {
-    font-size: .97rem; font-weight: 500; line-height: 1.5; color: var(--text);
-  }
-  .q-badge {
-    font-size: .68rem; color: var(--text-dimmer);
-    background: var(--surface2); border: 1px solid var(--border);
-    border-radius: 4px; padding: 2px 7px;
-    white-space: nowrap; flex-shrink: 0; margin-top: 2px;
-  }
-
-  /* IMAGE */
-  .q-image-wrap {
-    padding: 0 16px 12px;
-  }
-  .q-image-wrap img {
-    width: 100%; border-radius: var(--radius-sm);
-    border: 1px solid var(--border);
-    display: block;
-  }
-  .q-image-placeholder {
-    width: 100%; border-radius: var(--radius-sm);
-    border: 2px dashed var(--border);
-    background: var(--surface2);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 6px; padding: 20px;
-    color: var(--text-dimmer); font-size: .8rem; text-align: center;
-  }
-  .q-image-placeholder span { font-size: 1.4rem; }
-
-  /* OPTIONS */
-  .q-options { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 7px; }
-
-  .opt {
-    display: flex; align-items: flex-start; gap: 10px;
-    background: var(--surface2);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 10px 12px;
-    cursor: pointer;
-    transition: border-color .15s, background .15s;
-    -webkit-tap-highlight-color: transparent;
-    user-select: none;
-  }
-  .opt:hover { border-color: var(--accent); background: #1e2436; }
-
-  .opt.correct {
-    border-color: var(--green-border) !important;
-    background: var(--green-bg) !important;
-  }
-  .opt.incorrect {
-    border-color: var(--red-border) !important;
-    background: var(--red-bg) !important;
-  }
-
-  .opt-checkbox {
-    width: 18px; height: 18px;
-    border: 2px solid var(--text-dimmer);
-    border-radius: 4px; flex-shrink: 0; margin-top: 1px;
-    display: flex; align-items: center; justify-content: center;
-    transition: border-color .15s, background .15s;
-  }
-  .opt.correct .opt-checkbox {
-    border-color: var(--green); background: var(--green);
-  }
-  .opt.incorrect .opt-checkbox {
-    border-color: var(--red); background: var(--red);
-  }
-  .opt-checkbox svg { display: none; }
-  .opt.correct .opt-checkbox svg,
-  .opt.incorrect .opt-checkbox svg { display: block; }
-
-  .opt-label {
-    font-size: .88rem; line-height: 1.45; color: var(--text);
-    flex: 1;
-  }
-  .opt.correct .opt-label { color: #86efac; }
-  .opt.incorrect .opt-label { color: #fca5a5; }
-
-  .opt-letter {
-    font-size: .7rem; font-weight: 700;
-    color: var(--text-dimmer);
-    background: var(--border); border-radius: 3px;
-    padding: 1px 5px; flex-shrink: 0; margin-top: 1px;
-  }
-  .opt.correct .opt-letter { background: #16612e; color: #86efac; }
-  .opt.incorrect .opt-letter { background: #7f1d1d; color: #fca5a5; }
-
-  /* TEXT INPUT TYPE */
-  .q-input-wrap {
-    padding: 10px 16px 14px;
-    display: flex; flex-direction: column; gap: 8px;
-  }
-  .q-input-wrap input {
-    width: 100%;
-    background: var(--surface2);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    color: var(--text);
-    font-size: .9rem;
-    padding: 10px 12px;
-    outline: none;
-    transition: border-color .15s;
-  }
-  .q-input-wrap input:focus { border-color: var(--accent); }
-  .q-input-wrap input::placeholder { color: var(--text-dimmer); }
-  .btn-check-answer {
-    background: var(--surface2);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    color: var(--text-dim);
-    font-size: .8rem; padding: 8px 14px;
-    cursor: pointer; transition: border-color .15s, color .15s;
-    align-self: flex-start;
-  }
-  .btn-check-answer:hover { border-color: var(--accent); color: var(--text); }
-  .correct-answer-reveal {
-    background: var(--green-bg);
-    border: 1px solid var(--green-border);
-    border-radius: var(--radius-sm);
-    color: #86efac; font-size: .85rem;
-    padding: 8px 12px; display: none;
-  }
-  .correct-answer-reveal.visible { display: block; }
-
-  /* MULTI-CORRECT NOTE */
-  .q-note {
-    padding: 0 16px 8px;
-    font-size: .73rem; color: var(--text-dimmer);
-    display: flex; align-items: center; gap: 5px;
-  }
-  .q-note::before { content: "ℹ"; color: var(--accent); }
-
-  /* MULTI FIELD */
-  .multi-field-row {
-    display: flex; align-items: center; gap: 10px;
-    margin-bottom: 6px;
-  }
-  .multi-field-label {
-    font-size: .85rem; font-weight: 700; color: var(--accent);
-    min-width: 52px; flex-shrink: 0;
-  }
-  .multi-field-input {
-    flex: 1;
-    background: var(--surface2);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    color: var(--text);
-    font-size: .88rem;
-    padding: 8px 10px;
-    outline: none;
-    transition: border-color .15s;
-  }
-  .multi-field-input:focus { border-color: var(--accent); }
-  .multi-field-input::placeholder { color: var(--text-dimmer); }
-
-  /* SCORE PANEL */
-  #score-panel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 20px;
-    display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    flex-wrap: wrap;
-  }
-  .score-label { font-size: .8rem; color: var(--text-dimmer); margin-bottom: 4px; }
-  .score-val { font-size: 1.5rem; font-weight: 800; }
-  .score-val.green { color: var(--green); }
-  .score-val.red { color: var(--red); }
-  .score-val.blue { color: var(--accent); }
-  .score-divider { width: 1px; height: 40px; background: var(--border); }
-
-  /* FOOTER */
-  .q-footer {
-    padding: 8px 16px 12px;
-    display: flex; align-items: center; justify-content: space-between; gap: 8px;
-    flex-wrap: wrap;
-  }
-  .q-footer-note { font-size: .72rem; color: var(--text-dimmer); }
-  .btn-reset-q {
-    font-size: .72rem; color: var(--text-dimmer);
-    background: none; border: 1px solid var(--border);
-    border-radius: 4px; padding: 3px 9px;
-    cursor: pointer; transition: border-color .15s, color .15s;
-  }
-  .btn-reset-q:hover { border-color: var(--accent); color: var(--accent); }
-
-  @media (max-width: 600px) {
-    header { padding: 12px 12px 10px; }
-    header h1 { font-size: .95rem; }
-    main { padding: 16px 10px 0; gap: 20px; }
-    .q-header { padding: 13px 12px 10px; gap: 9px; }
-    .q-text { font-size: .9rem; }
-    .opt { padding: 9px 10px; }
-    .opt-label { font-size: .84rem; }
-  }
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f9;
+        color: #333;
+    }
+    #header {
+        position: sticky;
+        top: 0;
+        background-color: #2c3e50;
+        color: white;
+        padding: 15px;
+        text-align: center;
+        font-size: 22px;
+        font-weight: bold;
+        z-index: 1000;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .container {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
+    .question-card {
+        background: white;
+        padding: 25px;
+        margin-bottom: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .question-text {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        line-height: 1.4;
+    }
+    .options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .option {
+        padding: 12px 18px;
+        border: 2px solid #e0e0e0;
+        border-radius: 6px;
+        cursor: pointer;
+        background: #fafafa;
+        transition: all 0.2s ease;
+        font-size: 16px;
+        line-height: 1.3;
+    }
+    .option:hover {
+        background: #ebebeb;
+        border-color: #ccc;
+    }
+    .correct {
+        background-color: #27ae60 !important;
+        color: white !important;
+        border-color: #27ae60 !important;
+    }
+    .incorrect {
+        background-color: #e74c3c !important;
+        color: white !important;
+        border-color: #e74c3c !important;
+    }
+    .disabled {
+        pointer-events: none;
+    }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="header-title">
-    <div class="shield">⚖️</div>
-    <div>
-      <h1>MPH <span>Quiz</span></h1>
-      <div class="header-meta">Międzynarodowe Prawo Humanitarne · <span id="q-count">111</span> pytań</div>
-    </div>
-  </div>
-  <button class="btn-shuffle" onclick="shuffleAll()">🔀 Losuj kolejność</button>
-</header>
-<div class="progress-bar-wrap">
-  <div class="progress-bar-fill" id="progress-bar" style="width:0%"></div>
+<div id="header">
+    Poprawne odpowiedzi: <span id="score">0</span> / <span id="total">0</span>
 </div>
 
-<main id="main-container">
-  <div id="score-panel">
-    <div>
-      <div class="score-label">Poprawne</div>
-      <div class="score-val green" id="sc-correct">0</div>
-    </div>
-    <div class="score-divider"></div>
-    <div>
-      <div class="score-label">Błędne</div>
-      <div class="score-val red" id="sc-wrong">0</div>
-    </div>
-    <div class="score-divider"></div>
-    <div>
-      <div class="score-label">Pytań łącznie</div>
-      <div class="score-val blue" id="sc-total">110</div>
-    </div>
-    <div class="score-divider"></div>
-    <div>
-      <div class="score-label">Ukończone</div>
-      <div class="score-val" id="sc-done" style="color:var(--text-dim)">0 / 110</div>
-    </div>
-  </div>
-</main>
+<div class="container" id="quiz-container">
+</div>
 
 <script>
-// ===================== DATA =====================
-const RAW_QUESTIONS = [
-{id:1, text:"Który z aktów prawnych MPH reguluje status okupacji:", opts:[
-  {t:"IV Konwencja Haska z 1907",c:true},
-  {t:"I Konwencja Genewska z 1949",c:false},
-  {t:"II Konwencja Genewska z 1949",c:false},
-  {t:"I Protokół Dodatkowy z 1977",c:false}
-]},
-{id:2, text:"Podczas okupacji:", opts:[
-  {t:"zakazane jest stosowanie kar zbiorowych",c:true},
-  {t:"zakazane jest zmuszanie ludności miejscowej do przysięgania na wierność państwu okupującemu",c:true},
-  {t:"państwo okupujące rozciąga swoją suwerenność / nabywa nowe terytoria",c:false},
-  {t:"państwo okupujące nie rozciąga suwerenności / nie nabywa nowych terytoriów",c:true}
-]},
-{id:3, text:"Mienie: podczas konfliktu zbrojnego:", opts:[
-  {t:"konfiskata mienia prywatnego jest zakazana",c:true},
-  {t:"konfiskata mienia publicznego na cele wojskowe jest dozwolona",c:true},
-  {t:"konfiskata amunicji i uzbrojenia przeciwnika jest dozwolona",c:true},
-  {t:"plądrowanie jest zabronione",c:true}
-]},
-{id:4, text:"Który z aktów prawnych MPH reguluje status jeńca wojennego:", opts:[
-  {t:"I Konwencja Genewska z 1949 r.",c:false},
-  {t:"II Konwencja Genewska z 1949 r.",c:false},
-  {t:"III Konwencja Genewska z 1949 r.",c:true},
-  {t:"IV Konwencja Genewska z 1949 r.",c:false}
-]},
-{id:5, text:"Który z aktów prawnych MPH reguluje status osób cywilnych:", opts:[
-  {t:"I Konwencja Genewska z 1949 r.",c:false},
-  {t:"II Konwencja Genewska z 1949 r.",c:false},
-  {t:"III Konwencja Genewska z 1949 r.",c:false},
-  {t:"IV Konwencja Genewska z 1949 r.",c:true}
-]},
-{id:6, text:"Tzw. klauzula Mertensa:", opts:[
-  {t:"jest uregulowana w preambule do IV Konwencji Haskiej z 1907 r.",c:false},
-  {t:"jest uregulowana w preambule do I Konwencji Genewskiej z 1949 r.",c:false},
-  {t:"jest uregulowana w preambule do III Konwencji Genewskiej z 1949 r.",c:false},
-  {t:"jest uregulowana w preambule do IV Konwencji Genewskiej z 1949 r.",c:true}
-]},
-{id:7, text:"Tzw. klauzula Mertensa oznacza:", opts:[
-  {t:"zanim bardziej szczegółowe przepisy MPH zostaną przyjęte…",c:true},
-  {t:"ludność i strony wojujące pozostają pod opieką zasad…",c:true},
-  {t:"wynikających ze zwyczajów między narodami cywilizowanymi…",c:true},
-  {t:"oraz zasad humanitarności i wymagań społecznego sumienia",c:true}
-]},
-{id:8, text:"Pojęcie ius ad bellum oznacza:", opts:[
-  {t:"prawo do wojny",c:true},
-  {t:"MPH (prawo obowiązujące w czasie konfliktu zbrojnego)",c:false},
-  {t:"prawo krajowe",c:false},
-  {t:"żadne z powyższych",c:false}
-]},
-{id:9, text:"Kiedy prawo do wojny (ius ad bellum) przysługuje (= konflikt zbrojny jest legalny):", opts:[
-  {t:"samoobrona",c:true},
-  {t:"samoobrona zbiorowa (sojusz)",c:true},
-  {t:"agresja / wojna napastnicza (art. 2 ust 4. KNZ)",c:false},
-  {t:"rozdz. VII Karty Narodów Zjednoczonych z 1945 r. (utrzymanie międzynarodowego pokoju i bezpieczeństwa)",c:true}
-]},
-{id:10, text:"Pojęcie ius in bello oznacza:", opts:[
-  {t:"prawo do wojny",c:false},
-  {t:"MPH (prawo obowiązujące w czasie konfliktu zbrojnego)",c:true},
-  {t:"prawo krajowe",c:false},
-  {t:"żadne z powyższych",c:false}
-]},
-{id:11, text:"Które źródła prawa MPH obowiązują podczas międzynarodowego konfliktu zbrojnego:", opts:[
-  {t:"I Protokół dodatkowy 1977",c:true},
-  {t:"II Protokół dodatkowy 1977",c:true},
-  {t:"art. 3 wspólny dla wszystkich 4 Konwencji Genewskich",c:true},
-  {t:"prawo zwyczajowe",c:false}
-]},
-{id:12, text:"Podczas międzynarodowego konfliktu zbrojnego:", opts:[
-  {t:"mamy do czynienia ze statusem kombatanta",c:true},
-  {t:"mamy do czynienia ze statusem jeńca wojennego",c:true},
-  {t:"mamy obowiązek humanitarnego traktowania stron konfliktu i osób niebiorących w nim udziału (cywile)",c:true},
-  {t:"żadne z powyższych",c:false}
-]},
-{id:13, text:"Pojęcie hors de combat oznacza osobę, której nie wolno atakować i która:", opts:[
-  {t:"znajduje się pod kontrolą przeciwnika",c:true},
-  {t:"wyraża jednoznacznie wolę poddania się",c:false},
-  {t:"jest nieprzytomna, ranna, chora",c:true},
-  {t:"i dlatego niezdolna by się bronić / nie bierze czynnego udziału w konflikcie zbrojnym",c:true}
-]},
-{id:14, text:"Które z poniższych zdań jest prawdziwe (dot. najemników):", opts:[
-  {t:"najemnikom przysługuje status jeńca wojennego",c:false},
-  {t:"najemnikom nie przysługuje status jeńca wojennego",c:false},
-  {t:"najemnik może być sądzony za swój udział w konflikcie zbrojnym",c:true},
-  {t:"najemnik z zasady może posiadać immunitet",c:false}
-]},
-{id:15, text:"Które z poniższych zdań jest prawdziwe (dot. jeńców):", opts:[
-  {t:"co do zasady jeniec wojenny nie może być sądzony za udział w konflikcie zbrojnym",c:true},
-  {t:"jeniec wojenny może być sądzony za zbrodnie wojenne, zbrodnie przeciwko ludzkości i ludobójstwo",c:false},
-  {t:"najemnik może być sądzony za swój udział w konflikcie zbrojnym",c:false},
-  {t:"najemnik nie może być sądzony za swój udział w konflikcie zbrojnym (immunitet)",c:false}
-]},
-{id:16, text:"Który z następujących podmiotów nie może być przedmiotem ataku podczas konfliktu zbrojnego:", opts:[
-  {t:"wojskowy personel medyczny",c:true},
-  {t:"cywilny personel medyczny",c:true},
-  {t:"personel pomocy humanitarnej",c:true},
-  {t:"duchowni",c:true}
-]},
-{id:17, text:"Które z następujących kategorii osób mogą być przedmiotem ataku podczas konfliktu zbrojnego:", opts:[
-  {t:"cywil",c:false},
-  {t:"kombatant",c:true},
-  {t:"hors de combat",c:false},
-  {t:"najemnik",c:true}
-]},
-{id:18, text:"Policjant podczas konfliktu zbrojnego jest:", opts:[
-  {t:"kombatantem (można go zaatakować)",c:true},
-  {t:"cywilem (nie można go zaatakować)",c:false},
-  {t:"najemnikiem",c:false},
-  {t:"żadne z powyższych",c:false}
-]},
-{id:19, text:"Które z następujących osób NIE mogą być celem ataku:", opts:[
-  {t:"najemnik",c:false},
-  {t:"cywil",c:true},
-  {t:"członek personelu medycznego",c:true},
-  {t:"korespondent wojenny",c:true}
-]},
-{id:20, text:"Kombatantem w świetle MPH jest osoba która:", opts:[
-  {t:"jawnie nosi broń",c:true},
-  {t:"posiada wspólne oznakowanie",c:true},
-  {t:"jest dowódcą",c:false},
-  {t:"przestrzega MPH",c:true}
-]},
-{id:21, text:"Tzw. nowe rodzaje broni w świetle MPH (art. 36 I Protokołu Dodatkowego z 1977 r.):", opts:[
-  {t:"są zakazane przez MPH",c:false},
-  {t:"nie są zakazane przez MPH",c:true},
-  {t:"państwo ma obowiązek przesądzenia, czy jej zastosowanie nie będzie niezgodne z MPH",c:true},
-  {t:"obejmują m.in. broń autonomiczną (modele AI)",c:true}
-]},
-{id:22, text:"Rozwiń następujące skróty:", inputType:"multi", fields:[
-  {label:"POW",  correct:"Prisoner of War (jeniec wojenny)"},
-  {label:"RC",   correct:"Red Cross / Czerwony Krzyż"},
-  {label:"ICRC", correct:"International Committee of the Red Cross (Międzynarodowy Komitet Czerwonego Krzyża)"},
-  {label:"DP",   correct:"Displaced Persons (osoby przemieszczone / uchodźcy wewnętrzni)"},
-  {label:"LAWS", correct:"Lethal Autonomous Weapons Systems (śmiertelne autonomiczne systemy uzbrojenia)"}
-]},
-{id:23, text:"MPH zakazuje:", opts:[
-  {t:"wydawania rozkazu niebrania jeńców i nieoszczędzania nikogo (ang. quarter)",c:true},
-  {t:"stosowania mundurów państw neutralnych / niebiorących udziału w konflikcie",c:true},
-  {t:"stosowania mundurów przeciwnika",c:true},
-  {t:"stosowania oznakowań organizacji międzynarodowych (np. ONZ, UE)",c:true}
-]},
-{id:24, text:"Które z następujących praktyk prowadzenia walki są zakazane przez MPH:", opts:[
-  {t:"prowadzenie ataku pod białą flagą (sygnalizującą rozejm)",c:true},
-  {t:"prowadzenie ataku z wykorzystaniem pojazdów medycznych",c:true},
-  {t:"wykorzystywanie znaku czerwonego krzyża do oznaczenia pojazdów służących do przewożenia amunicji",c:true},
-  {t:"perfidia – popełnienie czynu wrogiego po uprzednim zaoferowaniu ochrony",c:true}
-]},
-{id:25, text:"Które zdanie jest prawdziwe – jeniec wojenny:", opts:[
-  {t:"nie może zrzec się swojego statusu",c:false},
-  {t:"pozostaje pod władzą państwa w niewoli którego się znajduje, a nie pod władzą osób lub oddziałów które wzięły go do niewoli",c:true},
-  {t:"ma obowiązek wyjawić swoje dane i stopień wojskowy",c:true},
-  {t:"jest chroniony przed aktami gwałtu, obrazy i ciekawości publicznej",c:false}
-]},
-{id:26, text:"Które zdanie jest prawdziwe – jeniec wojenny (praca):", opts:[
-  {t:"jeńcowi wojennemu nie można nakazać wykonywania pracy",c:false},
-  {t:"jeńcowi wojennemu można nakazać wykonywanie pracy, o ile jest zdrowy i nie jest oficerem",c:true},
-  {t:"oficerów nie można zmuszać do pracy",c:false},
-  {t:"podoficerowie mogą wykonywać pracę nadzorczą",c:false}
-]},
-{id:27, text:"Autorem pojęcia ludobójstwo był:", opts:[
-  {t:"polski prawnik Rafał Lemkin",c:true},
-  {t:"radziecki prokurator Andriej Wyszyński",c:false},
-  {t:"brytyjski premier Winston Churchill",c:false},
-  {t:"amerykański prokurator Benjamin Ferencz",c:false}
-]},
-{id:28, text:"Zbrodnia przeciwko ludzkości obejmuje:", opts:[
-  {t:"stałe i systematyczne atakowanie ",c:true},
-  {t:"atakowanie ludności cywilnej ",c:true},
-  {t:"z zamiarem wyniszczenia części lub całości określonej grupy narodowościowej, etnicznej, rasowej, religijnej",c:true},
-  {t:"żadne z powyższych",c:false}
-]},
-{id:29, text:"Katalog zbrodni prawa międzynarodowego obejmuje:", opts:[
-  {t:"zbrodnie wojenne",c:true},
-  {t:"zbrodnię przeciwko ludzkości",c:true},
-  {t:"zbrodnię ludobójstwa",c:true},
-  {t:"zbrodnię agresji",c:true}
-]},
-{id:30, text:"Które zdanie jest prawdziwe – zbrodnie prawa międzynarodowego:", opts:[
-  {t:"są uregulowane w Statucie Międzynarodowego Trybunału Karnego z 1998 r.",c:true},
-  {t:"są uregulowane w Kodeksie karnym z 1997 r.",c:true},
-  {t:"nie ulegają przedawnieniu (ich sprawca jest ścigany aż do swojej śmierci)",c:false},
-  {t:"może się ich dopuścić zarówno żołnierz, jak i cywil",c:false}
-]},
-{id:31, text:"Który z rodzajów uzbrojenia jest zakazany prawem międzynarodowym:", opts:[
-  {t:"pocisk rozszerzające się w ciele ofiary",c:true},
-  {t:"odłamki niewykrywalne w ciele ofiary np pociski kompozytowe",c:true},
-  {t:"pocisk wybuchające w ciele ofiary",c:true},
-  {t:"pociski wybuchające w ciele ofiary",c:true}
-]},
-{id:32, text:"Wskaż przyczyny dla których określone rodzaje broni są zakazane prawem międzynarodowym:", opts:[
-  {t:"nie dokonują rozróżnienia między cywilami a kombatantami",c:true},
-  {t:"powodują ponadmiarowe obrażenia lub niepotrzebne cierpienie",c:true},
-  {t:"brak możliwości sprawowania nad nimi kontroli przez człowieka",c:true},
-  {t:"żadne z powyższych",c:false}
-]},
-{id:33, text:"Traktat Ottawski z 1997 r. zakazuje:", opts:[
-  {t:"produkcji min przeciwpiechotnych",c:true},
-  {t:"stosowania min przeciwpiechotnych",c:true},
-  {t:"składowania min przeciwpiechotnych",c:true},
-  {t:"transferu / sprzedaży min przeciwpiechotnych",c:true}
-]},
-{id:34, text:"Strefa Gazy, pol. maja 2023 r.: lotnictwo izraelskie wystrzeliło pocisk w kierunku mieszkania w wielokondygnacyjnym budynku, w którym znajdował się palestyński bojownik. Czy Twoim zdaniem:", img:"34.png", opts:[
-  {t:"zaatakowano cel wojskowy",c:false},
-  {t:"zaatakowano obiekt cywilny",c:true},
-  {t:"doszło do naruszenia MPH",c:true},
-  {t:"nie doszło do naruszenia MPH",c:false}
-]},
-{id:35, text:"Obiekt cywilny:", opts:[
-  {t:"to taki który nie jest celem wojskowym",c:true},
-  {t:"nie może być przedmiotem ataku",c:true},
-  {t:"traci swój status w momencie jego militaryzacji",c:true},
-  {t:"to np. szkoła, muzeum, elektrownia, wodociągi",c:true}
-]},
-{id:36, text:"Zgodnie z Kodeksem karnym z 1997 r. i Ustawą o obronie Ojczyzny z 2022 r.:", opts:[
-  {t:"odmowa wykonania rozkazu (zgodnego z prawem) to przestępstwo",c:false},
-  {t:"żołnierz ma obowiązek odmówić wykonania rozkazu niezgodnego z prawem",c:true},
-  {t:"wykonanie rozkazu (niezgodnego z prawem) zwalnia z odpowiedzialności, jeżeli miało charakter nieumyślny",c:true},
-  {t:"wykonanie rozkazu (niezgodnego z prawem) nie zwalnia z odpowiedzialności, jeżeli miało charakter umyślny",c:true}
-]},
-{id:37, text:"Zdjęcie przedstawia skutki rosyjskiego niedyskryminującego ataku (Irpień, marzec 2022 r.). Atak ten można zakwalifikować przede wszystkim jako (TYLKO jedna odpowiedź):", img:"37.png", opts:[
-  {t:"zbrodnia przeciwko ludzkości",c:false},
-  {t:"zbrodnia agresji",c:false},
-  {t:"zbrodnia wojenna",c:true},
-  {t:"zbrodnia ludobójstwa",c:false}
-]},
-{id:38, text:"Zbrodnie wojenne:", opts:[
-  {t:"to ciężkie naruszenia MPH",c:true},
-  {t:"to atakowanie cywilów i obiektów cywilnych",c:false},
-  {t:"zostały uregulowane w Kodeksie karnym z 1997 r.",c:false},
-  {t:"zostały uregulowane w Statucie Międzynarodowego Trybunału Karnego z 1998 r.",c:false}
-]},
-{id:39, text:"Konwencja haska z 1954 r. o ochronie dóbr kulturalnych w razie konfliktu zbrojnego:", opts:[
-  {t:"obejmuje ochroną zabytki architektury, sztuki lub historii, religijne, jak świeckie",c:true},
-  {t:"obejmuje obowiązek powstrzymania się od używania dóbr kultury do celów, które mogłyby spowodować ich zniszczenie lub uszkodzenie w trakcie konfliktu",c:true},
-  {t:"odwet wymierzony w dobra kultury jest zakazany",c:false},
-  {t:"wprowadza znak rozpoznawczy chroniący dobra kultury",c:true}
-]},
-{id:40, text:"Instytucja zajmująca się zbieraniem danych o jeńcach, którą państwa będące w konflikcie zbrojnym muszą powołać na czas konfliktu to:", opts:[
-  {t:"Urząd poszukiwania i zbierania danych o jeńcach wojennych",c:false},
-  {t:"Biuro informacji o jeńcach wojennych",c:true},
-  {t:"Biuro poszukiwania i zbierania informacji o jeńcach wojennych",c:false}
-]},
-{id:41, text:"Zasada humanitaryzmu podczas konfliktów zbrojnych oznacza:", opts:[
-  {t:"używanie broni i uzbrojenia w takim zakresie i natężeniu, żeby nie spowodować niezamierzonych strat w ludności cywilnej",c:false},
-  {t:"humanitarne traktowanie żołnierzy w przypadkach nieuregulowanych prawnie",c:true},
-  {t:"humanitarne traktowanie żołnierzy przeciwnika",c:false}
-]},
-{id:42, text:"Za próbę ucieczki jeńca wojennego można go ukarać karą:", opts:[
-  {t:"aresztu do 3 miesięcy",c:true},
-  {t:"śmierci",c:false},
-  {t:"3 lata więzienia",c:false}
-]},
-{id:43, text:"Decyzję o zniszczeniu dobra kultury o zwykłej ochronie może podjąć dowódca:", opts:[
-  {t:"dywizji",c:false},
-  {t:"kompanii",c:false},
-  {t:"batalionu",c:true}
-]},
-{id:44, text:"Decyzję o zniszczeniu dobra kultury o specjalnej ochronie z powodu konieczności wojskowej może podjąć:", opts:[
-  {t:"dowódca o randze generała dywizji",c:true},
-  {t:"dowódca kompanii",c:false},
-  {t:"dowódca batalionu",c:false}
-]},
-{id:45, text:"Znakiem ochronnym i identyfikacyjnym obrony cywilnej jest:", opts:[
-  {t:"czerwony krzyż, półksiężyc i kryształ",c:false},
-  {t:"litery PG lub PW",c:false},
-  {t:"ciemnoniebieski trójkąt na pomarańczowym tle",c:true}
-]},
-{id:46, text:"Znak ochronny urządzeń i budowli mogących wyzwolić niebezpieczne siły zawiera:", opts:[
-  {t:"tarczę skierowaną ostrzem w dół, podzieloną wzdłuż przekątnych na cztery pola, dwa błękitne i dwa białe",c:false},
-  {t:"pomarańczowy trójkąt na granatowym polu",c:false},
-  {t:"trzy koła wypełnione kolorem pomarańczowym",c:true}
-]},
-{id:47, text:"Ochronny znak obozów dla internowanych osób cywilnych to:", opts:[
-  {t:"pomarańczowy trójkąt na ciemnoniebieskim tle",c:false},
-  {t:"litery IC",c:true},
-  {t:"ciemnoniebieski trójkąt na pomarańczowym tle",c:false}
-]},
-{id:48, text:"Mocarstwo opiekuńcze to:", opts:[
-  {t:"Państwo niebiorące udziału w walce, sprawujące nadzór nad walczącymi w zakresie przestrzegania prawa wojennego",c:true},
-  {t:"Państwo biorące udział w walce",c:false},
-  {t:"ONZ",c:false}
-]},
-{id:49, text:"Osobami, które nie korzystają z ochrony MPH są:", opts:[
-  {t:"Szpiedzy",c:true},
-  {t:"Ranni powstańcy",c:false},
-  {t:"Lekarze i duchowni",c:false}
-]},
-{id:50, text:"Obiektem cywilnym zgodnie z Konwencjami Genewskimi z 1949 r. i protokołami z 1977 r. jest:", opts:[
-  {t:"Obiekt, który ze względu na swoje przeznaczenie może przynieść określone korzyści",c:false},
-  {t:"Obiekt niebędący celem wojskowym",c:true},
-  {t:"Obiekt, który wojsko zajęło dla zbudowania linii obronnych",c:false}
-]},
-{id:51, text:"Kombatantem jest:", opts:[
-  {t:"Walczący najemnik",c:false},
-  {t:"Lekarz w szpitalu",c:false},
-  {t:"Żołnierz zwiadowca",c:true}
-]},
-{id:52, text:"Blulandia zaatakowała Westlandię. Westlandia przystąpiła do obrony. Jakie konwencje prawa międzynarodowego będą miały zastosowanie do oceny postępowania stron konfliktu?", opts:[
-  {t:"Konwencje genewskie z 1949 r. oraz I i II protokoły dodatkowe",c:false},
-  {t:"Konwencje genewskie z 1949 r. oraz I protokół dodatkowy z 1977 r.",c:true},
-  {t:"Konwencje genewskie z 1949 r. oraz 2 protokoły",c:false}
-]},
-{id:53, text:"Do ochrony powstańców w wojnach domowych zastosowanie mają:", opts:[
-  {t:"Konwencja genewska",c:false},
-  {t:"Prawo wewnętrzne oraz II protokół dodatkowy z 1977 r.",c:true},
-  {t:"Prawo wewnętrzne oraz konwencje",c:false}
-]},
-{id:54, text:"Ofiarami wojen zgodnie z konwencjami są:", opts:[
-  {t:"Ranni i chorzy, rozbitkowie morscy, jeńcy wojenni, osoby cywilne",c:true},
-  {t:"Ranni i chorzy, zmarli żołnierze, cywile",c:false},
-  {t:"Osoby zabite, ranni i chorzy na skutek działań wojennych",c:false}
-]},
-{id:55, text:"Zbrodnia wojenna jest to:", opts:[
-  {t:"Zbrodnia popełniona w czasie trwania wojny",c:false},
-  {t:"Pogwałcenie praw i zwyczajów wojny",c:true},
-  {t:"Złamanie norm prawa konfliktów zbrojnych",c:false}
-]},
-{id:56, text:"Zbrodnia przeciwko ludzkości polega na:", opts:[
-  {t:"Popełnieniu zabójstwa z zamiarem zniszczenia",c:false},
-  {t:"Popełnieniu zabójstw w ramach rozległego lub systematycznego, świadomego ataku skierowanego przeciwko ludności cywilnej",c:true},
-  {t:"Popełnieniu czynów mających na celu doprowadzenie do eksterminacji",c:false}
-]},
-{id:57, text:"Ludobójstwo polega na:", opts:[
-  {t:"Popełnieniu zabójstw z zamiarem zniszczenia w całości lub części grupy narodowej, etnicznej, rasowej albo religijnej",c:true},
-  {t:"Popełnieniu zabójstwa w ramach rozległego, świadomego ataku skierowanego przeciwko ludności cywilnej",c:false},
-  {t:"Popełnieniu czynów mających na celu doprowadzenie do eksterminacji",c:false}
-]},
-{id:58, text:"Ochronny znak obrony cywilnej:", opts:[
-  {t:"Czerwony krzyż, półksiężyc lub kryształ",c:false},
-  {t:"Litery PG lub PW",c:false},
-  {t:"Ciemnoniebieski trójkąt na pomarańczowym tle",c:true}
-]},
-{id:59, text:"Represalia to:", opts:[
-  {t:"Odwet za atak na własne wojska",c:false},
-  {t:"Naruszenie prawa wojennego przez przeciwnika",c:false},
-  {t:"Naruszenie prawa wojennego w celu zmuszenia nieprzyjaciela, by zaprzestał jego łamania",c:true}
-]},
-{id:60, text:"Pułapką może być:", opts:[
-  {t:"Organizowanie zasadzki",c:true},
-  {t:"Udawanie, że posiada się status chroniony i wprowadzanie przez to w błąd przeciwnika",c:false},
-  {t:"Podejście do przeciwnika w jego przebraniu",c:false}
-]},
-{id:61, text:"Użycie napalmu jest przykładem:", opts:[
-  {t:"Wiarołomstwa",c:false},
-  {t:"Pułapki wojennej",c:false},
-  {t:"Zakazanej metody prowadzenia działań wojennych",c:true}
-]},
-{id:62, text:"Obiekt zawierający niebezpieczne siły to na przykład:", opts:[
-  {t:"Ładunek z bombą kasetową",c:false},
-  {t:"Elektrownia atomowa",c:true},
-  {t:"Most na Wiśle",c:false}
-]},
-{id:63, text:"Rozróżnianie celów oznacza konieczność:", opts:[
-  {t:"Odróżniania ludności cywilnej od kombatantów",c:false},
-  {t:"Odróżniania dóbr o charakterze cywilnym od celów wojskowych",c:false},
-  {t:"Odróżniania ludności cywilnej od kombatantów oraz dóbr o charakterze cywilnym od celów wojskowych i kierowania operacji jedynie przeciwko celom wojskowym",c:true}
-]},
-{id:64, text:"Zasada proporcjonalności w prowadzeniu ataków oznacza:", opts:[
-  {t:"Używanie broni i uzbrojenia w takim zakresie i natężeniu, żeby nie spowodować niezamierzonych strat w ludności cywilnej",c:true},
-  {t:"Używanie broni i uzbrojenia proporcjonalnie do zaangażowania przeciwnika",c:false},
-  {t:"Używanie swoich sił w taki sposób, by osiągnąć cel operacji",c:false}
-]},
-{id:65, text:"Jeniec wojenny jest zobowiązany podać następujące informacje:", opts:[
-  {t:"Imię i nazwisko, numer jednostki wojskowej, datę urodzenia i numer książeczki wojskowej",c:false},
-  {t:"Imię i nazwisko, datę urodzenia i numer książeczki wojskowej",c:false},
-  {t:"Imię i nazwisko, datę urodzenia, stopień wojskowy i numer książeczki wojskowej",c:true}
-]},
-{id:66, text:"Do pracy nie można zmusić jeńców, którzy są:", opts:[
-  {t:"Oficerami",c:true},
-  {t:"Szeregowymi i podoficerami",c:false},
-  {t:"Szeregowymi",c:false}
-]},
-{id:67, text:"Udana ucieczka jeńca wojennego to ucieczka, w której:", opts:[
-  {t:"Uciekł z obozu i został złapany",c:false},
-  {t:"Uciekł z obozu i połączył się ze swoimi wojskami lub znalazł się poza terytorium, na którym trwa wojna",c:true},
-  {t:"Uciekł z obozu i połączył się ze swoimi wojskami",c:false}
-]},
-{id:68, text:"F. Martens był to:", opts:[
-  {t:"Uczony rosyjski, który opracował klauzulę prawa międzynarodowego w konwencjach haskich z 1899 r.",c:true},
-  {t:"Uczony angielski, który poniósł szczególne zasługi w tworzeniu prawa międzynarodowego humanitarnego",c:false},
-  {t:"Uczony francuski, który opracował regulamin wojny lądowej",c:false}
-]},
-{id:69, text:"Polska w zakresie Konwencji o zakazie produkcji i stosowania broni kasetowej:", opts:[
-  {t:"Podpisała i ratyfikowała konwencję",c:false},
-  {t:"Podpisała konwencję",c:false},
-  {t:"Nie podpisała konwencji",c:true}
-]},
-{id:70, text:"Osobami, które nie korzystają z ochrony MPH są (najemnicy):", opts:[
-  {t:"Jeńcy wojenni",c:false},
-  {t:"Najemnicy",c:true},
-  {t:"Lekarze i duchowni",c:false}
-]},
-{id:71, text:"Celem wojskowym zgodnie z konwencjami genewskimi oraz protokołami z 1977 r. jest:", opts:[
-  {t:"Obiekt, który ze względu na swoje przeznaczenie może być przystosowany na korzyść przeciwnika w działaniach wojennych",c:false},
-  {t:"Obiekt będący w użytkowaniu wojska",c:true},
-  {t:"Obiekt, który wojsko zajęło dla zbudowania umocnień obronnych",c:false}
-]},
-{id:72, text:"Internowanie ludności cywilnej może być przeprowadzone w celu:", opts:[
-  {t:"Ochrony tej ludności przed chorobami",c:false},
-  {t:"Ochrony tej ludności przed skutkami działań wojennych",c:true},
-  {t:"Ochrony tej ludności przed głodem",c:false}
-]},
-{id:73, text:"W państwie Westlandia wybuchł konflikt wewnętrzny. Powstańcy chcą przejąć władzę od prawowitego rządu, opanowali część terytorium, ale nie potrafią zorganizować swojej władzy. Jakie prawo ma zastosowanie do oceny ich uprawnień?", opts:[
-  {t:"Konwencje genewskie z 1949 r. oraz I i II protokoły dodatkowe",c:false},
-  {t:"Prawo wewnętrzne oraz II protokół dodatkowy z 1977 r.",c:false},
-  {t:"Prawo wewnętrzne Westlandii oraz konwencje dotyczące człowieka",c:true}
-]},
-{id:74, text:"Wiarołomstwo polega na:", opts:[
-  {t:"Organizowaniu pułapek",c:false},
-  {t:"Dezinformacji nieprzyjaciela",c:false},
-  {t:"Udawaniu, że posiada się status chroniony i wprowadzaniu przez to przeciwnika w błąd",c:true}
-]},
-{id:75, text:"Dezinformacja jest przykładem:", opts:[
-  {t:"Wiarołomstwa",c:false},
-  {t:"Pułapki wojennej",c:true},
-  {t:"Zakazanej metody prowadzenia działań wojennych",c:false}
-]},
-{id:76, text:"Obiekt zawierający niebezpieczne siły to na przykład (wał przeciwpowodziowy):", opts:[
-  {t:"Ładunek z bombą atomową",c:false},
-  {t:"Elektrownia węglowa Turów",c:false},
-  {t:"Wał przeciwpowodziowy na Wiśle",c:true}
-]},
-{id:77, text:"Twórcą MKCK był:", opts:[
-  {t:"Frydryk de Moulinier",c:false},
-  {t:"Henry Dunant",c:true},
-  {t:"Rafał Lemkin",c:false}
-]},
-{id:78, text:"Podjęcie działań bezprawnych będących odwetem za podobne bezprawie drugiego państwa nie jest zastosowaniem:", opts:[
-  {t:"Retorsji",c:true},
-  {t:"Represaliów",c:false},
-  {t:"Środków odwetowych",c:false}
-]},
-{id:79, text:"Cechą charakterystyczną prawa międzynarodowego nie jest:", opts:[
-  {t:"Brak ogólnoświatowego prawodawcy",c:false},
-  {t:"Brak sankcji",c:true},
-  {t:"Brak obowiązkowego sądownictwa międzynarodowego",c:false}
-]},
-{id:80, text:"Czyim zadaniem, zgodnie z art. 87 I Protokołu dodatkowego z 1977 r., jest zapobieganie naruszeniom MPH przez żołnierzy?", opts:[
-  {t:"Dowódców będących bezpośrednimi przełożonymi tych żołnierzy",c:true},
-  {t:"Władz politycznych każdego państwa",c:false},
-  {t:"Sądów i prokuratorów wojskowych państw, z których pochodzą żołnierze",c:false},
-  {t:"Międzynarodowego Trybunału Karnego",c:false}
-]},
-{id:81, text:"Jakie budowle i urządzenia zawierają niebezpieczne siły?", opts:[
-  {t:"Elektrownia węglowa",c:false},
-  {t:"Bomba kasetowa",c:false},
-  {t:"Zapory wodne, tamy, groble",c:true},
-  {t:"Kopalnia węgla kamiennego",c:false}
-]},
-{id:82, text:"Jaka jest ogólna definicja zbrodni wojennych?", opts:[
-  {t:"Czyny określone w polskim Kodeksie karnym",c:false},
-  {t:"Czyny przestępcze popełnione w czasie trwania wojny",c:false},
-  {t:"Każde złamanie norm prawa konfliktów zbrojnych",c:false},
-  {t:"Pogwałcenie praw i zwyczajów wojennych wymienione w Statucie MTK",c:true}
-]},
-{id:83, text:"Ludność cywilna:", opts:[
-  {t:"Podlega ochronie zawsze i bez względu na jej zachowanie",c:false},
-  {t:"Nie podlega ochronie, jeżeli nie współpracuje z wojskami KFOR",c:false},
-  {t:"Podlega ochronie z wyjątkiem sytuacji, gdy bierze bezpośredni udział w działaniach bojowych",c:true}
-]},
-{id:84, text:"Dobra cywilne to:", opts:[
-  {t:"Wszystkie dobra cywilne i zabytki",c:false},
-  {t:"Dobra, które nie są wykorzystywane w działaniach sił zbrojnych",c:false},
-  {t:"Wszystkie dobra, które nie są celami wojskowymi",c:true}
-]},
-{id:85, text:"Po jakim czasie zbrodnie wojenne ulegają przedawnieniu?", opts:[
-  {t:"Nie ulegają przedawnieniu",c:true},
-  {t:"25 lat",c:false},
-  {t:"15 lat",c:false}
-]},
-{id:86, text:"Tzw. ROE dla każdej operacji z użyciem SZ RP wydaje:", opts:[
-  {t:"Minister Obrony Narodowej w drodze zarządzenia niepodlegającego ogłoszeniu",c:true},
-  {t:"Prezydent w formie postanowienia",c:false},
-  {t:"Dowódca danej operacji, tzw. Field Commander",c:false}
-]},
-{id:87, text:"Co oznacza czerwony diament?", opts:[
-  {t:"Znak ostrzegający przed budowlami i urządzeniami zawierającymi niebezpieczne siły",c:false},
-  {t:"Znak ochrony służb medycznych, równoważny ze znakiem Czerwonego Krzyża i Czerwonego Półksiężyca",c:true},
-  {t:"Znak informujący o obozie jeńców wojennych",c:false}
-]},
-{id:88, text:"Konieczność wojskowa to instytucja wprowadzona przepisami:", opts:[
-  {t:"Konwencji haskiej z 1954 r. o ochronie dóbr kultury podczas wojny",c:true},
-  {t:"Konwencji genewskich z 1949 r.",c:false},
-  {t:"I protokołu dodatkowego z 1977 r. o ochronie dóbr kultury podczas wojny",c:false}
-]},
-{id:89, text:"Osobami, które nie korzystają z ochrony MPHKZ są:", opts:[
-  {t:"jeńcy wojenni",c:false},
-  {t:"najemnicy",c:true},
-  {t:"lekarze i duchowni",c:false}
-]},
-{id:90, text:"Celem wojskowym, zgodnie z I protokołami dodatkowymi z 1977 r., jest:", opts:[
-  {t:"obiekt, który ze względu na swoją naturę, przeznaczenie lub wykorzystanie wnosi istotny wkład do działalności wojskowej a jego zniszczenie daje określoną korzyść",c:true},
-  {t:"każdy obiekt cywilny obok którego wojsko zajęło pozycje obronne",c:false},
-  {t:"obiekt cywilny który wojsko zajęło dla zbudowania linii obronnych",c:false}
-]},
-{id:91, text:"Status kombatanta, zgodnie z prawem międzynarodowym, posiada:", opts:[
-  {t:"najemnik",c:false},
-  {t:"walczący sanitariusz",c:false},
-  {t:"lekarz wojskowy",c:true}
-]},
-{id:92, text:"Internowanie ludności cywilnej może być prowadzone w celu:", opts:[
-  {t:"ochrony tej ludności przed chorobami",c:false},
-  {t:"zapewnienia bezpieczeństwa administracji okupanta",c:true},
-  {t:"ochrony tej ludności przed głodem",c:false}
-]},
-{id:93, text:"W państwie Westlandia wybuchł konflikt wewnętrzny, powstańcy ustanowili swoje władze. Jakie prawo ma zastosowanie – wymień 3 nazwy konwencji?", inputType:"text", correctText:"prawo wewnętrzne Westlandii, konwencje genewskie z 1949 r. i II protokół dodatkowy z 1977 r."},
-{id:94, text:"Ofiarami wojen zgodnie z konwencjami genewskimi z 1949 r. są:", opts:[
-  {t:"ranni i chorzy, rozbitkowie morscy, jeńcy wojenni, osoby cywilne",c:true},
-  {t:"ranni i chorzy, rozbitkowie morscy, jeńcy wojenni, osoby cywilne, zmarli żołnierze",c:false},
-  {t:"osoby zabite, ranne i chore na wskutek działań wojennych",c:false}
-]},
-{id:95, text:"Zbrodnia wojenna zgodnie ze Statutem MTK jest to:", opts:[
-  {t:"zbrodnia popełniona w czasie trwania wojny",c:false},
-  {t:"poważne naruszenie praw i zwyczajów wojennych",c:true},
-  {t:"złamanie norm prawa konfliktów zbrojnych",c:false}
-]},
-{id:96, text:"Ludobójstwo polega na:", opts:[
-  {t:"popełnieniu zabójstw z zamiarem zniszczenia w całości lub części grupy narodowej, etnicznej, rasowej lub religijnej",c:true},
-  {t:"popełnianiu zabójstw w ramach rozległego lub systematycznego, świadomego ataku skierowanego przeciwko ludności cywilnej",c:false},
-  {t:"popełnieniu czynów mających na celu doprowadzenie do eksterminacji rasowej",c:false}
-]},
-{id:97, text:"W przypadku pojmania szpiega:", opts:[
-  {t:"traktuje się go jako jeńca wojennego",c:false},
-  {t:"traktuje się go jako przestępcę pospolitego",c:true},
-  {t:"traktuje się go jako zbrodniarza wojennego",c:false}
-]},
-{id:98, text:"Ochronny znak lekarzy i duchownych biorących udział w konfliktach zbrojnych to:", opts:[
-  {t:"czerwony: krzyż, półksiężyc lub kryształ",c:true},
-  {t:"trzy pomarańczowe koła",c:false},
-  {t:"ciemnoniebieski trójkąt na pomarańczowym tle",c:false}
-]},
-{id:99, text:"Prób z bronią jądrową nie można przeprowadzać:", opts:[
-  {t:"w kosmosie i pod ziemią",c:false},
-  {t:"w atmosferze i w kosmosie",c:true},
-  {t:"pod ziemią i pod wodą",c:false}
-]},
-{id:100, text:"Zwolnienie jeńca na słowo honoru polega na:", opts:[
-  {t:"wypuszczeniu jeńca po daniu przez niego słowa honoru, że wróci prosto do swoich wojsk",c:false},
-  {t:"wypuszczeniu jeńca po daniu przez niego słowa honoru, że nie będzie brał dalej udziału w walce i uda się do państwa neutralnego",c:true},
-  {t:"wypuszczeniu jeńca po daniu przez niego słowa honoru na piśmie, że nie będzie brał dalej udziału w walce",c:false}
-]},
-{id:101, text:"Dezinformacja jest przykładem:", opts:[
-  {t:"wiarołomstwa",c:false},
-  {t:"pułapki wojennej",c:true},
-  {t:"zakazanej metody prowadzenia działań wojennych",c:false}
-]},
-{id:102, text:"Obiekt zawierający niebezpieczne siły to na przykład:", opts:[
-  {t:"rakieta z ładunkiem atomowym",c:false},
-  {t:"elektrownia węglowa Turów",c:false},
-  {t:"zakłady chemiczne w Puławach",c:true}
-]},
-{id:103, text:"Represalia to:", opts:[
-  {t:"odwet za atak na własne wojska",c:false},
-  {t:"naruszenie prawa wojennego przez przeciwnika",c:false},
-  {t:"naruszenie prawa wojennego w celu zmuszenia nieprzyjaciela, by zaprzestał jego łamania",c:true}
-]},
-{id:104, text:"Jeniec wojenny pozostaje we władzy:", opts:[
-  {t:"dowódcy oddziału, żołnierze go pojmali",c:false},
-  {t:"państwa z którego pochodzą żołnierze, którzy go pojmali",c:true},
-  {t:"żołnierzy, którzy go pojmali",c:false}
-]},
-{id:105, text:"Ranni lub chorzy żołnierze obu stron walczących na polu bitwy powinni mieć udzieloną pomoc medyczną według następującej kolejności:", opts:[
-  {t:"według kryteriów medycznych ustalonych przez lekarza z udzieleniem pierwszeństwa dla żołnierzy należących do wojska z którego jest personel medyczny",c:false},
-  {t:"według kolejności ułożenia rannych przed wejściem do szpitala polowego",c:false},
-  {t:"według kryteriów medycznych po ustaleniu kolejności przez lekarza",c:true}
-]},
-{id:106, text:"Polska w zakresie Konwencji o ochronie osób niepełnosprawnych:", opts:[
-  {t:"podpisała i ratyfikowała konwencję",c:true},
-  {t:"podpisała konwencję",c:false},
-  {t:"nie podpisała konwencji",c:false}
-]},
-{id:107, text:"Komplementarność Międzynarodowego Trybunału Karnego polega na tym, że:", opts:[
-  {t:"jest sądem, który tylko w określonych sytuacjach przejmuje sądzenie zbrodniarzy pochodzących z państw członkowskich, dając pierwszeństwo sądom tych państw",c:true},
-  {t:"ma pierwszeństwo w sądzeniu zbrodniarzy przed sądami krajowymi",c:false},
-  {t:"sądzi zbrodniarzy wojennych jako sąd II instancji",c:false}
-]},
-{id:108, text:"Statut Międzynarodowego Trybunału Karnego wszedł w życie:", opts:[
-  {t:"1 czerwca 2000 r. po dokonaniu 45 ratyfikacji",c:false},
-  {t:"1 lipca 2002 r. po dokonaniu 60 ratyfikacji",c:true},
-  {t:"1 czerwca 2001 r. po dokonaniu 60 ratyfikacji",c:false}
-]},
-{id:109, text:"Wyjazd żołnierzy Sił Zbrojnych RP w celach szkoleniowych za granicę, w myśl ustawy o zasadach użycia lub pobytu SZ RP poza granicami państwa, jest:", opts:[
-  {t:"pobytem Sił Zbrojnych",c:false},
-  {t:"użyciem Sił Zbrojnych",c:false},
-  {t:"udziałem Sił Zbrojnych",c:true}
-]},
-{id:110, text:"Ochronny znak obozów dla internowanych osób cywilnych to:", opts:[
-  {t:"pomarańczowy trójkąt na ciemnoniebieskim tle",c:false},
-  {t:"litery IC",c:true},
-  {t:"ciemnoniebieski trójkąt na pomarańczowym tle",c:false}
-]},
-{id:111, text:"Zdjęcie obrazuje zniszczenia poczynione przez siły zbrojne w Charkowie (dzielnica Saltówka) – jak można zakwalifikować to działanie przede wszystkim jako:", img:"27.png", opts:[
-  {t:"zbrodnia wojenna",c:false},
-  {t:"zbrodnia ludobójstwa",c:false},
-  {t:"zbrodnia przeciwko ludzkości",c:true},
-  {t:"zbrodnia agresji",c:false}
-]},
-{id:112, text:"Ludobójstwo obejmuje m.in.", opts:[
-  {t:"zabójstwo członka określonej grupy",c:true},
-  {t:"przymusowy transfer dzieci z jednej grupy do innej grupy",c:true},
-  {t:"z zamiarem wyniszczenia czesci lub całości grupy rasowejnarodowosciowejetnicznej religijnej",c:true},
-  {t:"żadne z poyższych",c:false}
-]}
-];
+    const questionsData = [
+        {
+            q: "1. Mocarstwo opiekuńcze to:",
+            opts: [
+                "Państwo niebiorące udziału w walce, sprawujące nadzór nad walczącymi w zakresie przestrzegania prawa wojennego",
+                "Państwo biorące udział w walce",
+                "ONZ"
+            ],
+            ans: 0
+        },
+        {
+            q: "2. Osobami, które nie korzystają z ochrony MPH są:",
+            opts: [
+                "Szpiedzy",
+                "Ranni powstańcy",
+                "Lekarze i duchowni"
+            ],
+            ans: 0
+        },
+        {
+            q: "3. Obiektem cywilnym zgodnie z Konwencjami Genewskimi z 1949 r. i protokołami z 1977 r. jest:",
+            opts: [
+                "Obiekt, który ze względu na swoje przeznaczenie może przynieść określone korzyści",
+                "Obiekt niebędący celem wojskowym",
+                "Obiekt, który wojsko zajęło dla zbudowania linii obronnych"
+            ],
+            ans: 1
+        },
+        {
+            q: "4. Kombatantem jest:",
+            opts: [
+                "Walczący najemnik",
+                "Lekarz w szpitalu",
+                "Żołnierz zwiadowca"
+            ],
+            ans: 2
+        },
+        {
+            q: "5. Blulandia zaatakowała Westlandię. Westlandia przystąpiła do obrony. Jakie konwencje prawa międzynarodowego będą miały zastosowanie do oceny postępowania stron konfliktu?",
+            opts: [
+                "Konwencje genewskie z 1949 r. oraz I i II protokoły dodatkowe",
+                "Konwencje genewskie z 1949 r. oraz I protokół dodatkowy z 1977 r.",
+                "Konwencje genewskie z 1949 r. oraz 2 protokoły"
+            ],
+            ans: 1
+        },
+        {
+            q: "6. Do ochrony powstańców w wojnach domowych zastosowanie mają:",
+            opts: [
+                "Konwencja genewska",
+                "Prawo wewnętrzne oraz II protokół dodatkowy z 1977 r.",
+                "Prawo wewnętrzne oraz konwencje"
+            ],
+            ans: 1
+        },
+        {
+            q: "7. Ofiarami wojen zgodnie z konwencjami są:",
+            opts: [
+                "Ranni i chorzy, rozbitkowie morscy, jeńcy wojenni, osoby cywilne",
+                "Ranni i chorzy, zmarli żołnierze, cywile",
+                "Osoby zabite, ranni i chorzy na skutek działań wojennych"
+            ],
+            ans: 0
+        },
+        {
+            q: "8. Zbrodnia wojenna jest to:",
+            opts: [
+                "Zbrodnia popełniona w czasie trwania wojny",
+                "Pogwałcenie praw i zwyczajów wojny",
+                "Złamanie norm prawa konfliktów zbrojnych"
+            ],
+            ans: 1
+        },
+        {
+            q: "9. Zbrodnia przeciwko ludzkości polega na:",
+            opts: [
+                "Popełnieniu zabójstwa z zamiarem zniszczenia",
+                "Popełnieniu zabójstw w ramach rozległego lub systematycznego, świadomego ataku skierowanego przeciwko ludności cywilnej",
+                "Popełnieniu czynów mających na celu doprowadzenie do eksterminacji"
+            ],
+            ans: 1
+        },
+        {
+            q: "10. Ludobójstwo polega na:",
+            opts: [
+                "Popełnieniu zabójstw z zamiarem zniszczenia w całości lub części grupy narodowej, etnicznej, rasowej albo religijnej",
+                "Popełnieniu zabójstwa w ramach rozległego, świadomego ataku skierowanego przeciwko ludności cywilnej",
+                "Popełnieniu czynów mających na celu doprowadzenie do eksterminacji"
+            ],
+            ans: 0
+        },
+        {
+            q: "11. Ochronny znak obrony cywilnej to:",
+            opts: [
+                "Czerwony krzyż, półksiężyc lub kryształ",
+                "Litery PG lub PW",
+                "Ciemnoniebieski trójkąt na pomarańczowym tle"
+            ],
+            ans: 2
+        },
+        {
+            q: "12. Represalia to:",
+            opts: [
+                "Odwet za atak na własne wojska",
+                "Naruszenie prawa wojennego przez przeciwnika",
+                "Naruszenie prawa wojennego w celu zmuszenia nieprzyjaciela, by zaprzestał jego łamania"
+            ],
+            ans: 2
+        },
+        {
+            q: "13. Pułapką może być:",
+            opts: [
+                "Organizowanie zasadzki",
+                "Udawanie, że posiada się status chroniony i wprowadzanie przez to w błąd przeciwnika",
+                "Podejście do przeciwnika w jego przebraniu"
+            ],
+            ans: 0
+        },
+        {
+            q: "14. Użycie napalmu jest przykładem:",
+            opts: [
+                "Wiarołomstwa",
+                "Pułapki wojennej",
+                "Zakazanej metody prowadzenia działań wojennych"
+            ],
+            ans: 2
+        },
+        {
+            q: "15. Obiekt zawierający niebezpieczne siły to na przykład:",
+            opts: [
+                "Ładunek z bombą kasetową",
+                "Elektrownia atomowa",
+                "Most na Wiśle"
+            ],
+            ans: 1
+        },
+        {
+            q: "16. Rozróżnianie celów oznacza konieczność:",
+            opts: [
+                "Odróżniania ludności cywilnej od kombatantów",
+                "Odróżniania dóbr o charakterze cywilnym od celów wojskowych",
+                "Odróżniania ludności cywilnej od kombatantów oraz dóbr o charakterze cywilnym od celów wojskowych i kierowania operacji jedynie przeciwko celom wojskowym"
+            ],
+            ans: 2
+        },
+        {
+            q: "17. Zasada proporcjonalności w prowadzeniu ataków oznacza:",
+            opts: [
+                "Używanie broni i uzbrojenia w takim zakresie i natężeniu, żeby nie spowodować niezamierzonych strat w ludności cywilnej",
+                "Używanie broni i uzbrojenia proporcjonalnie do zaangażowania przeciwnika",
+                "Używanie swoich sił w taki sposób, by osiągnąć cel operacji"
+            ],
+            ans: 0
+        },
+        {
+            q: "18. Jeniec wojenny jest zobowiązany podać następujące informacje:",
+            opts: [
+                "Imię i nazwisko, numer jednostki wojskowej, datę urodzenia i numer książeczki wojskowej",
+                "Imię i nazwisko, datę urodzenia i numer książeczki wojskowej",
+                "Imię i nazwisko, datę urodzenia, stopień wojskowy i numer książeczki wojskowej"
+            ],
+            ans: 2
+        },
+        {
+            q: "19. Do pracy nie można zmusić jeńców, którzy są:",
+            opts: [
+                "Oficerami",
+                "Szeregowymi i podoficerami",
+                "Szeregowymi"
+            ],
+            ans: 0
+        },
+        {
+            q: "20. Udana ucieczka jeńca wojennego to ucieczka, w której:",
+            opts: [
+                "Uciekł z obozu i został złapany",
+                "Uciekł z obozu i połączył się ze swoimi wojskami lub znalazł się poza terytorium, na którym trwa wojna",
+                "Uciekł z obozu i połączył się ze swoimi wojskami"
+            ],
+            ans: 1
+        },
+        {
+            q: "21. Polska w zakresie Konwencji o zakazie produkcji i stosowania broni kasetowej:",
+            opts: [
+                "Podpisała i ratyfikowała konwencję",
+                "Podpisała konwencję",
+                "Nie podpisała konwencji"
+            ],
+            ans: 2
+        },
+        {
+            q: "22. Celem wojskowym zgodnie z konwencjami genewskimi oraz protokołami z 1977 r. jest:",
+            opts: [
+                "Obiekt, który ze względu na swoje przeznaczenie może być przystosowany na korzyść przeciwnika w działaniach wojennych",
+                "Obiekt będący w użytkowaniu wojska",
+                "Obiekt, który wojsko zajęło dla zbudowania umocnień obronnych"
+            ],
+            ans: 1
+        },
+        {
+            q: "23. Wiarołomstwo polega na:",
+            opts: [
+                "Organizowaniu pułapek",
+                "Dezinformacji nieprzyjaciela",
+                "Udawaniu, że posiada się status chroniony i wprowadzaniu przez to przeciwnika w błąd"
+            ],
+            ans: 2
+        },
+        {
+            q: "24. Dezinformacja jest przykładem:",
+            opts: [
+                "Wiarołomstwa",
+                "Pułapki wojennej",
+                "Zakazanej metody prowadzenia działań wojennych"
+            ],
+            ans: 1
+        },
+        {
+            q: "25. Podjęcie działań bezprawnych będących odwetem za podobne bezprawie drugiego państwa nie jest zastosowaniem:",
+            opts: [
+                "Retorsji",
+                "Represaliów",
+                "Środków odwetowych"
+            ],
+            ans: 0
+        },
+        {
+            q: "26. Twórcą MKCK był:",
+            opts: [
+                "Fiodor Martens",
+                "Fryderyk de Moulin",
+                "Henry Dunant"
+            ],
+            ans: 2
+        },
+        {
+            q: "27. Po raz pierwszy pojęcie tortur zdefiniowano w Konwencji z:",
+            opts: [
+                "1980 r.",
+                "1984 r.",
+                "1998 r."
+            ],
+            ans: 1
+        },
+        {
+            q: "28. Znak ochronny urządzeń i budowli zawierających lub mogących wyzwolić niebezpieczne siły to:",
+            opts: [
+                "Tarcza skierowana ostrzem w dół, podzielona wzdłuż przekątnych na cztery pola, dwa błękitne i dwa białe",
+                "Pomarańczowy trójkąt na granatowym polu",
+                "Trzy koła wypełnione kolorem pomarańczowym"
+            ],
+            ans: 2
+        },
+        {
+            q: "29. Instytucja zajmująca się zbieraniem danych o jeńcach, którą państwa będące w konflikcie zbrojnym muszą powołać na czas konfliktu to:",
+            opts: [
+                "Urząd poszukiwania i zbierania danych o jeńcach wojennych",
+                "Biuro informacji o jeńcach wojennych",
+                "Biuro poszukiwania oraz zbierania informacji o jeńcach wojennych"
+            ],
+            ans: 1
+        },
+        {
+            q: "30. Prób z bronią jądrową nie można przeprowadzać:",
+            opts: [
+                "W kosmosie i pod ziemią",
+                "W atmosferze i w kosmosie",
+                "Pod ziemią i pod wodą"
+            ],
+            ans: 1
+        },
+        {
+            q: "31. W przypadku pojmania szpiega:",
+            opts: [
+                "Traktuje się go jako jeńca wojennego",
+                "Traktuje się go jako przestępcę pospolitego",
+                "Traktuje się go jako zbrodniarza wojennego"
+            ],
+            ans: 1
+        },
+        {
+            q: "32. Jeniec wojenny pozostaje we władzy:",
+            opts: [
+                "Dowódcy oddziału, którego żołnierze go pojmali",
+                "Żołnierzy, którzy go pojmali",
+                "Państwa z którego pochodzą żołnierze, którzy go pojmali"
+            ],
+            ans: 2
+        },
+        {
+            q: "33. Decyzję o zniszczeniu dobra kultury o specjalnej ochronie z powodu konieczności wojskowej może podjąć:",
+            opts: [
+                "Dowódca o randze generała dywizji (dowódca dywizji)",
+                "Dowódca kompanii",
+                "Dowódca batalionu"
+            ],
+            ans: 0
+        },
+        {
+            q: "34. Ochronny znak obozów dla internowanych osób cywilnych to:",
+            opts: [
+                "Pomarańczowy trójkąt na ciemnoniebieskim tle",
+                "Litery IC",
+                "Ciemnoniebieski trójkąt na pomarańczowym tle"
+            ],
+            ans: 1
+        },
+        {
+            q: "35. Polska w zakresie Konwencji o ochronie osób niepełnosprawnych:",
+            opts: [
+                "Podpisała i ratyfikowała konwencję",
+                "Podpisała konwencję",
+                "Nie podpisała konwencji"
+            ],
+            ans: 0
+        },
+        {
+            q: "36. Statut Międzynarodowego Trybunału Karnego wszedł w życie:",
+            opts: [
+                "1 czerwca 2000 r. po dokonaniu 45 ratyfikacji",
+                "1 lipca 2002 r. po dokonaniu 60 ratyfikacji",
+                "1 czerwca 2001 r. po dokonaniu 60 ratyfikacji"
+            ],
+            ans: 1
+        },
+        {
+            q: "37. Wyjazd żołnierzy Sił Zbrojnych RP w celach szkoleniowych za granicę w myśl ustawy o zasadach użycia lub pobytu SZ RP poza granicami państwa jest:",
+            opts: [
+                "Pobytem Sił Zbrojnych",
+                "Użyciem Sił Zbrojnych",
+                "Udziałem Sił Zbrojnych"
+            ],
+            ans: 0
+        },
+        {
+            q: "38. Po jakim czasie zbrodnie wojenne ulegają przedawnieniu?",
+            opts: [
+                "Nie ulegają przedawnieniu",
+                "25 lat",
+                "15 lat"
+            ],
+            ans: 0
+        },
+        {
+            q: "39. Tzw. ROE dla każdej operacji z użyciem SZ RP wydaje:",
+            opts: [
+                "Minister Obrony Narodowej w drodze zarządzenia niepodlegającego ogłoszeniu",
+                "Prezydent w formie postanowienia",
+                "Dowódca danej operacji, tzw. Field Commander"
+            ],
+            ans: 0
+        },
+        {
+            q: "40. Co oznacza czerwony diament?",
+            opts: [
+                "Znak ostrzegający przed budowlami i urządzeniami zawierającymi niebezpieczne siły",
+                "Znak ochrony służb medycznych, równoważny ze znakiem Czerwonego Krzyża i Czerwonego Półksiężyca",
+                "Znak informujący o obozie jeńców wojennych"
+            ],
+            ans: 1
+        },
+        {
+            q: "41. Konieczność wojskowa to instytucja wprowadzona przepisami:",
+            opts: [
+                "Konwencji haskiej z 1954 r. o ochronie dóbr kultury podczas wojny",
+                "Konwencji haskiej z 1907 r. z Regulaminem wojny lądowej",
+                "Konwencji genewskich z 1949 r."
+            ],
+            ans: 1
+        },
+        {
+            q: "42. Uczestnicy powstania masowego \"levee on masse\", zgodnie z prawem międzynarodowym, mogą być kombatantami, jeżeli minimum:",
+            opts: [
+                "Jawnie noszą broń",
+                "Jawnie noszą broń i mają wyróżniający ich znak",
+                "Jawnie noszą broń i przestrzegają praw i zwyczajów wojennych"
+            ],
+            ans: 2
+        },
+        {
+            q: "43. Zwolnienie jeńca na słowo honoru polega na:",
+            opts: [
+                "Wypuszczeniu jeńca po daniu przez niego słowa honoru, że wróci prosto do swoich wojsk",
+                "Wypuszczeniu jeńca po daniu przez niego słowa honoru, że nie będzie brał dalej udziału w walce i uda się do państwa neutralnego",
+                "Wypuszczeniu jeńca po daniu przez niego słowa honoru na piśmie, że nie będzie brał dalej udziału w walce"
+            ],
+            ans: 2
+        },
+        {
+            q: "44. Ochronny znak lekarzy i duchownych biorących udział w konfliktach zbrojnych to:",
+            opts: [
+                "Czerwony krzyż, półksiężyc lub kryształ",
+                "Trzy pomarańczowe koła",
+                "Ciemnoniebieski trójkąt na pomarańczowym tle"
+            ],
+            ans: 0
+        },
+        {
+            q: "45. Do pracy można zmusić jeńców którzy są:",
+            opts: [
+                "Oficerami",
+                "Szeregowymi i podoficerami",
+                "Szeregowymi"
+            ],
+            ans: 2
+        },
+        {
+            q: "46. Za próbę ucieczki jeńca wojennego można go ukarać karą:",
+            opts: [
+                "Śmierci",
+                "Aresztu do 3 miesięcy",
+                "3 lata więzienia"
+            ],
+            ans: 1
+        },
+        {
+            q: "47. Decyzję o zniszczeniu dobra kultury o zwykłej ochronie może podjąć dowódca:",
+            opts: [
+                "Dywizji",
+                "Kompanii",
+                "Batalionu"
+            ],
+            ans: 2
+        },
+        {
+            q: "48. Międzynarodowy Trybunał Karny może wymierzyć kary:",
+            opts: [
+                "Więzienia i karę śmierci",
+                "Więzienia i ograniczenia wolności",
+                "Więzienia i grzywny"
+            ],
+            ans: 2
+        },
+        {
+            q: "49. Zapobieganie popełnianiu naruszeń postanowień umów międzynarodowych składających się na MPHKz przez żołnierzy to przede wszystkim zadanie:",
+            opts: [
+                "Władz politycznych każdego państwa",
+                "Dowódców będących bezpośrednimi przełożonymi tych żołnierzy",
+                "Sądów i prokuratorów wojskowych państw z których pochodzą żołnierze"
+            ],
+            ans: 1
+        },
+        {
+            q: "50. Ochronny znak stref zdemilitaryzowanych to:",
+            opts: [
+                "Czerwony krzyż, czerwony półksiężyc lub czerwony kryształ",
+                "Kwadrat z przekątną szeroką linią koloru czerwonego na białym polu",
+                "Tarcza skierowana ostrzem w dół, podzielona wzdłuż przekątnych na cztery pola, dwa czerwone i dwa białe"
+            ],
+            ans: 1
+        },
+        {
+            q: "51. Ogłoszenie o tym, że nikomu nie będzie darowane życie jest przykładem:",
+            opts: [
+                "Wiarołomstwa",
+                "Pułapki wojennej",
+                "Zakazanej metody prowadzenia działań wojennych"
+            ],
+            ans: 2
+        },
+        {
+            q: "52. Personel oddziałów obrony cywilnej podczas okupacji nieprzyjaciela:",
+            opts: [
+                "Staje się jeńcami wojennymi i przebywa w obozie dla jeńców",
+                "Zostaje zwolniony i wraca do swoich wojsk",
+                "Wykonuje swoje zadania niezależnie od tego pod czyim panowaniem znajduje się terytorium ich państwa"
+            ],
+            ans: 2
+        },
+        {
+            q: "53. Ranni lub chorzy żołnierze obu stron walczących na polu bitwy powinni mieć udzieloną pomoc medyczną według następującej kolejności:",
+            opts: [
+                "Według kryteriów medycznych ustalonych przez lekarza z udzieleniem pierwszeństwa dla żołnierzy należących do wojska z którego jest personel medyczny",
+                "Według kolejności ułożenia rannych przed wejściem do szpitala polowego",
+                "Według kryteriów medycznych po ustaleniu kolejności przez lekarza"
+            ],
+            ans: 2
+        },
+        {
+            q: "54. Komplementarność Międzynarodowego Trybunału Karnego polega na tym że:",
+            opts: [
+                "Jest sądem, który tylko w określonych sytuacjach przejmuje sądzenie zbrodniarzy pochodzących z państw członkowskich, dając pierwszeństwo sądom tych państw",
+                "Ma pierwszeństwo w sądzeniu zbrodniarzy przed sądami krajowymi",
+                "Sądzi zbrodniarzy wojennych jako sąd II instancji"
+            ],
+            ans: 0
+        },
+        {
+            q: "55. Internowanie ludności cywilnej może być prowadzone w celu: (wersja opcji ze zdjęcia testowego)",
+            opts: [
+                "Ochrony tej ludności przed chorobami",
+                "Zapewnienia bezpieczeństwa administracji okupanta",
+                "Ochrony tej ludności przed głodem"
+            ],
+            ans: 1
+        }
+    ];
 
-// ===================== STATE =====================
-let questions = [];
-let answered = {};   // qId -> {correct: bool, selected: Set}
-let correctCount = 0, wrongCount = 0;
+    let correctAnswersCount = 0;
+    let totalAnsweredCount = 0;
+    const scoreSpan = document.getElementById("score");
+    const totalSpan = document.getElementById("total");
+    const container = document.getElementById("quiz-container");
 
-function shuffle(arr) {
-  const a = [...arr];
-  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
-  return a;
-}
+    function renderQuiz() {
+        questionsData.forEach((qData, qIndex) => {
+            const card = document.createElement("div");
+            card.className = "question-card";
 
-function shuffleAll() {
-  answered = {};
-  correctCount = 0; wrongCount = 0;
-  questions = shuffle(RAW_QUESTIONS).map(q => ({
-    ...q,
-    opts: q.opts ? shuffle(q.opts) : undefined
-  }));
-  render();
-  window.scrollTo({top:0, behavior:'smooth'});
-}
+            const title = document.createElement("div");
+            title.className = "question-text";
+            title.innerText = qData.q;
+            card.appendChild(title);
 
-// ===================== RENDER =====================
-const LETTERS = ['A','B','C','D','E'];
+            const optionsContainer = document.createElement("div");
+            optionsContainer.className = "options";
 
-function render() {
-  const container = document.getElementById('main-container');
-  // keep score panel
-  const scorePanel = document.getElementById('score-panel');
-  container.innerHTML = '';
-  container.appendChild(scorePanel);
+            qData.opts.forEach((optText, optIndex) => {
+                const optBtn = document.createElement("div");
+                optBtn.className = "option";
+                optBtn.innerText = optText;
+                optBtn.onclick = function() {
+                    handleAnswer(optBtn, optionsContainer, optIndex, qData.ans);
+                };
+                optionsContainer.appendChild(optBtn);
+            });
 
-  questions.forEach((q, idx) => {
-    const card = document.createElement('div');
-    card.className = 'q-card';
-    card.id = `q-${q.id}`;
-
-    const isText = q.inputType === 'text';
-    const isMultiField = q.inputType === 'multi';
-
-    // Header
-    const qh = document.createElement('div');
-    qh.className = 'q-header';
-    qh.innerHTML = `
-      <span class="q-num">#${q.id}</span>
-      <span class="q-text">${q.text}</span>
-    `;
-    card.appendChild(qh);
-
-    // Image
-    if(q.img) {
-      const imgWrap = document.createElement('div');
-      imgWrap.className = 'q-image-wrap';
-      imgWrap.innerHTML = `
-        <div class="q-image-placeholder" id="img-ph-${q.id}">
-          <span>🖼️</span>
-          <div>Wstaw zdjęcie jako <strong>${q.img}</strong> w tym samym folderze co plik HTML</div>
-        </div>
-        <img id="img-${q.id}" src="${q.img}" alt="Zdjęcie do pytania ${q.id}" 
-          style="display:none"
-          onload="document.getElementById('img-ph-${q.id}').style.display='none';this.style.display='block';"
-          onerror="this.style.display='none';document.getElementById('img-ph-${q.id}').style.display='flex';"
-        >
-      `;
-      card.appendChild(imgWrap);
+            card.appendChild(optionsContainer);
+            container.appendChild(card);
+        });
     }
 
-    // Options or text input
-    if(isMultiField) {
-      const wrap = document.createElement('div');
-      wrap.className = 'q-input-wrap';
-      let html = '';
-      q.fields.forEach((f, fi) => {
-        html += `<div class="multi-field-row"><span class="multi-field-label">${f.label}:</span><input type="text" id="mf-${q.id}-${fi}" placeholder="wpisz rozwinięcie…" class="multi-field-input"></div>`;
-      });
-      html += `<button class="btn-check-answer" onclick="revealMultiFields(${q.id})">👁 Pokaż poprawne odpowiedzi</button>`;
-      q.fields.forEach((f, fi) => {
-        html += `<div class="correct-answer-reveal" id="mrev-${q.id}-${fi}">✅ ${f.label}: ${f.correct}</div>`;
-      });
-      wrap.innerHTML = html;
-      card.appendChild(wrap);
-    } else if(isText) {
-      const wrap = document.createElement('div');
-      wrap.className = 'q-input-wrap';
-      wrap.innerHTML = `
-        <input type="text" id="inp-${q.id}" placeholder="Wpisz odpowiedź…">
-        <button class="btn-check-answer" onclick="revealTextAnswer(${q.id})">👁 Pokaż poprawną odpowiedź</button>
-        <div class="correct-answer-reveal" id="rev-${q.id}">
-          ✅ Poprawna odpowiedź: ${q.correctText}
-        </div>
-      `;
-      card.appendChild(wrap);
-    } else {
-      const optsWrap = document.createElement('div');
-      optsWrap.className = 'q-options';
-      optsWrap.id = `opts-${q.id}`;
+    function handleAnswer(selectedBtn, optionsContainer, selectedIndex, correctIndex) {
+        if (optionsContainer.classList.contains("disabled")) return;
 
-      q.opts.forEach((opt, oi) => {
-        const el = document.createElement('div');
-        el.className = 'opt';
-        el.id = `opt-${q.id}-${oi}`;
-        el.dataset.qid = q.id;
-        el.dataset.oi = oi;
-        el.dataset.correct = opt.c;
-        el.innerHTML = `
-          <span class="opt-letter">${LETTERS[oi]}</span>
-          <span class="opt-checkbox">
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-              <path d="M1.5 5l2.5 2.5 4.5-4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-          <span class="opt-label">${opt.t}</span>
-        `;
-        el.addEventListener('click', () => handleClick(q.id, oi));
-        optsWrap.appendChild(el);
-      });
-      card.appendChild(optsWrap);
+        optionsContainer.classList.add("disabled");
+        totalAnsweredCount++;
+
+        const allButtons = optionsContainer.querySelectorAll(".option");
+
+        if (selectedIndex === correctIndex) {
+            selectedBtn.classList.add("correct");
+            correctAnswersCount++;
+        } else {
+            selectedBtn.classList.add("incorrect");
+            allButtons[correctIndex].classList.add("correct");
+        }
+
+        scoreSpan.innerText = correctAnswersCount;
+        totalSpan.innerText = totalAnsweredCount;
     }
 
-    // Footer
-    const footer = document.createElement('div');
-    footer.className = 'q-footer';
-    footer.innerHTML = `
-      <span class="q-footer-note" id="fn-${q.id}"></span>
-      <button class="btn-reset-q" onclick="resetQ(${q.id})">↺ Reset</button>
-    `;
-    card.appendChild(footer);
-
-    container.appendChild(card);
-  });
-
-  updateScore();
-  updateProgress();
-}
-
-function handleClick(qid, oi) {
-  const q = questions.find(x=>x.id===qid);
-  if(!q || !q.opts) return;
-
-  const el = document.getElementById(`opt-${qid}-${oi}`);
-  const isCorrect = q.opts[oi].c;
-  const isActive = el.classList.contains('correct') || el.classList.contains('incorrect');
-
-  if(isActive) {
-    // toggle off
-    el.classList.remove('correct','incorrect');
-    recomputeScore(qid);
-    return;
-  }
-
-  // toggle on
-  if(isCorrect) {
-    el.classList.add('correct');
-  } else {
-    el.classList.add('incorrect');
-  }
-  recomputeScore(qid);
-}
-
-function recomputeScore(qid) {
-  const q = questions.find(x=>x.id===qid);
-  if(!q||!q.opts) return;
-
-  let anySelected = false;
-  let anyWrong = false;
-  let correctSelected = 0;
-  const totalCorrect = q.opts.filter(o=>o.c).length;
-
-  q.opts.forEach((opt,oi) => {
-    const el = document.getElementById(`opt-${qid}-${oi}`);
-    if(el.classList.contains('correct')) { correctSelected++; anySelected=true; }
-    if(el.classList.contains('incorrect')) { anyWrong=true; anySelected=true; }
-  });
-
-  const card = document.getElementById(`q-${qid}`);
-  const fn = document.getElementById(`fn-${qid}`);
-
-  if(!anySelected) {
-    card.classList.remove('all-correct');
-    fn.textContent = '';
-    fn.style.color = 'var(--text-dimmer)';
-    answered[qid] = undefined;
-  } else if(correctSelected === totalCorrect && !anyWrong) {
-    card.classList.add('all-correct');
-    fn.textContent = '✅ Wszystkie poprawne!';
-    fn.style.color = 'var(--green)';
-    answered[qid] = 'correct';
-  } else if(anyWrong) {
-    card.classList.remove('all-correct');
-    fn.textContent = '❌ Zaznaczono błędną odpowiedź';
-    fn.style.color = 'var(--red)';
-    answered[qid] = 'wrong';
-  } else {
-    card.classList.remove('all-correct');
-    fn.textContent = `✔ ${correctSelected} z ${totalCorrect} poprawnych`;
-    fn.style.color = 'var(--accent)';
-    answered[qid] = 'partial';
-  }
-  updateScore();
-  updateProgress();
-}
-
-function resetQ(qid) {
-  const q = questions.find(x=>x.id===qid);
-  if(!q) return;
-  if(q.opts) {
-    q.opts.forEach((_,oi)=>{
-      const el = document.getElementById(`opt-${qid}-${oi}`);
-      if(el) el.classList.remove('correct','incorrect');
-    });
-  }
-  const card = document.getElementById(`q-${qid}`);
-  card.classList.remove('all-correct');
-  const fn = document.getElementById(`fn-${qid}`);
-  if(fn) { fn.textContent=''; }
-  answered[qid] = undefined;
-  updateScore();
-  updateProgress();
-}
-
-function revealTextAnswer(qid) {
-  const rev = document.getElementById(`rev-${qid}`);
-  if(rev) rev.classList.toggle('visible');
-}
-
-function revealMultiFields(qid) {
-  const q = questions.find(x=>x.id===qid);
-  if(!q||!q.fields) return;
-  q.fields.forEach((_,fi) => {
-    const rev = document.getElementById(`mrev-${qid}-${fi}`);
-    if(rev) rev.classList.toggle('visible');
-  });
-}
-
-function updateScore() {
-  let c=0,w=0,done=0;
-  Object.values(answered).forEach(v=>{
-    if(v==='correct'){c++;done++;}
-    else if(v==='wrong'){w++;done++;}
-    else if(v==='partial'){done++;}
-  });
-  document.getElementById('sc-correct').textContent = c;
-  document.getElementById('sc-wrong').textContent = w;
-  document.getElementById('sc-done').textContent = `${done} / ${questions.length}`;
-}
-
-function updateProgress() {
-  const done = Object.values(answered).filter(v=>v).length;
-  const pct = questions.length ? (done/questions.length*100) : 0;
-  document.getElementById('progress-bar').style.width = pct+'%';
-}
-
-// Init
-shuffleAll();
+    renderQuiz();
 </script>
 </body>
 </html>
