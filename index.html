@@ -368,7 +368,7 @@
 <script>
 // ===================== DATA =====================
 const RAW_QUESTIONS = [
-  // ====== ZESTAW A: ABCD jednokrotnego wyboru (strony 5-10, z kluczem) ======
+  // ===== ZESTAW ABCD z kluczem (strony 5-10 PDF) =====
   { id: 1, text: "Mocarstwo opiekuńcze to:", opts: [
     { t: "Państwo niebiorące udziału w walce, sprawujące nadzór nad walczącymi w zakresie przestrzegania prawa wojennego", c: true },
     { t: "Państwo biorące udział w walce", c: false },
@@ -514,7 +514,7 @@ const RAW_QUESTIONS = [
     { t: "Elektrownia węglowa Turów", c: false },
     { t: "Wał przeciwpowodziowy na Wiśle", c: true },
   ]},
-  { id: 30, text: "Pytanie ze zdjęcia (nieczytelne) – instytucja udzielająca pomocy humanitarnej:", opts: [
+  { id: 30, text: "Pytanie ze zdjęcia jest nieczytelne. Widoczne warianty odpowiedzi:", opts: [
     { t: "PCK", c: false },
     { t: "MKCK", c: true },
     { t: "ONZ", c: false },
@@ -573,356 +573,351 @@ const RAW_QUESTIONS = [
     { t: "Znak informujący o obozie jeńców wojennych", c: false },
   ]},
 
-  // ====== ZESTAW B: Egzamin wielokrotnego wyboru (strony 11-26) ======
-  { id: 41, text: "[Egzamin 1] Który z aktów prawnych MPH reguluje status okupacji:", note: true, opts: [
+  // ===== ZESTAW egzaminacyjny wielokrotnego wyboru (strony 11-26 PDF) =====
+  { id: 41, text: "Który z aktów prawnych MPH reguluje status okupacji:", opts: [
     { t: "IV Konwencja Haska z 1907", c: true },
     { t: "I Konwencja Genewska z 1949", c: false },
     { t: "IV Konwencja Genewska z 1949", c: true },
     { t: "I Protokół Dodatkowy z 1977", c: false },
   ]},
-  { id: 42, text: "[Egzamin 2] Podczas okupacji:", note: true, opts: [
+  { id: 42, text: "Podczas okupacji:", opts: [
     { t: "zakazane jest stosowanie kar zbiorowych", c: true },
     { t: "zakazane jest zmuszanie ludności miejscowej do przysięgania na wierność państwu okupującemu", c: true },
     { t: "państwo okupujące rozciąga swoją suwerenność / nabywa nowe terytoria", c: false },
     { t: "państwo okupujące nie rozciąga suwerenności / nie nabywa nowych terytoriów", c: true },
   ]},
-  { id: 43, text: "[Egzamin 3] Mienie podczas konfliktu zbrojnego:", note: true, opts: [
+  { id: 43, text: "Mienie podczas konfliktu zbrojnego:", opts: [
     { t: "konfiskata mienia prywatnego jest zakazana", c: true },
     { t: "konfiskata mienia publicznego na cele wojskowe jest dozwolona", c: true },
     { t: "konfiskata amunicji i uzbrojenia przeciwnika jest dozwolona", c: true },
     { t: "plądrowanie jest zabronione", c: true },
   ]},
-  { id: 44, text: "[Egzamin 4] Który z aktów prawnych MPH reguluje status jeńca wojennego:", opts: [
+  { id: 44, text: "Który z aktów prawnych MPH reguluje status jeńca wojennego:", opts: [
     { t: "I Konwencja Genewska z 1949 r.", c: false },
     { t: "II Konwencja Genewska z 1949 r.", c: false },
     { t: "III Konwencja Genewska z 1949 r.", c: true },
     { t: "IV Konwencja Genewska z 1949 r.", c: false },
   ]},
-  { id: 45, text: "[Egzamin 5] Który z aktów prawnych MPH reguluje status osób cywilnych:", opts: [
+  { id: 45, text: "Który z aktów prawnych MPH reguluje status osób cywilnych:", opts: [
     { t: "I Konwencja Genewska z 1949 r.", c: false },
     { t: "II Konwencja Genewska z 1949 r.", c: false },
     { t: "III Konwencja Genewska z 1949 r.", c: false },
     { t: "IV Konwencja Genewska z 1949 r.", c: true },
   ]},
-  { id: 46, text: "[Egzamin 6] Tzw. klauzula Martensa:", opts: [
+  { id: 46, text: "Tzw. klauzula Martensa:", opts: [
     { t: "jest uregulowana w preambule do IV Konwencji Haskiej z 1907 r.", c: true },
     { t: "jest uregulowana w preambule do I Konwencji Genewskiej z 1949 r.", c: false },
     { t: "jest uregulowana w preambule do III Konwencji Genewskiej z 1949 r.", c: false },
     { t: "jest uregulowana w preambule do IV Konwencji Genewskiej z 1949 r.", c: false },
   ]},
-  { id: 47, text: "[Egzamin 7] Tzw. klauzula Martensa oznacza (uzupełnij całość):", note: true, opts: [
-    { t: "zanim bardziej szczegółowe przepisy MPH zostaną przyjęte…", c: true },
-    { t: "ludność i strony wojujące pozostają pod opieką zasad…", c: true },
-    { t: "wynikających ze zwyczajów między narodami cywilizowanymi…", c: true },
+  { id: 47, text: "Tzw. klauzula Martensa oznacza:", opts: [
+    { t: "zanim bardziej szczegółowe przepisy MPH zostaną przyjęte …", c: true },
+    { t: "ludność i strony wojujące pozostają pod opieką zasad …", c: true },
+    { t: "wynikających ze zwyczajów między narodami cywilizowanymi …", c: true },
     { t: "oraz zasad humanitarności i wymagań społecznego sumienia", c: true },
   ]},
-  { id: 48, text: "[Egzamin 8] Pojęcie ius ad bellum oznacza:", opts: [
+  { id: 48, text: "Pojęcie ius ad bellum oznacza:", opts: [
     { t: "prawo do wojny", c: true },
     { t: "MPH (prawo obowiązujące w czasie konfliktu zbrojnego)", c: false },
     { t: "prawo krajowe", c: false },
     { t: "żadne z powyższych", c: false },
   ]},
-  { id: 49, text: "[Egzamin 9] Kiedy prawo do wojny (ius ad bellum) przysługuje (konflikt zbrojny jest legalny):", note: true, opts: [
+  { id: 49, text: "Kiedy prawo do wojny (ius ad bellum) przysługuje (= konflikt zbrojny jest legalny):", opts: [
     { t: "samoobrona", c: true },
     { t: "samoobrona zbiorowa (sojusz)", c: true },
-    { t: "agresja / wojna napastnicza (art. 2 ust. 4 KNZ)", c: false },
+    { t: "agresja / wojna napastnicza (art. 2 ust 4. KNZ)", c: false },
     { t: "rozdz. VII Karty Narodów Zjednoczonych z 1945 r. (utrzymanie międzynarodowego pokoju i bezpieczeństwa)", c: true },
   ]},
-  { id: 50, text: "[Egzamin 10] Pojęcie ius in bello oznacza:", opts: [
+  { id: 50, text: "Pojęcie ius in bello oznacza:", opts: [
     { t: "prawo do wojny", c: false },
     { t: "MPH (prawo obowiązujące w czasie konfliktu zbrojnego)", c: true },
     { t: "prawo krajowe", c: false },
     { t: "żadne z powyższych", c: false },
   ]},
-  { id: 51, text: "[Egzamin 11] Które źródła prawa MPH obowiązują podczas niemiędzynarodowego konfliktu zbrojnego:", note: true, opts: [
+  { id: 51, text: "Które źródła prawa MPH obowiązują podczas niemiędzynarodowego konfliktu zbrojnego:", opts: [
     { t: "I Protokół dodatkowy 1977", c: false },
     { t: "II Protokół dodatkowy 1977", c: true },
-    { t: "art. 3 wspólny dla wszystkich 4 Konwencji Genewskich", c: true },
+    { t: "art. 3 wspólny dla wszystkich x 4 Konwencji Genewskich", c: true },
     { t: "prawo zwyczajowe", c: true },
   ]},
-  { id: 52, text: "[Egzamin 12] Podczas niemiędzynarodowego konfliktu zbrojnego:", opts: [
+  { id: 52, text: "Podczas niemiędzynarodowego konfliktu zbrojnego:", opts: [
     { t: "mamy do czynienia ze statusem kombatanta", c: false },
     { t: "mamy do czynienia ze statusem jeńca wojennego", c: false },
-    { t: "mamy prawny obowiązek humanitarnego traktowania stron konfliktu i osób niebiorących w nim udziału (cywile)", c: true },
+    { t: "mamy prawny obowiązek humanitarnego traktowania stron konfliktu i osoby niebiorące w nim udziału (cywile)", c: true },
     { t: "żadne z powyższych", c: false },
   ]},
-  { id: 53, text: "[Egzamin 13] Pojęcie hors de combat oznacza osobę, której nie wolno atakować i która:", note: true, opts: [
+  { id: 53, text: "Pojęcie hors de combat oznacza osobę, której nie wolno atakować i która:", opts: [
     { t: "znajduje się pod kontrolą przeciwnika", c: true },
     { t: "wyraża jednoznacznie wolę poddania się", c: true },
     { t: "jest nieprzytomna, ranna, chora", c: true },
     { t: "i dlatego niezdolna by się bronić / nie bierze czynnego udziału w konflikcie zbrojnym", c: true },
   ]},
-  { id: 54, text: "[Egzamin 14] Które z poniższych zdań jest prawdziwe:", note: true, opts: [
+  { id: 54, text: "Które z poniższych zdań jest prawdziwe:", opts: [
     { t: "najemnikom przysługuje status jeńca wojennego", c: false },
     { t: "najemnikom nie przysługuje status jeńca wojennego", c: true },
     { t: "najemnik może być sądzony za swój udział w konflikcie zbrojnym", c: true },
     { t: "jednym z zarzutów które można postawić najemnikowi na podstawie prawa karnego to udział w zorganizowanej grupie przestępczej", c: true },
   ]},
-  { id: 55, text: "[Egzamin 15] Które z poniższych zdań jest prawdziwe:", note: true, opts: [
+  { id: 55, text: "Które z poniższych zdań jest prawdziwe:", opts: [
     { t: "co do zasady jeniec wojenny nie może być sądzony za udział w konflikcie zbrojnym", c: true },
     { t: "jeniec wojenny może być sądzony za zbrodnie wojenne, zbrodnie przeciwko ludzkości i ludobójstwo", c: true },
     { t: "najemnik może być sądzony za swój udział w konflikcie zbrojnym", c: true },
     { t: "najemnik nie może być sądzony za swój udział w konflikcie zbrojnym (immunitet)", c: false },
   ]},
-  { id: 56, text: "[Egzamin 16] Który z następujących podmiotów nie może być przedmiotem ataku podczas konfliktu zbrojnego:", note: true, opts: [
+  { id: 56, text: "Który z następujących podmiotów nie może być przedmiotem ataku podczas konfliktu zbrojnego:", opts: [
     { t: "wojskowy personel medyczny", c: true },
     { t: "cywilny personel medyczny", c: true },
     { t: "personel pomocy humanitarnej", c: true },
     { t: "duchowni", c: true },
   ]},
-  { id: 57, text: "[Egzamin 17] Które z następujących kategorii osób mogą być przedmiotem ataku podczas konfliktu zbrojnego:", note: true, opts: [
+  { id: 57, text: "Które z następujących kategorii osób mogą być przedmiotem ataku podczas konfliktu zbrojnego:", opts: [
     { t: "cywil", c: false },
     { t: "kombatant", c: true },
     { t: "hors de combat", c: false },
     { t: "najemnik", c: true },
   ]},
-  { id: 58, text: "[Egzamin 18] Policjant podczas konfliktu zbrojnego jest:", opts: [
+  { id: 58, text: "Policjant podczas konfliktu zbrojnego jest:", opts: [
     { t: "kombatantem (można go zaatakować)", c: true },
     { t: "cywilem (nie można go zaatakować)", c: false },
     { t: "najemnikiem", c: false },
     { t: "żadne z powyższych", c: false },
   ]},
-  { id: 59, text: "[Egzamin 19] Które z następujących osób NIE mogą być celem ataku:", note: true, opts: [
+  { id: 59, text: "Które z następujących osób NIE mogą być celem ataku:", opts: [
     { t: "najemnik", c: false },
     { t: "cywil", c: true },
     { t: "członek personelu medycznego", c: true },
     { t: "korespondent wojenny", c: true },
   ]},
-  { id: 60, text: "[Egzamin 20] Kombatantem w świetle MPH jest osoba, która:", note: true, opts: [
+  { id: 60, text: "Kombatantem w świetle MPH jest osoba która:", opts: [
     { t: "jawnie nosi broń", c: true },
     { t: "posiada wspólne oznakowanie", c: true },
     { t: "jest dowodzona", c: true },
     { t: "przestrzega MPH", c: true },
   ]},
-  { id: 61, text: "[Egzamin 21] Tzw. nowe rodzaje broni w świetle MPH (art. 36 I Protokołu Dodatkowego z 1977 r.):", note: true, opts: [
+  { id: 61, text: "Tzw. nowe rodzaje broni w świetle MPH (art. 36 I Protokołu Dodatkowego z 1977 r.):", opts: [
     { t: "są zakazane przez MPH", c: false },
     { t: "nie są zakazane przez MPH", c: true },
     { t: "państwo ma obowiązek przesądzenia, czy jej zastosowanie nie będzie niezgodne z MPH", c: true },
     { t: "obejmują m.in. broń autonomiczną (modele AI)", c: true },
   ]},
-  { id: 62, text: "[Egzamin 23] MPH zakazuje:", note: true, opts: [
+  { id: 62, text: "Rozszyfruj następujące skróty (POW, ICRC, DP, LAWS):", inputType: "multi", fields: [
+    { label: "POW", correct: "Prisoner of War" },
+    { label: "ICRC", correct: "International Committee of the Red Cross" },
+    { label: "DP", correct: "Displaced Person" },
+    { label: "LAWS", correct: "Lethal Autonomous Weapons Systems" },
+  ]},
+  { id: 63, text: "MPH zakazuje:", opts: [
     { t: "wydawania rozkazu niebrania jeńców i nieoszczędzania nikogo (ang. quarter)", c: true },
-    { t: "stosowania mundurów państw neutralnych / niebiorących udziału w konflikcie", c: true },
+    { t: "stosowania mundurów państw neutralnych / niebiorący udziału w konflikcie", c: true },
     { t: "stosowania mundurów przeciwnika", c: true },
     { t: "stosowania oznakowania organizacji międzynarodowych (np. ONZ, OBWE, UE)", c: true },
   ]},
-  { id: 63, text: "[Egzamin 24] Które z następujących praktyk prowadzenia walki są zakazane przez MPH:", note: true, opts: [
+  { id: 64, text: "Które z następujących praktyk prowadzenia walki są zakazane przez MPH:", opts: [
     { t: "prowadzenie ataku pod białą flagą (sygnalizującą rozejm)", c: true },
     { t: "prowadzenie ataku z wykorzystaniem pojazdów medycznych", c: true },
     { t: "wykorzystywanie znaku czerwonego krzyża do oznaczenia pojazdów służących do przewożenia amunicji", c: true },
     { t: "perfidia – popełnienie czynu wrogiego po uprzednim zaoferowaniu ochrony", c: true },
   ]},
-  { id: 64, text: "[Egzamin 25] Które zdanie jest prawdziwe – jeniec wojenny:", note: true, opts: [
+  { id: 65, text: "Które zdanie jest prawdziwe – jeniec wojenny:", opts: [
     { t: "nie może zrzec się swojego statusu", c: true },
-    { t: "pozostaje pod władzą państwa, w niewoli którego się znajduje, a nie pod władzą osób lub oddziałów, które wzięły go do niewoli", c: true },
+    { t: "pozostaje pod władzą państwa w niewoli którego się znajduje, a nie pod władzą osób lub oddziałów które wzięły go do niewoli", c: true },
     { t: "ma obowiązek wyjawić swoje dane i stopień wojskowy", c: true },
     { t: "jest chroniony przed aktami gwałtu, obrazy i ciekawości publicznej", c: true },
   ]},
-  { id: 65, text: "[Egzamin 26] Które zdanie jest prawdziwe – jeniec wojenny:", note: true, opts: [
+  { id: 66, text: "Które zdanie jest prawdziwe – jeniec wojenny:", opts: [
     { t: "jeńcowi wojennemu nie można nakazać wykonywania pracy", c: false },
     { t: "jeńcowi wojennemu można nakazać wykonywanie pracy, o ile jest zdrowy i nie jest oficerem", c: true },
     { t: "oficerów nie można zmuszać do pracy", c: true },
     { t: "podoficerowie mogą wykonywać pracę nadzorcze", c: true },
   ]},
-  { id: 66, text: "[Egzamin 27] Zdjęcie zniszczeń poczynionych przez siły zbrojne Fed. Rosyjskiej w Charkowie (dzielnica Saltivka) to przede wszystkim przykład:", note: true, opts: [
+  { id: 67, text: "Poniższe zdjęcie obrazujące zniszczenia poczynione przez siły zbrojne Fed. Rosyjskiej w Charkowie (dzielnica Saltivka) to przede wszystkim przykład:", opts: [
     { t: "zbrodni wojennej", c: true },
     { t: "zbrodni przeciwko ludzkości", c: true },
     { t: "ludobójstwa", c: false },
     { t: "żadne z powyższych", c: false },
   ]},
-  { id: 67, text: "[Egzamin 28] Ludobójstwo obejmuje m.in.:", note: true, opts: [
+  { id: 68, text: "Ludobójstwo obejmuje m.in.:", opts: [
     { t: "zabójstwo członka określonej grupy", c: true },
-    { t: "przymusowy transfer dzieci z jednej grupy do innej grupy", c: true },
+    { t: "przymusowy transfer dzieci z jednej grup do innej grupy", c: true },
     { t: "z zamiarem wyniszczenia części lub całości grupy rasowej, narodowościowej, etnicznej, religijnej", c: true },
     { t: "żadne z powyższych", c: false },
   ]},
-  { id: 68, text: "[Egzamin 29] Autorem pojęcia ludobójstwo był:", opts: [
+  { id: 69, text: "Autorem pojęcia ludobójstwo był:", opts: [
     { t: "polski prawnik Rafał Lemkin", c: true },
     { t: "radziecki prokurator Andriej Wyszyński", c: false },
     { t: "brytyjski premier Winston Churchill", c: false },
     { t: "amerykański prokurator Benjamin Ferencz", c: false },
   ]},
-  { id: 69, text: "[Egzamin 30] Zbrodnia przeciwko ludzkości obejmuje:", note: true, opts: [
+  { id: 70, text: "Zbrodnia przeciwko ludzkości obejmuje:", opts: [
     { t: "stałe i systematyczne atakowanie", c: true },
     { t: "atakowanie ludności cywilnej", c: true },
     { t: "z zamiarem wyniszczenia części lub całości określonej grupy narodowościowej, etnicznej, rasowej, religijnej", c: false },
     { t: "żadne z powyższych", c: false },
   ]},
-  { id: 70, text: "[Egzamin 31] Katalog zbrodni prawa międzynarodowego obejmuje:", note: true, opts: [
+  { id: 71, text: "Katalog zbrodni prawa międzynarodowego obejmuje:", opts: [
     { t: "zbrodnie wojenne", c: true },
     { t: "zbrodnię przeciwko ludzkości", c: true },
     { t: "zbrodnię ludobójstwa", c: true },
     { t: "zbrodnię agresji", c: true },
   ]},
-  { id: 71, text: "[Egzamin 32] Które zdanie jest prawdziwe – zbrodnie prawa międzynarodowego:", note: true, opts: [
+  { id: 72, text: "Które zdanie jest prawdziwe – zbrodnie prawa międzynarodowego …:", opts: [
     { t: "są uregulowane w Statucie Międzynarodowego Trybunału Karnego z 1998 r.", c: true },
     { t: "są uregulowane w Kodeksie karnym z 1997 r.", c: true },
     { t: "nie ulegają przedawnieniu (ich sprawca jest ścigany aż do swojej śmierci)", c: true },
     { t: "może się ich dopuścić zarówno żołnierz, jak i cywil", c: true },
   ]},
-  { id: 72, text: "[Egzamin 33] Które z rodzajów uzbrojenia jest zakazane prawem międzynarodowym:", note: true, opts: [
+  { id: 73, text: "Które z rodzajów uzbrojenia jest zakazane prawem międzynarodowym:", opts: [
     { t: "pociski wybuchające w ciele ofiary", c: true },
-    { t: "pociski rozszerzające się w ciele ofiary", c: true },
+    { t: "pocisk rozszerzające się w ciele ofiary", c: true },
     { t: "odłamki niewykrywalne w ciele ofiary (np. pociski kompozytowe)", c: true },
     { t: "broń zapalająca (jest ograniczona)", c: true },
   ]},
-  { id: 73, text: "[Egzamin 34] Wskaż przyczyny, dla których określone rodzaje broni są zakazane prawem międzynarodowym:", note: true, opts: [
+  { id: 74, text: "Wskaż przyczyny dla których określone rodzaje broni są zakazane prawem międzynarodowym:", opts: [
     { t: "nie dokonują rozróżnienia między cywilami a kombatantami", c: true },
     { t: "powodują ponadmiarowe obrażenia lub niepotrzebne cierpienie", c: true },
     { t: "brak możliwości sprawowania nad nimi kontroli przez człowieka", c: true },
     { t: "żadne z powyższych", c: false },
   ]},
-  { id: 74, text: "[Egzamin 35] Traktat Ottawski z 1997 r. zakazuje:", note: true, opts: [
+  { id: 75, text: "Traktat Ottawski z 1997 r. zakazuje:", opts: [
     { t: "produkcji min przeciwpiechotnych", c: true },
     { t: "stosowania min przeciwpiechotnych", c: true },
     { t: "składowania min przeciwpiechotnych", c: true },
     { t: "transferu / sprzedaży min przeciwpiechotnych", c: true },
   ]},
-  { id: 75, text: "[Egzamin 36] Amunicja kasetowa:", note: true, opts: [
+  { id: 76, text: "Amunicja kasetowa:", opts: [
     { t: "jest zakazana na mocy Konwencji Dublińskiej z 2008 r.", c: true },
     { t: "jest zakazana na mocy Traktatu Ottawskiego z 1997 r.", c: false },
     { t: "Polska nie jest stroną Konwencji Dublińskiej z 2008 r.", c: true },
     { t: "USA, Fed. Rosyjska i Chiny nie są stronami Konwencji Dublińskiej z 2008 r.", c: true },
   ]},
-  { id: 76, text: "[Egzamin 37] Broń chemiczna:", note: true, opts: [
+  { id: 77, text: "Broń chemiczna:", opts: [
     { t: "nie jest zakazana", c: false },
     { t: "jest zakazana na mocy Konwencji o zakazie broni chemicznej (Paryż, 1993)", c: true },
     { t: "jest zakazana na mocy prawa zwyczajowego", c: true },
     { t: "jest zakazana z powodu braku rozróżnienia między cywilami a kombatantami", c: true },
   ]},
-  { id: 77, text: "[Egzamin 38] Broń chemiczna:", note: true, opts: [
+  { id: 78, text: "Broń chemiczna:", opts: [
     { t: "to herbicydy wykorzystywane do opryskiwania lasów", c: false },
     { t: "to związki chemiczne służące do tłumienia demonstracji", c: false },
     { t: "Konwencja o zakazie broni chemicznej (Paryż, 1993) zakazuje m.in. jej stosowania", c: true },
     { t: "Konwencja o zakazie broni chemicznej (Paryż, 1993) zakazuje m.in. jej produkcji i składowania", c: true },
   ]},
-  { id: 78, text: "[Egzamin 39] Na mocy Konwencji o zakazie lub ograniczeniu użycia pewnych broni konwencjonalnych z 1980 r. i jej protokołów dodatkowych zakazano:", note: true, opts: [
+  { id: 79, text: "Na mocy Konwencji o zakazie lub ograniczeniu użycia pewnych broni konwencjonalnych z 1980 r. i jej protokołów dodatkowych zakazano:", opts: [
     { t: "min pułapek", c: true },
     { t: "broni zapalającej", c: false },
     { t: "odłamków niewykrywalnych w ciele ofiary (np. pocisków kompozytowych)", c: true },
     { t: "broni laserowej służącej do oślepiania żołnierzy", c: true },
   ]},
-  { id: 79, text: "[Egzamin 40] Które z następujących obiektów można uznać za cel wojskowy:", note: true, opts: [
+  { id: 80, text: "Które z następujących obiektów można uznać za cel wojskowy:", opts: [
     { t: "Most Świętokrzyski w Warszawie obsadzony przez wojsko", c: true },
     { t: "Wojskowa Akademia Techniczna", c: true },
     { t: "szpital polowy", c: false },
-    { t: "lotnisko Okęcie, z którego startują wojskowe statki powietrzne", c: true },
+    { t: "lotnisko Okęcie z którego startują wojskowe statki powietrzne", c: true },
   ]},
-  { id: 80, text: "[Egzamin 41] Strefa Gazy, poł. maja 2023 r.: lotnictwo izraelskie wystrzeliło pocisk w kierunku mieszkania w wielokondygnacyjnym budynku, w którym znajdował się palestyński bojownik. Twoim zdaniem:", note: true, opts: [
+  { id: 81, text: "Strefa Gazy, poł. maja 2023 r.: lotnictwo izraelskie wystrzeliło pocisk w kierunku mieszkania w wielokondygnacyjnym budynku, w którym znajdował się palestyński bojownik. Czy Twoim zdaniem:", opts: [
     { t: "zaatakowano obiekt cywilny", c: false },
     { t: "zaatakowano cel wojskowy", c: true },
     { t: "doszło do naruszenia MPH", c: false },
     { t: "nie doszło do naruszenia MPH", c: true },
   ]},
-  { id: 81, text: "[Egzamin 42] Do reguł ostrożnościowych dotyczących ataku oraz skutków ataku zaliczamy:", note: true, opts: [
+  { id: 82, text: "Do reguł ostrożnościowych dotyczących ataku oraz skutków ataku zaliczamy:", opts: [
     { t: "wybór i weryfikacja celu", c: true },
     { t: "kontrola wykonania rozkazu", c: true },
     { t: "obowiązek usunięcia cywilów z okolic celu ataku", c: true },
     { t: "obowiązek uprzedzenia cywilów o przeprowadzeniu ataku", c: true },
   ]},
-  { id: 82, text: "[Egzamin 43] Obiekt cywilny:", note: true, opts: [
-    { t: "to taki, który nie jest celem wojskowym", c: true },
+  { id: 83, text: "Obiekt cywilny:", opts: [
+    { t: "to taki który nie jest celem wojskowym", c: true },
     { t: "nie może być przedmiotem ataku", c: true },
     { t: "traci swój status w momencie jego militaryzacji", c: true },
     { t: "to np. szkoła, muzeum, elektrownia, wodociągi", c: true },
   ]},
-  { id: 83, text: "[Egzamin 44] Zgodnie z Kodeksem karnym z 1997 r. i Ustawą o obronie Ojczyzny z 2022 r.:", note: true, opts: [
+  { id: 84, text: "Zgodnie z Kodeksem karnym z 1997 r. i Ustawą o obronie Ojczyzny z 2022 r.:", opts: [
     { t: "odmowa wykonania rozkazu (zgodnego z prawem) to przestępstwo", c: true },
     { t: "żołnierz ma obowiązek odmówić wykonania rozkazu niezgodnego z prawem", c: true },
     { t: "wykonanie rozkazu (niezgodnego z prawem) zwalnia z odpowiedzialności, jeżeli miało charakter nieumyślny", c: true },
     { t: "wykonanie rozkazu (niezgodnego z prawem) nie zwalnia z odpowiedzialności, jeżeli miało charakter umyślny", c: true },
   ]},
-  { id: 84, text: "[Egzamin 45] Zdjęcie przedstawia skutki rosyjskiego niedyskryminacyjnego ataku, w którym zginęła czteroosobowa rodzina (Irpień, marzec 2022 r.). Atak ten można zakwalifikować przede wszystkim jako (wybierz TYLKO jedną odpowiedź):", opts: [
+  { id: 85, text: "Zdjęcie przedstawia skutki rosyjskiego niedyskryminacyjnego ataku, w którym zginęła czteroosobowa rodzina (Irpień, marzec 2022 r.). Atak ten można zakwalifikować przede wszystkim jako (wybierz TYLKO jedną odpowiedź):", opts: [
     { t: "zbrodnia przeciwko ludzkości", c: false },
     { t: "zbrodnia agresji", c: false },
     { t: "zbrodnia wojenna", c: true },
     { t: "zbrodnia ludobójstwa", c: false },
   ]},
-  { id: 85, text: "[Egzamin 46] Zbrodnie wojenne:", note: true, opts: [
+  { id: 86, text: "Zbrodnie wojenne:", opts: [
     { t: "to ciężkie naruszenia MPH", c: true },
     { t: "to atakowanie cywilów i obiektów cywilnych", c: true },
     { t: "zostały uregulowane w Kodeksie karnym z 1997 r.", c: true },
     { t: "zostały uregulowane w Statucie Międzynarodowego Trybunału Karnego z 1998 r.", c: true },
   ]},
-  { id: 86, text: "[Egzamin 47] Konwencja haska z 1954 r. o ochronie dóbr kulturalnych w razie konfliktu zbrojnego:", note: true, opts: [
-    { t: "obejmuje ochroną zabytki architektury, sztuki lub historii, religijne, jak i świeckie", c: true },
+  { id: 87, text: "Konwencja haska z 1954 r. o ochronie dóbr kulturalnych w razie konfliktu zbrojnego:", opts: [
+    { t: "obejmuje ochroną zabytki architektury, sztuki lub historii, religijne, jak świeckie", c: true },
     { t: "obejmuje obowiązek powstrzymania się od używania dóbr kultury do celów, które mogłyby spowodować ich zniszczenie lub uszkodzenie w trakcie konfliktu", c: true },
     { t: "odwet wymierzony w dobra kultury jest zakazany", c: true },
     { t: "wprowadza znak rozpoznawczy chroniący dobra kultury", c: true },
   ]},
 
-  // ====== ZESTAW C: pytania krótkie / dodatkowe ze stron 1-4 ======
-  { id: 87, text: "B zaatakowała W, W przystąpiła do obrony. Jakie konwencje prawa międzynarodowego będą miały zastosowanie?", opts: [
-    { t: "Konwencje haskie (1907 r.), Konwencja genewska z 1949 r. + I protokół z 1977 r.", c: true },
-    { t: "Tylko Konwencje genewskie z 1949 r.", c: false },
-    { t: "Tylko prawo wewnętrzne państw", c: false },
+  // ===== Pytania krótkie / opisowe (strony 1-4 PDF) =====
+  { id: 88, text: "Definicja zbrodni wojennej, ludobójstwa i zbrodni przeciwko ludzkości ze Statutu MTK.", inputType: "multi", fields: [
+    { label: "Zbrodnie wojenne", correct: "Naruszenia MPH oraz zwyczajów wojennych, w szczególności popełnionych w ramach realizacji planu lub polityki albo kiedy zbrodnie te są popełniane na szeroką skalę." },
+    { label: "Ludobójstwo", correct: "Oznacza którykolwiek z następujących czynów, dokonany z zamiarem zniszczenia w całości lub części grupy narodowej, etnicznej, rasowej lub religijnej." },
+    { label: "Zbrodnia przeciwko ludzkości", correct: "Oznacza którykolwiek z następujących czynów, popełniony w ramach rozległego lub systematycznego, świadomego ataku skierowanego przeciwko ludności cywilnej." },
   ]},
-  { id: 88, text: "Konieczność wojskowa to instytucja uregulowana przepisami:", opts: [
-    { t: "Konwencji haskiej z 1907 r. z regulaminem wojny lądowej", c: true },
-    { t: "I Protokołu dodatkowego z 1977 r.", c: false },
-    { t: "IV Konwencji genewskiej z 1949 r.", c: false },
+  { id: 89, text: "Państwo Blulandia zaatakowało państwo Westlandię, Westlandia przystąpiła do obrony. Jakie Konwencje prawa międzynarodowego będą miały zastosowanie do oceny postępowania stron konfliktu?", inputType: "text",
+    correctText: "Konwencje haskie (1907 r.), Konwencja genewska z 1949 r. + I protokół z 1977 roku." },
+  { id: 90, text: "W Państwie Westlandii wybuchł konflikt wewnętrzny, powstańcy chcą przejąć władzę od prawowitego rządu, opanowali nawet część terytorium ale nie potrafią zorganizować swojej władzy. Jakie prawo ma zastosowanie do oceny ich uprawnień w związku z tym powstaniem?", inputType: "text",
+    correctText: "II protokół dodatkowy do konwencji genewskich dotyczący ochrony ofiar niemiędzynarodowych konfliktów zbrojnych, podpisany w 1977 roku." },
+  { id: 91, text: "W Państwie Blulandii wybuchł konflikt wewnętrzny, powstańcy chcą przejąć władzę od prawowitego rządu, opanowali nawet część terytorium i zorganizowali swoją władzę. Jakie prawo ma zastosowanie do oceny ich uprawnień w związku z tym powstaniem?", inputType: "text",
+    correctText: "II protokół dodatkowy do konwencji genewskich dotyczący ochrony ofiar niemiędzynarodowych konfliktów zbrojnych, podpisany w 1977 roku." },
+  { id: 92, text: "Jeńcem wojennym w przypadku pojmania na polu walki zostaje:", inputType: "text",
+    correctText: "żołnierz zwiadowca" },
+  { id: 93, text: "Pierwsza konwencja genewska o polepszeniu losu rannych wojskowych w polu będących została podpisana w:", inputType: "text",
+    correctText: "1864 r. Genewa" },
+  { id: 94, text: "Uchylić ochronę dóbr kultury wpisanych w rejestr UNESCO można:", inputType: "text",
+    correctText: "z rozkazem dowódcy wojskowego co najmniej w stopniu generała" },
+  { id: 95, text: "Konieczność wojskowa to instytucja prowadzona przepisami:", inputType: "text",
+    correctText: "konwencji haskiej z 1907 z regulaminem wojny lądowej" },
+  { id: 96, text: "Celem wojskowym zgodnie z Konwencją genewską 1949 r. i protokołami dodatkowymi z 1977 r. jest:", inputType: "text",
+    correctText: "obiekt który ze względu na swoją naturę, przeznaczenie lub rozmieszczenie wnosi istotny wkład do działalności wojskowej, a jego zniszczenie daje określoną korzyść w działaniach wojennych." },
+  { id: 97, text: "Status kombatanta:", inputType: "text",
+    correctText: "walczący piechur" },
+  { id: 98, text: "Internowanie ludności cywilnej może być prowadzone w celu:", inputType: "text",
+    correctText: "zapewnienia bezpieczeństwa administracji okupanta" },
+  { id: 99, text: "Wybuchł konflikt wewnętrzny – jakie nazwy konwencji mają zastosowanie:", inputType: "multi", fields: [
+    { label: "Źródło 1", correct: "II protokół dodatkowy konwencji genewskiej 1977 r." },
+    { label: "Źródło 2", correct: "prawo wewnętrzne państwa" },
+    { label: "Źródło 3", correct: "art. 3 wspólny dla wszystkich konwencji genewskich" },
   ]},
-  { id: 89, text: "Po raz pierwszy pojęcie tortur zastosowano w konwencji z:", opts: [
-    { t: "1864 r.", c: false },
-    { t: "1949 r.", c: false },
-    { t: "1984 r.", c: true },
-  ]},
-  { id: 90, text: "Decyzję o zniszczeniu dobra kultury o zwykłej ochronie z powodu konieczności wojskowej może podjąć:", opts: [
-    { t: "dowódca kompanii", c: true },
-    { t: "tylko generał", c: false },
-    { t: "Minister Obrony Narodowej", c: false },
-  ]},
-  { id: 91, text: "Międzynarodowy Trybunał Karny może wyznaczać kary:", opts: [
-    { t: "więzienia i ograniczenia wolności", c: true },
-    { t: "wyłącznie karę śmierci", c: false },
-    { t: "wyłącznie kary finansowe", c: false },
-  ]},
-  { id: 92, text: "Jeniec wojenny pozostaje we władzy:", opts: [
-    { t: "państwa, z którego pochodzą żołnierze, którzy go pojmali", c: true },
-    { t: "oddziału, który go pojmał", c: false },
-    { t: "organizacji międzynarodowej", c: false },
-  ]},
-  { id: 93, text: "Za pracę w obozie jenieckim należy zapłacić za godzinę:", opts: [
-    { t: "nie mniej niż 1/4 franka szwajcarskiego", c: true },
-    { t: "nie mniej niż 1 frank szwajcarski", c: false },
-    { t: "praca jest nieodpłatna", c: false },
-  ]},
-  { id: 94, text: "Henry Dunant był to:", opts: [
-    { t: "kupiec szwajcarski", c: true },
-    { t: "prawnik rosyjski", c: false },
-    { t: "generał francuski", c: false },
-  ]},
-  { id: 95, text: "Polska w zakresie Konwencji Ottawskiej (zakaz min przeciwpiechotnych):", opts: [
-    { t: "podpisała i ratyfikowała konwencję", c: true },
-    { t: "nie podpisała konwencji", c: false },
-    { t: "podpisała, ale nie ratyfikowała", c: false },
-  ]},
-  { id: 96, text: "Zasady użycia broni i środków przymusu bezpośredniego dla żołnierzy Polskich Kontyngentów Wojskowych opracowuje:", opts: [
-    { t: "Minister Obrony Narodowej w drodze zarządzenia", c: true },
-    { t: "Prezydent RP", c: false },
-    { t: "Dowódca kontyngentu", c: false },
-  ]},
-  { id: 97, text: "Statut Międzynarodowego Trybunału Karnego wszedł w życie:", opts: [
-    { t: "w 2002 r., po dokonaniu 60 ratyfikacji", c: true },
-    { t: "w 1998 r.", c: false },
-    { t: "w 1977 r.", c: false },
-  ]},
-  { id: 98, text: "Pierwsza konwencja genewska o polepszeniu losu rannych wojskowych w polu będących została podpisana w:", opts: [
-    { t: "1864 r. w Genewie", c: true },
-    { t: "1907 r. w Hadze", c: false },
-    { t: "1949 r. w Genewie", c: false },
-  ]},
-  { id: 99, text: "Uchylić ochronę dóbr kultury wpisanych do rejestru UNESCO można:", opts: [
-    { t: "na rozkaz dowódcy wojskowego co najmniej w stopniu generała", c: true },
-    { t: "na rozkaz dowódcy kompanii", c: false },
-    { t: "nigdy", c: false },
-  ]},
-  { id: 100, text: "Komplementarność Międzynarodowego Trybunału Karnego polega na:", opts: [
-    { t: "uzupełnieniu sądów państw-stron Trybunału w sądzeniu zbrodniarzy", c: true },
-    { t: "zastąpieniu sądów krajowych", c: false },
-    { t: "nadrzędności nad wszystkimi sądami krajowymi", c: false },
-  ]},
+  { id: 100, text: "Po raz pierwszy pojęcie tortur zastosowano w konwencji:", inputType: "text",
+    correctText: "1984 r." },
+  { id: 101, text: "Decyzję o zniszczeniu dobra kultury o zwykłej ochronie z powodu konieczności wojskowej może podjąć:", inputType: "text",
+    correctText: "dowódca kompanii" },
+  { id: 102, text: "Międzynarodowy Trybunał Karny może wyznaczać kary:", inputType: "text",
+    correctText: "więzienia i ograniczenia wolności" },
+  { id: 103, text: "Jeniec wojenny pozostaje we władzy:", inputType: "text",
+    correctText: "państwa z którego pochodzą żołnierze którzy go pojmali" },
+  { id: 104, text: "Za pracę w obozie jenieckim należy zapłacić za godzinę:", inputType: "text",
+    correctText: "nie mniej niż 1/4 franka szwajcarskiego" },
+  { id: 105, text: "Udana ucieczka jeńca wojennego to ucieczka która:", inputType: "text",
+    correctText: "uciekł z obozu i połączył się ze swoimi wojskami lub poza terytorium na którym trwa wojna" },
+  { id: 106, text: "Henry Dunant:", inputType: "text",
+    correctText: "kupiec szwajcarski" },
+  { id: 107, text: "Polska w zakresie ustawy Ottawskiej w składowaniu i zniszczeniu posiadanych zasobów min przeciwpiechotnych:", inputType: "text",
+    correctText: "podpisała i ratyfikowała konwencję" },
+  { id: 108, text: "Zasady użycia broni i środków przymusu bezpośredniego dla żołnierzy Polskich Kontyngentów Wojskowych opracowuje:", inputType: "text",
+    correctText: "Minister Obrony Narodowej w drodze zarządzenia" },
+  { id: 109, text: "Statut Międzynarodowego Trybunału Karnego wszedł w życie:", inputType: "text",
+    correctText: "2002 r., po wykonaniu 60 ratyfikacji" },
+  { id: 110, text: "Wyjazd żołnierzy Sił Zbrojnych RP w celach szkoleniowych za granicę w myśl ustawy o zasadach użycia lub pobytu SZ RP poza granicami państwa jest:", inputType: "text",
+    correctText: "udziałem Sił Zbrojnych" },
+  { id: 111, text: "Komplementarność Międzynarodowego Trybunału Karnego polega na:", inputType: "text",
+    correctText: "jego uzupełnieniu sądów państw stron Trybunału w sądzeniu zbrodniarzy" },
+  { id: 112, text: "Metoda wojny totalnej polega na prowadzeniu działań wojennych:", inputType: "text",
+    correctText: "przeciwko osobom wojskowym i cywilnym oraz obiektom wojskowym i cywilnym" },
+  { id: 113, text: "Obiekt zawierający niebezpieczne siły to np.:", inputType: "text",
+    correctText: "tama na rzece / elektrownia atomowa" },
 ];
+
 
 // ===================== STATE =====================
 let questions = [];
